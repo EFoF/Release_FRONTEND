@@ -7,9 +7,9 @@ export const Container = styled.div`
   background-color: white;
   display: flex;
   border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.4);
-    // gap: 60rem;
-    align-items: center;
-    // justify-content: center;
+  // gap: 60rem;
+  align-items: center;
+  // justify-content: center;
   //   position: fixed;
   //   top: 0;
   //   z-index: 999;
@@ -49,7 +49,19 @@ export const ForDev = styled.div`
   line-height: normal;
 `;
 
-export default function Header() { //isDev 추가하기 
+export const RightBox = styled.div`
+  margin-left: auto;
+  margin-right: 3rem;
+  color: #000;
+  font-family: Inter;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export default function Header() {
+  //isDev 추가하기
   return (
     <Container>
       <LogoBox>
@@ -57,6 +69,7 @@ export default function Header() { //isDev 추가하기
         <div>독수리 플랫폼</div>
       </LogoBox>
       <ForDev>for Developers</ForDev>
+      <RightBox>개발자이신가요?</RightBox>
     </Container>
   );
 }
