@@ -3,19 +3,40 @@ import backImg from "../../img/Rectangle 36.png";
 import eagle from "../../img/icon-park-outline_eagle.png";
 import COLORS from "../../constants/color";
 import search from "../../img/material-symbols_search.png";
+import naver from "../../img/naver.png";
 
 export default function Home() {
+  const companies = [
+    { name: "Company 111111111", imageUrl: eagle },
+    { name: "Company 2", imageUrl: naver },
+    { name: "Company 3", imageUrl: backImg },
+    { name: "Company 4", imageUrl: eagle },
+    { name: "Company 5", imageUrl: naver },
+    { name: "Company 6", imageUrl: backImg },
+    { name: "Company 2", imageUrl: naver },
+  ];
+
   return (
     <Containers>
       <HomeContainer>
         <ServiceName>독수리 플랫폼</ServiceName>
         <MainInputContainer>
-            <MainInput placeholder="회사명을 검색해보세요"></MainInput>
-            <SearchButton>
-                <SearchIcon src={search} />
-            </SearchButton>
+          <MainInput placeholder="회사명을 검색해보세요"></MainInput>
+          <SearchButton>
+            <SearchIcon src={search} />
+          </SearchButton>
         </MainInputContainer>
       </HomeContainer>
+      <CompanyContainer>
+        <CompanyListContainer>
+          {companies.map((company, index) => (
+            <CompanyCard key={index}>
+              <CompanyImage src={company.imageUrl} alt={company.name} />
+              <CompanyName>{company.name}</CompanyName>
+            </CompanyCard>
+          ))}
+        </CompanyListContainer>
+      </CompanyContainer>
     </Containers>
   );
 }
@@ -78,3 +99,80 @@ export const SearchIcon = styled.img`
   width: 3rem;
   height: 3rem;
 `;
+
+/////////////////////
+export const CompanyContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 4.75rem;
+  justify-content: center;
+`;
+
+export const CompanyListContainer = styled.div`
+  display: flex;
+  width: 60%;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+`;
+
+export const CompanyCard = styled.div`
+    flex: 0 0 calc(25% - 1rem); /* 한 줄에 최대 4개 요소, 간격을 제외한 너비 설정 */
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3.8rem;
+`;
+
+export const CompanyImage = styled.img`
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1.25rem;
+`;
+
+export const CompanyName = styled.div`
+margin-top: 1.38rem;
+color: #000;
+font-family: Inter;
+font-size: 1.625rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+`;
+// export const CompanyContainer = styled.div`
+//   display: flex;
+//   width: 100%;
+//   margin-top: 4.75rem;
+//   justify-content: center;
+// `;
+
+// export const CompanyListContainer = styled.div`
+//   display: flex;
+//   width: 60%;
+//   flex-wrap: wrap;
+//   justify-content: flex-start;
+// `;
+
+// export const CompanyCard = styled.div`
+// //   flex-basis: calc(25% - 6rem);
+// //   max-width: 200px;
+//   margin-bottom: 3.8rem;
+//   display: flex;
+//   flex-direction: column;
+//   //   justify-content: center;
+//   align-items: center;
+//    flex-basis: 25%; /* 각 요소들이 부모의 25% 너비를 가집니다. */
+//   flex-grow: 1; /* 요소들이 가능한 최대한의 너비를 확장합니다. */
+//   box-sizing: border-box;
+// `;
+
+// export const CompanyImage = styled.img`
+//   width: 5rem;
+//   height: 5rem;
+//   border-radius: 1.25rem;
+// `;
+
+// export const CompanyName = styled.div`
+//   text-align: center;
+//   margin-top: 1.35rem;
+// `;
