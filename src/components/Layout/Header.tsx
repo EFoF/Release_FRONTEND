@@ -6,10 +6,8 @@ export const Container = styled.div`
   height: 5.56rem;
   background-color: white;
   display: flex;
-  border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.4);
-  // gap: 60rem;
+  border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.2);
   align-items: center;
-  // justify-content: center;
     position: fixed;
     top: 0;
     z-index: 999;
