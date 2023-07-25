@@ -2,6 +2,14 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+  Outlet,
+  useNavigate,
+} from "react-router-dom";
 
 export const Full = styled.div`
   width: 100%;
@@ -21,10 +29,29 @@ interface MainLayoutProps {
   children: ReactNode;
 }
 
-export default function MainLayout({ children }: MainLayoutProps) {
-  <Full>
-    <Header />
-    <Inner>{children}</Inner>
-    <Footer />
-  </Full>;
+export default function MainLayout() {
+  return (
+    <Full>
+      <Header />
+      <Inner>
+        <Outlet />
+      </Inner>
+      <Footer />
+    </Full>
+  );
 }
+
+
+// interface MainLayoutProps {
+//   children: ReactNode;
+// }
+
+// export default function MainLayout({ children }: MainLayoutProps) {
+//   return (
+//     <Full>
+//       <Header />
+//       <Inner>{children}</Inner>
+//       <Footer />
+//     </Full>
+//   );
+// }
