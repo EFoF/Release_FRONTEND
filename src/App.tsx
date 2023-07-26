@@ -12,12 +12,13 @@ import {
   Outlet,
   useNavigate,
 } from "react-router-dom";
+import HomeLayout from "./components/Layout/HomeLayout";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<MainLayout />}>
+        <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>
