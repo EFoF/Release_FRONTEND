@@ -14,6 +14,20 @@ export default function Home() {
     { name: "Company 5", imageUrl: naver },
     { name: "Company 6", imageUrl: backImg },
     { name: "Company 2", imageUrl: naver },
+    { name: "Company 111111111", imageUrl: eagle },
+    { name: "Company 2", imageUrl: naver },
+    { name: "Company 3", imageUrl: backImg },
+    { name: "Company 4", imageUrl: eagle },
+    { name: "Company 5", imageUrl: naver },
+    { name: "Company 6", imageUrl: backImg },
+    { name: "Company 2", imageUrl: naver },
+    { name: "Company 111111111", imageUrl: eagle },
+    { name: "Company 2", imageUrl: naver },
+    { name: "Company 3", imageUrl: backImg },
+    { name: "Company 4", imageUrl: eagle },
+    { name: "Company 5", imageUrl: naver },
+    { name: "Company 6", imageUrl: backImg },
+    { name: "Company 2", imageUrl: naver },
   ];
 
   return (
