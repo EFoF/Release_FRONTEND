@@ -1,25 +1,27 @@
-import eagle from "../../img/icon-park-outline_eagle_white.png";
-import home from "../../img/ant-design_home-outlined.png"
+import eagle from "../../img/icon-park-outline_eagle.png";
 import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   height: 4.3125rem;
-  background: rgba(0, 0, 0, 0.8);
+  // background: rgba(0, 0, 0, 0.8);
+  background: #E5E3E3;
   display: flex;
   // gap: 60rem;
   align-items: center;
-  justify-content: space-between;
-  position: fixed;
+  // justify-content: space-between;
+  // position: sticky;
+  // bottom: 0;
+  // z-index: 999;
+  position: relative;
   bottom: 0;
-  z-index: 999;
   color: white;
 `;
 
 export const LeftBox = styled.div`
     margin-left: 1.4rem;
     display: flex;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.8);
   font-family: Inter;
   font-size: 1rem;
   font-style: normal;
@@ -30,17 +32,11 @@ export const LeftBox = styled.div`
   }
 `;
 
+
 export const LogoImg = styled.img`
   width: 3.12rem;
   height: 3.12rem;
-//   margin: auto;
-`
-
-export const LogoImg2 = styled.img`
-  width: 3.12rem;
-  height: 3.12rem;
-  cursor: pointer;
-  margin-right: 0.6rem;
+  margin: auto;
 `
 
 export default function Footer() { 
@@ -51,7 +47,6 @@ export default function Footer() {
             <div>서비스 이용약관</div>
         </LeftBox>
         <LogoImg src={eagle}/>
-        <LogoImg2 src={home} />
     </Container>
   )
 }
