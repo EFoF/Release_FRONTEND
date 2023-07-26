@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+const SidebarContainer = styled.div`
+  display: flex; /* Added to arrange SidebarItem and SubMenu side by side */
+`;
+
 const SidebarItem = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+  flex-direction: column; /* Change flex direction to column to stack items vertically */
 `;
 
 const SidebarArrow = styled.span`
@@ -37,14 +42,14 @@ export default function Sidebar() {
 
   const [activeProject, setActiveProject] = useState(null);
 
-  const handleProjectClick = (index:any) => {
+  const handleProjectClick = (index: any) => {
     setActiveProject(activeProject === index ? null : index);
   };
 
   return (
     <div>
       {projects.map((project, index) => (
-        <div key={index}>
+        <SidebarContainer key={index}>
           <SidebarItem onClick={() => handleProjectClick(index)}>
             {project.name}
             <SidebarArrow>{activeProject === index ? '⬇' : '>'}</SidebarArrow>
@@ -56,9 +61,8 @@ export default function Sidebar() {
               ))}
             </SubMenu>
           )}
-        </div>
+        </SidebarContainer>
       ))}
     </div>
   );
-};
-
+}

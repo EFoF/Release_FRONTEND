@@ -45,7 +45,6 @@ export const Containers = styled.div`
   width: 100%;
   height: 100%;
   overflow: visible;
-  padding-top: 5.56rem; //나중에 inner에 넣어줘야함
 `;
 
 export const HomeContainer = styled.div`
