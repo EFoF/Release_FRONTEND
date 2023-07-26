@@ -26,6 +26,23 @@ export const Inner = styled.div`
   padding-bottom: 4.3rem;
 `;
 
+export const FloatingHomeButton = styled.div`
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  margin-bottom: 4rem;
+  background-color: #007bff;
+  color: white;
+  padding: 1rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+`;
+
 interface MainLayoutProps {
   children: ReactNode;
 }
@@ -37,6 +54,7 @@ export default function MainLayout() {
       <Inner>
         <Outlet />
       </Inner>
+      <FloatingHomeButton>홈</FloatingHomeButton>
       <Footer />
     </Full>
   );
