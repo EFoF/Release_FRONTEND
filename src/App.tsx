@@ -13,6 +13,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import HomeLayout from "./components/Layout/HomeLayout";
+import Company from "./pages/company";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
         <Route element={<MainLayout />}>
-          <Route path="/company" element={<Home />} />
+          <Route path="/company" element={<Company />} />
         </Route>
       </Routes>
     </Router>

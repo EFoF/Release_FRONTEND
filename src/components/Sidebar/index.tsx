@@ -35,17 +35,17 @@ const SidebarArrow = styled.span`
 `;
 
 const SubMenuContainer = styled.div`
+margin-top: 0.5rem;
+  margin-left: 0.5rem;
+`;
+
+const SubMenuItem = styled.div`
 color: #000;
 font-family: Inter;
 font-size: 1.375rem;
 font-style: normal;
 font-weight: 400;
 // line-height: normal;
-margin-top: 0.5rem;
-  margin-left: 0.5rem;
-`;
-
-const SubMenuItem = styled.div`
 margin-top: 0.5rem;
 
 `
