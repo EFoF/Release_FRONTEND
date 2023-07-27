@@ -1,5 +1,8 @@
 import eagle from "../../img/icon-park-outline_eagle.png";
 import styled from "styled-components";
+import { useLocation, useNavigate } from "react-router-dom";
+import PATH from "../../constants/path";
+
 
 export const Container = styled.div`
   width: 100%;
@@ -60,9 +63,14 @@ export const RightBox = styled.div`
 
 export default function Header() {
   //isDev 추가하기
+  const navigate = useNavigate();
+  const handleLogoClick = () => {
+    navigate(PATH.HOME)
+  }
+
   return (
     <Container>
-      <LogoBox>
+      <LogoBox onClick={handleLogoClick}>
         <LogoImg src={eagle} />
         <div>독수리 플랫폼</div>
       </LogoBox>

@@ -4,6 +4,8 @@ import eagle from "../../img/icon-park-outline_eagle.png";
 import COLORS from "../../constants/color";
 import search from "../../img/material-symbols_search.png";
 import naver from "../../img/naver.png";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../constants/path";
 
 export default function Home() {
   const companies = [
@@ -30,6 +32,12 @@ export default function Home() {
     { name: "Company 2", imageUrl: naver },
   ];
 
+  const navigate = useNavigate();
+
+  const handleCompanyClick = () => {
+    navigate(PATH.COMPANY)
+  }
+
   return (
     <Containers>
       <HomeContainer>
@@ -44,7 +52,7 @@ export default function Home() {
       <CompanyContainer>
         <CompanyListContainer>
           {companies.map((company, index) => (
-            <CompanyCard key={index}>
+            <CompanyCard key={index} onClick={handleCompanyClick}>
               <CompanyImage src={company.imageUrl} alt={company.name} />
               <CompanyName>{company.name}</CompanyName>
             </CompanyCard>
@@ -135,6 +143,7 @@ export const CompanyCard = styled.div`
     flex-direction: column;
     align-items: center;
     margin-bottom: 3.8rem;
+    cursor: pointer;
 `;
 
 export const CompanyImage = styled.img`

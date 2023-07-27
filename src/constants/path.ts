@@ -1,10 +1,11 @@
 const PATH = {
     LOGIN: "/login",
     SIGNUP: "/signup",
-    MAIN: "/",
+    HOME: "/",
     INTRO: "/intro",
     MYPAGE: "/mypage",
     SOCIAL: "/social",
+    COMPANY: "/company"
   } as const;
   
   export default PATH;
