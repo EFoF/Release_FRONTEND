@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
+import Home from "../../img/ant-design_home-outlined.png"
 import {
   BrowserRouter as Router,
   Route,
@@ -44,6 +45,10 @@ export const FloatingHomeButton = styled.div`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 `;
 
+const HomeImg = styled.img`
+  width: 3rem;
+`
+
 export default function HomeLayout() {
   return (
     <Full>
@@ -51,7 +56,9 @@ export default function HomeLayout() {
       <Inner>
         <Outlet />
       </Inner>
-      <FloatingHomeButton>홈</FloatingHomeButton>
+      <FloatingHomeButton>
+        <HomeImg src={Home} />
+      </FloatingHomeButton>
       <Footer />
     </Full>
   );
