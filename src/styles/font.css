@@ -31,6 +31,22 @@
   }
 
   @font-face {
-    font-family: "Spoq";
+    font-family: "S-Medium";
     src: url("../constants/SpoqaHanSansNeo-Medium.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "S-Light";
+    src: url("../constants/SpoqaHanSansNeo-Light.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "S-Bold";
+    src: url("../constants/SpoqaHanSansNeo-Bold.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "S-Regular";
+    src: url("../constants/SpoqaHanSansNeo-Regular.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "S-Thin";
+    src: url("../constants/SpoqaHanSansNeo-Thin.ttf") format("truetype");
   }

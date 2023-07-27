@@ -50,7 +50,7 @@ export const CompanyContainer = styled.div`
 
 export const CompanyName = styled.div`
 color: #000;
-font-family: Inter;
+font-family: S-Bold;
 font-size: 3rem;
 font-style: normal;
 font-weight: 600;
@@ -60,7 +60,7 @@ margin-bottom: 2rem;
 
 export const CompanyIntro = styled.div`
 color: #000;
-font-family: Inter;
+font-family: S-Light;
 font-size: 1.5rem;
 font-style: normal;
 font-weight: 500;
@@ -85,8 +85,8 @@ export const CategoryName = styled.div`
   display: flex;
   flex-direction: column;
   color: #000;
-font-family: Inter;
-font-size: 2.25rem;
+  font-family: S-Bold;
+  font-size: 2.25rem;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
@@ -98,8 +98,8 @@ export const CategoryIntro = styled.div`
   display: flex;
   flex-direction: column;
   color: #000;
-font-family: Inter;
-font-size: 1.5rem;
+  font-family: S-Light;
+  font-size: 1.5rem;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
