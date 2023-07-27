@@ -19,19 +19,16 @@ export default function Company() {
             인공지능(AI), 클라우드, 검색 등 오랜 시간 동안 축적한 IT 기업을 지향합니다.
         </CompanyIntro>
       </CompanyContainer>
-      
-      <CategoryContainer>
-        <CategoryName></CategoryName>
-        <CategoryIntro>
-
-        </CategoryIntro>
-      </CategoryContainer>
-      <CategoryContainer>
-        <CategoryName></CategoryName>
-        <CategoryIntro>
-            
-        </CategoryIntro>
-      </CategoryContainer>
+      <CategoryContainers>
+        {categories.map((category, index)=>(
+            <CategoryContainer>
+                <CategoryName>{category.name}</CategoryName>
+                <CategoryIntro>
+                    {category.intro}
+                </CategoryIntro>
+            </CategoryContainer>
+        ))}
+      </CategoryContainers>
     </Container>
   );
 }
@@ -56,6 +53,7 @@ font-size: 3rem;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
+margin-bottom: 2rem;
 `;
 
 export const CompanyIntro = styled.div`
@@ -67,9 +65,18 @@ font-weight: 500;
 line-height: normal;
 `;
 
+export const CategoryContainers = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 5rem;
+  margin-left: 5.5rem;
+  width: 52rem;
+`;
+
 export const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 3rem;
 `;
 
 export const CategoryName = styled.div`
@@ -81,6 +88,8 @@ font-size: 2.25rem;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
+margin-bottom: 1.5rem;
+
 `;
 
 export const CategoryIntro = styled.div`

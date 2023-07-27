@@ -6,7 +6,7 @@ const Container = styled.div`
   flex-direction: column;
   background-color: pink;
   height: 58.44rem;
-  width: 25rem; //20.75rem;
+  width: 332px; //20.75rem;
   position: sticky;
   top: 0;
 `;
