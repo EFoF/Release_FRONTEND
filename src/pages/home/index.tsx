@@ -1,35 +1,32 @@
 import styled from "styled-components";
 import backImg from "../../img/Rectangle 36.png";
 import eagle from "../../img/icon-park-outline_eagle.png";
+import kakaoenter from "../../img/kakao-enter.jpg"
+import kakaopay from "../../img/kakao-pay.jpg"
+import kakaotaxi from "../../img/kakao-taxi.jpg"
+import facebook from "../../img/facebook.png"
+import kakaonavi from "../../img/kakao-navi.jpg"
+import kakaobank from "../../img/kakao-brain.png"
+import kakaogames from "../../img/kakao-games.jpg"
+import kakaobrain from "../../img/kakao-brain.png"
 import COLORS from "../../constants/color";
 import search from "../../img/material-symbols_search.png";
 import naver from "../../img/naver.png";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
+import "../../styles/font.css"
 
 export default function Home() {
   const companies = [
-    { name: "Company 111111111", imageUrl: eagle },
-    { name: "Company 2", imageUrl: naver },
-    { name: "Company 3", imageUrl: backImg },
-    { name: "Company 4", imageUrl: eagle },
-    { name: "Company 5", imageUrl: naver },
-    { name: "Company 6", imageUrl: backImg },
-    { name: "Company 2", imageUrl: naver },
-    { name: "Company 111111111", imageUrl: eagle },
-    { name: "Company 2", imageUrl: naver },
-    { name: "Company 3", imageUrl: backImg },
-    { name: "Company 4", imageUrl: eagle },
-    { name: "Company 5", imageUrl: naver },
-    { name: "Company 6", imageUrl: backImg },
-    { name: "Company 2", imageUrl: naver },
-    { name: "Company 111111111", imageUrl: eagle },
-    { name: "Company 2", imageUrl: naver },
-    { name: "Company 3", imageUrl: backImg },
-    { name: "Company 4", imageUrl: eagle },
-    { name: "Company 5", imageUrl: naver },
-    { name: "Company 6", imageUrl: backImg },
-    { name: "Company 2", imageUrl: naver },
+    { name: "카카오 엔터프라이즈", imageUrl: kakaoenter },
+    { name: "네이버", imageUrl: naver },
+    { name: "카카오페이", imageUrl: kakaopay },
+    { name: "카카오 브레인", imageUrl: kakaobrain },
+    { name: "EagleEagle", imageUrl: eagle },
+    { name: "카카오 뱅크", imageUrl: kakaobank },
+    { name: "카카오 게임즈", imageUrl: kakaogames },
+    { name: "페이스북", imageUrl: facebook },
+
   ];
 
   const navigate = useNavigate();
@@ -155,7 +152,7 @@ export const CompanyImage = styled.img`
 export const CompanyName = styled.div`
 margin-top: 1.38rem;
 color: #000;
-font-family: Inter;
+font-family: S-Regular;
 font-size: 1.625rem;
 font-style: normal;
 font-weight: 400;
