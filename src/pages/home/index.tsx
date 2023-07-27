@@ -1,20 +1,21 @@
 import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import backImg from "../../img/Rectangle 36.png";
 import eagle from "../../img/icon-park-outline_eagle.png";
-import kakaoenter from "../../img/kakao-enter.jpg"
-import kakaopay from "../../img/kakao-pay.jpg"
-import kakaotaxi from "../../img/kakao-taxi.jpg"
-import facebook from "../../img/facebook.png"
-import kakaonavi from "../../img/kakao-navi.jpg"
-import kakaobank from "../../img/kakao-brain.png"
-import kakaogames from "../../img/kakao-games.jpg"
-import kakaobrain from "../../img/kakao-brain.png"
+import kakaoenter from "../../img/kakao-enter.jpg";
+import kakaopay from "../../img/kakao-pay.jpg";
+import kakaotaxi from "../../img/kakao-taxi.jpg";
+import facebook from "../../img/facebook.png";
+import kakaonavi from "../../img/kakao-navi.jpg";
+import kakaobank from "../../img/kakao-brain.png";
+import kakaogames from "../../img/kakao-games.jpg";
+import kakaobrain from "../../img/kakao-brain.png";
 import COLORS from "../../constants/color";
 import search from "../../img/material-symbols_search.png";
 import naver from "../../img/naver.png";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
-import "../../styles/font.css"
+import "../../styles/font.css";
 
 export default function Home() {
   const companies = [
@@ -26,21 +27,30 @@ export default function Home() {
     { name: "카카오 뱅크", imageUrl: kakaobank },
     { name: "카카오 게임즈", imageUrl: kakaogames },
     { name: "페이스북", imageUrl: facebook },
-
   ];
-
   const navigate = useNavigate();
+  const [searchKey, setSearchKey] = useState("");
 
   const handleCompanyClick = () => {
-    navigate(PATH.COMPANY)
+    navigate(PATH.COMPANY);
+  };
+
+  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+    setSearchKey(e.target.value)
   }
+
+  console.log("searchKey", searchKey)
 
   return (
     <Containers>
       <HomeContainer>
         <ServiceName>독수리 플랫폼</ServiceName>
         <MainInputContainer>
-          <MainInput placeholder="회사명을 검색해보세요"></MainInput>
+          <MainInput
+            placeholder="회사명을 검색해보세요"
+            value={searchKey}
+            onChange={handleInputChange}
+          />
           <SearchButton>
             <SearchIcon src={search} />
           </SearchButton>
@@ -48,7 +58,9 @@ export default function Home() {
       </HomeContainer>
       <CompanyContainer>
         <CompanyListContainer>
-          {companies.map((company, index) => (
+          {companies
+            .filter((c) => c.name.includes(searchKey))
+            .map((company, index) => (
             <CompanyCard key={index} onClick={handleCompanyClick}>
               <CompanyImage src={company.imageUrl} alt={company.name} />
               <CompanyName>{company.name}</CompanyName>
@@ -134,13 +146,13 @@ export const CompanyListContainer = styled.div`
 `;
 
 export const CompanyCard = styled.div`
-    flex: 0 0 calc(25% - 1rem); /* 한 줄에 최대 4개 요소, 간격을 제외한 너비 설정 */
-    margin: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 3.8rem;
-    cursor: pointer;
+  flex: 0 0 calc(25% - 1rem); /* 한 줄에 최대 4개 요소, 간격을 제외한 너비 설정 */
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3.8rem;
+  cursor: pointer;
 `;
 
 export const CompanyImage = styled.img`
@@ -150,13 +162,13 @@ export const CompanyImage = styled.img`
 `;
 
 export const CompanyName = styled.div`
-margin-top: 1.38rem;
-color: #000;
-font-family: S-Regular;
-font-size: 1.625rem;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  margin-top: 1.38rem;
+  color: #000;
+  font-family: S-Regular;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 // export const CompanyContainer = styled.div`
 //   display: flex;
