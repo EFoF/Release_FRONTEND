@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -54,10 +54,21 @@ const HomeImg = styled.img`
 
 
 
-export default function MainLayout() {
+export default function MainLayout() { 
+  const [isCompanyBool, setIsCompanyBool] = useState(false);
+  const location = useLocation();
+  console.log(location.pathname);
+
+  useEffect(()=>{
+    if(location.pathname==="/company") {
+      setIsCompanyBool(true)
+    }
+  }, [])
+  console.log("isCompanyBool", isCompanyBool)
+
   return (
     <Full>
-      <Header isDev={false}/>
+      <Header isDev={false} isCompany={isCompanyBool}/>
       <Inner>
         <Sidebar />
         <Outlet />

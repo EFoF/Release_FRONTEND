@@ -63,9 +63,10 @@ export const RightBox = styled.div`
 
 interface HeaderProps {
   isDev: boolean;
+  isCompany?: boolean;
 }
 
-export default function Header({isDev}:HeaderProps) { //isDev 추가하기
+export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가하기
   const navigate = useNavigate();
   const handleLogoClick = () => {
     navigate(PATH.HOME)
@@ -73,9 +74,9 @@ export default function Header({isDev}:HeaderProps) { //isDev 추가하기
 
   return (
     <Container>
-      <LogoBox onClick={handleLogoClick}>
-        <LogoImg src={eagle} />
-        <div>독수리 플랫폼</div>
+      <LogoBox>
+        {(isCompany ? "" : <LogoImg src={eagle} />)}
+        {(isCompany ?<div>카카오 엔터프라이즈</div> : <div>독수리 플랫폼</div>)}
       </LogoBox>
       {(isDev ? <ForDev>for Developers</ForDev> : "")}
       <RightBox>개발자이신가요?</RightBox>
