@@ -24,8 +24,10 @@ export const Inner = styled.div`
   display: flex;
   // position: relative; // 이의 존재이유
   padding-top: 5.56rem; // header, footer 높이만큼 padding 설정, 이후 사이드바 고려
-  padding-bottom: 4.3rem;
+  // padding-bottom: 4.3rem;
   flex-direction: row;
+  // flex: 1;
+  min-height: calc(100vh - 4.3125rem); //footer 높이
 `;
 
 export const FloatingHomeButton = styled.div`

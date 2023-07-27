@@ -6,10 +6,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  height: 65rem; //58.44rem;
+  // height: calc(100vh); //58.44rem
   width: 30rem; //20.75rem;
-  position: sticky;
-  // position: fixed;
+  position: sticky; //fixed;
   top: 5.56rem;;
   border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
 `;
