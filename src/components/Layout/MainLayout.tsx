@@ -10,6 +10,7 @@ import {
   Outlet,
   useNavigate,
 } from "react-router-dom";
+import Sidebar from "../Sidebar";
 
 export const Full = styled.div`
   width: 100%;
@@ -21,9 +22,10 @@ export const Full = styled.div`
 export const Inner = styled.div`
   width: 100%;
   display: flex;
-  position: relative;
+  position: relative; // 이의 존재이유
   padding-top: 5.56rem; // header, footer 높이만큼 padding 설정, 이후 사이드바 고려
   padding-bottom: 4.3rem;
+  flex-direction: row;
 `;
 
 export const FloatingHomeButton = styled.div`
@@ -43,15 +45,13 @@ export const FloatingHomeButton = styled.div`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 `;
 
-interface MainLayoutProps {
-  children: ReactNode;
-}
 
 export default function MainLayout() {
   return (
     <Full>
       <Header />
       <Inner>
+        <Sidebar />
         <Outlet />
       </Inner>
       <FloatingHomeButton>홈</FloatingHomeButton>

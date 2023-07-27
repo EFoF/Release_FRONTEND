@@ -21,6 +21,9 @@ function App() {
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
         </Route>
+        <Route element={<MainLayout />}>
+          <Route path="/company" element={<Home />} />
+        </Route>
       </Routes>
     </Router>
   );

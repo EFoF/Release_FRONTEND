@@ -21,7 +21,7 @@ export const Full = styled.div`
 export const Inner = styled.div`
   width: 100%;
   display: flex;
-  position: relative;
+  position: relative; 
   padding-top: 5.56rem; // header, footer 높이만큼 padding 설정, 이후 사이드바 고려
   padding-bottom: 4.3rem;
 `;
