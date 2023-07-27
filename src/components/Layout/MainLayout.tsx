@@ -52,10 +52,12 @@ const HomeImg = styled.img`
   width: 3rem;
 `;
 
+
+
 export default function MainLayout() {
   return (
     <Full>
-      <Header />
+      <Header isDev={false}/>
       <Inner>
         <Sidebar />
         <Outlet />

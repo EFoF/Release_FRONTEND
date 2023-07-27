@@ -61,8 +61,11 @@ export const RightBox = styled.div`
   line-height: normal;
 `;
 
-export default function Header() {
-  //isDev 추가하기
+interface HeaderProps {
+  isDev: boolean;
+}
+
+export default function Header({isDev}:HeaderProps) { //isDev 추가하기
   const navigate = useNavigate();
   const handleLogoClick = () => {
     navigate(PATH.HOME)
@@ -74,7 +77,7 @@ export default function Header() {
         <LogoImg src={eagle} />
         <div>독수리 플랫폼</div>
       </LogoBox>
-      <ForDev>for Developers</ForDev>
+      {(isDev ? <ForDev>for Developers</ForDev> : "")}
       <RightBox>개발자이신가요?</RightBox>
     </Container>
   );

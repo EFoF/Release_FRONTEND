@@ -52,7 +52,7 @@ const HomeImg = styled.img`
 export default function HomeLayout() {
   return (
     <Full>
-      <Header />
+      <Header isDev={false}/>
       <Inner>
         <Outlet />
       </Inner>
