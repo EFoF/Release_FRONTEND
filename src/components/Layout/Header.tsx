@@ -70,7 +70,7 @@ export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가�
   const navigate = useNavigate();
   const handleLogoClick = () => {
     navigate(PATH.HOME)
-  }
+  } //회사면 첫 디폴트 카테고리로 
 
   return (
     <Container>

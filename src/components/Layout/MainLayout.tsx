@@ -12,6 +12,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Sidebar from "../Sidebar";
+import PATH from "../../constants/path";
 
 export const Full = styled.div`
   width: 100%;
@@ -57,6 +58,7 @@ const HomeImg = styled.img`
 export default function MainLayout() { 
   const [isCompanyBool, setIsCompanyBool] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   console.log(location.pathname);
 
   useEffect(()=>{
@@ -66,6 +68,10 @@ export default function MainLayout() {
   }, [])
   console.log("isCompanyBool", isCompanyBool)
 
+  const handleFloatingClick = () => {
+    navigate(PATH.HOME)
+  }
+
   return (
     <Full>
       <Header isDev={false} isCompany={isCompanyBool}/>
@@ -73,7 +79,7 @@ export default function MainLayout() {
         <Sidebar />
         <Outlet />
       </Inner>
-      <FloatingHomeButton>
+      <FloatingHomeButton onClick={handleFloatingClick}>
         <HomeImg src={Home} />
       </FloatingHomeButton>
       <Footer />
