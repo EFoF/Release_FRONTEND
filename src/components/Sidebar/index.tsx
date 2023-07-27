@@ -1,17 +1,29 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import "../../styles/font.css"
+import "../../styles/font.css";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  height: 58.44rem;
+  height: 65rem; //58.44rem;
   width: 30rem; //20.75rem;
   position: sticky;
-  top: 0;
+  // position: fixed;
+  top: 5.56rem;;
   border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
 `;
+
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   background-color: white;
+//   height: 58.44rem;
+//   width: 30rem; //20.75rem;
+//   position: sticky;
+//   top: 5.56rem;
+//   border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
+// `;
 
 const SidebarContainer = styled.div`
   display: flex;
@@ -37,20 +49,20 @@ const SidebarArrow = styled.span`
 `;
 
 const SubMenuContainer = styled.div`
-margin-top: 0.5rem;
+  margin-top: 0.5rem;
   margin-left: 0.5rem;
 `;
 
 const SubMenuItem = styled.div`
-color: #000;
-font-family: S-Light;
-font-size: 1.375rem;
-font-style: normal;
-font-weight: 400;
-// line-height: normal;
-margin-top: 0.5rem;
-
-`
+  color: #000;
+  font-family: S-Light;
+  font-size: 1.375rem;
+  font-style: normal;
+  font-weight: 400;
+  // line-height: normal;
+  margin-top: 0.5rem;
+  cursor: pointer;
+`;
 
 export default function Sidebar() {
   const [projects, setProjects] = useState([
