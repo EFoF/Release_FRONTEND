@@ -7,8 +7,8 @@ import naver from "../../img/naver.png";
 
 export default function Company() {
   const categories = [
-    {name: "개발 프로세스", intro: "카카오 i 플랫 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다."},
-    {name: "API", intro: "카카오 i 플랫폼과 연동하여 다양한 IoT 디바이스에서 AI 음성 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다."},
+    {name: "개발 프로세스", intro: "카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다."},
+    {name: "API", intro: "카카오 i 플랫폼과 연동하여 다양한 IoT 디바이스에서 AI 음성 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다. 카카오 i 플랫 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다. "},
   ]
 
   return (
@@ -16,7 +16,7 @@ export default function Company() {
       <CompanyContainer>
         <CompanyName>Kakao i Account </CompanyName>
         <CompanyIntro> 
-            인공지능(AI), 클라우드, 검색 등 오랜 시간 동안 축적한 IT 기업을 지향합니다.
+            카카오 i 서비스 시스템(Kakao i Service System)은 카카오 i 서비스의 백엔드 체계를 나타내며, 카카오 i 계정, 카카오워크, 카카오 i 클라우드 등의 여러 ‘카카오 i 서비스’들과 이들의 계정을 상호 연동해주는 ‘Adapter 서버’로 구성됩니다.
         </CompanyIntro>
       </CompanyContainer>
       <CategoryContainers>
@@ -44,6 +44,8 @@ export const CompanyContainer = styled.div`
   flex-direction: column;
   margin-top: 3rem;
   margin-left: 3.8rem;
+  width: 80rem;
+
 `;
 
 export const CompanyName = styled.div`
@@ -70,7 +72,7 @@ export const CategoryContainers = styled.div`
   flex-direction: column;
   margin-top: 5rem;
   margin-left: 5.5rem;
-  width: 52rem;
+  width: 80rem;
 `;
 
 export const CategoryContainer = styled.div`

@@ -4,11 +4,12 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: pink;
+  background-color: white;
   height: 58.44rem;
-  width: 332px; //20.75rem;
+  width: 30rem; //20.75rem;
   position: sticky;
   top: 0;
+  border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
 `;
 
 const SidebarContainer = styled.div`
@@ -54,7 +55,7 @@ export default function Sidebar() {
   const [projects, setProjects] = useState([
     {
       name: "kakao i Acoount",
-      subMenu: ["개발 프로세스", "부록", "API", "Release Note"],
+      subMenu: ["개발 프로세스", "API", "부록", "Release Note"],
     },
     {
       name: "kakao i Agent",
@@ -82,7 +83,7 @@ export default function Sidebar() {
         <SidebarContainer key={index}>
           <SidebarItem onClick={() => handleProjectClick(index)}>
             {project.name}
-            <SidebarArrow>{activeProject === index ? "∨" : ">"}</SidebarArrow>
+            <SidebarArrow>{activeProject === index ? "-" : "+"}</SidebarArrow>
           </SidebarItem>
           {activeProject === index && (
             <SubMenuContainer>

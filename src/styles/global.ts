@@ -8,7 +8,7 @@ body {
   font-size: 62.5%;
   padding: 0;
   margin: 0;
-  background-color: #f5f5f9;
+  background-color: white;
 }
 a {
   color: inherit;

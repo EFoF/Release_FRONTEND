@@ -29,4 +29,8 @@
     font-weight: normal;
     font-style: normal;
   }
-  
+
+  @font-face {
+    font-family: "Spoq";
+    src: url("../constants/SpoqaHanSansNeo-Medium.ttf") format("truetype");
+  }
