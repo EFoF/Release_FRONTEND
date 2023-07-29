@@ -1,22 +1,148 @@
 import styled from "styled-components";
 import COLORS from "../../constants/color";
 
-export const Wrapper = styled.button`
-width: 11.3125rem;
-height: 4.4375rem;
-background-color: ${COLORS.BLUE};
-color: #FFF;
-font-family: Inter;
-font-size: 1.5rem;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-`
+// interface PropsType {
+//   type?: string;
+//   addStyle?: {
+//     opacity: string;
+//     backgroundColor: string;
+//     color: string;
+//     border: string;
+//   };
+//   contents: string;
+//   onClick?: () => void;
+// }
 
-export default function Button() {
+// interface PropsType {
+//     addStyle?: {
+//       backgroundColor: string;
+//       color: string;
+//       border?: string;
+//       width: string;
+//     };
+//     contents: string;
+//     onClick?: () => void;
+//   }
+
+// const StyledButton = styled.button`
+//   width: 11.3125rem;
+//   height: 4.4375rem;
+//   background-color: ${COLORS.BLUE};
+//   border-radius: 1.875rem;
+//   border: none;
+//   // border : 1px solid #000;
+//   color: #fff;
+//   font-family: S-Regular;
+//   font-size: 1.5rem;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: normal;
+//   &:hover {
+//     opacity: 70%;
+//   }
+// `;
+
+// const StyledButton2 = styled.button`
+//   width: 11.3125rem;
+//   height: 4.4375rem;
+//   background-color: ${COLORS.RED};
+//   border-radius: 1.875rem;
+//   border: none;
+//   // border : 1px solid #000;
+//   color: #fff;
+//   font-family: S-Regular;
+//   font-size: 1.5rem;
+//   font-style: normal;
+//   font-weight: 600;
+//   line-height: normal;
+// `;
+
+type ButtonTheme =
+  | "original"
+  | "blue"
+  | "red";
+
+type ButtonType = "button" | "submit" | "reset";
+
+type ButtonProps = {
+    /** 버튼 안의 내용 */
+    title: string;
+    /** 버튼의 테마 */
+    theme?: ButtonTheme;
+    /** 버튼 활성화 여부 */
+    disabled?: boolean;
+    /** 버튼 너비 */
+    width?: string;
+    /** 버튼 타입 */
+    type?: ButtonType;
+    /** 클릭했을 때 호출할 함수 */
+    onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+    className?: string;
+};
+
+const StyledButton = styled.button<{
+    ButtonTheme: ButtonTheme;
+    disabled: boolean;
+    width: string;
+    className?: string;
+}>`
+${({ButtonTheme, width, disabled}) => `
+    width: ${width};
+    background-color: ${
+        {
+            original: COLORS.WHITE,
+            blue: COLORS.BLUE,
+            red: COLORS.RED,
+        }[ButtonTheme]
+    };
+    border: ${
+        ButtonTheme === "original" ? "1px solid #000" : "none"
+    };
+    color: ${
+        {
+            original: COLORS.BLACK,
+            blue: COLORS.WHITE,
+            red: COLORS.WHITE,
+        }[ButtonTheme]
+    };
+    &:hover{
+        background-color: ${
+            {
+                original: COLORS.WHITE,
+                blue: COLORS.BLUE_HOVER,
+                red: COLORS.RED_HOVER,
+            }
+        }
+    }
+`}
+  height: 4.4375rem;
+  border-radius: 1.875rem;
+  font-family: S-Regular;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  cursor: pointer;
+`
+export default function Button({
+    title,
+    theme = "original",
+    disabled=false,
+    width = "11.3125rem",
+    type = "button",
+    onClick,
+    className,
+}:ButtonProps) {
     return (
-        <Wrapper>
-            회사 생성하기
-        </Wrapper>
+        <StyledButton
+            ButtonTheme={theme}
+            disabled={disabled}
+            width={width}
+            type={type}
+            onClick={onClick}
+            className={className}
+        >
+            {title}
+        </StyledButton>
     )
 }

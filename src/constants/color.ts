@@ -10,8 +10,10 @@ const COLORS = {
       600: "#464656",
     },
     BLUE_HOVER : "rgba(40,74,255,1)",
-    BLUE : "rgba(40,74,255,1)",
-    RED_HOVER : "#FF3636"
+    BLUE : "rgba(40,74,255,0.7)",
+    RED_HOVER : "rgba(255,54,54,1)",
+    RED : "rgba(255,54,54,0.8)"
+
   };
   
   export default COLORS;
