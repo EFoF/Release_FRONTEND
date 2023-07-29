@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Button from "../../components/Button";
 
 export default function Company() {
   const categories = [
@@ -25,6 +26,7 @@ export default function Company() {
             </CategoryContainer>
         ))}
       </CategoryContainers>
+      <Button></Button>
     </Container>
   );
 }
