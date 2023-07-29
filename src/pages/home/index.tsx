@@ -16,6 +16,8 @@ import naver from "../../img/naver.png";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import "../../styles/font.css";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function Home() {
   const companies = [
@@ -35,11 +37,18 @@ export default function Home() {
     navigate(PATH.COMPANY);
   };
 
-  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-    setSearchKey(e.target.value)
-  }
+  const handleInputChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSearchKey(e.target.value);
+  };
 
-  console.log("searchKey", searchKey)
+  const [markdownText, setMarkdownText] = useState("");
+
+  const handleInputChange2 = (event: { target: { value: React.SetStateAction<string> };
+  }) => {
+    setMarkdownText(event.target.value);
+  };
 
   return (
     <Containers>
@@ -61,13 +70,25 @@ export default function Home() {
           {companies
             .filter((c) => c.name.includes(searchKey))
             .map((company, index) => (
-            <CompanyCard key={index} onClick={handleCompanyClick}>
-              <CompanyImage src={company.imageUrl} alt={company.name} />
-              <CompanyName>{company.name}</CompanyName>
-            </CompanyCard>
-          ))}
+              <CompanyCard key={index} onClick={handleCompanyClick}>
+                <CompanyImage src={company.imageUrl} alt={company.name} />
+                <CompanyName>{company.name}</CompanyName>
+              </CompanyCard>
+            ))}
         </CompanyListContainer>
       </CompanyContainer>
+      <div style={{
+        width:"50rem",
+        height: "50rem"
+      }}>
+        <textarea value={markdownText} onChange={handleInputChange2} style={{
+        width:"30rem",
+        height: "30rem"
+      }} />
+        <div>
+          <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} />
+        </div>
+      </div>
     </Containers>
   );
 }
