@@ -9,21 +9,9 @@ const COLORS = {
       500: "#626273",
       600: "#464656",
     },
-    RED: {
-      LIGHT: "#FF8E89",
-      DARK: "#F24147",
-    },
-    GREEN: {
-      LIGHT: "#76E8AD",
-      DARK: "#1BBF83",
-    },
-    BLUE: "#7798FC",
-    MEDIUM_BLUE: "#ADC1FF",
-    LIGHT_BLUE: "#E9EEFF",
-    DARK_BLUE: "#5C76C4",
-    YELLOW: "#FFC144",
-    LIGHT_YELLOW: "#FFD37A",
-    DARK_YELLOW: "#F4BC4A",
+    BLUE_HOVER : "rgba(40,74,255,1)",
+    BLUE : "rgba(40,74,255,1)",
+    RED_HOVER : "#FF3636"
   };
   
   export default COLORS;
