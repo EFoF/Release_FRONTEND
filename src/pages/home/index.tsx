@@ -16,8 +16,6 @@ import naver from "../../img/naver.png";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import "../../styles/font.css";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 export default function Home() {
   const companies = [
@@ -41,13 +39,6 @@ export default function Home() {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSearchKey(e.target.value);
-  };
-
-  const [markdownText, setMarkdownText] = useState("");
-
-  const handleInputChange2 = (event: { target: { value: React.SetStateAction<string> };
-  }) => {
-    setMarkdownText(event.target.value);
   };
 
   return (
@@ -77,18 +68,6 @@ export default function Home() {
             ))}
         </CompanyListContainer>
       </CompanyContainer>
-      <div style={{
-        width:"50rem",
-        height: "50rem"
-      }}>
-        <textarea value={markdownText} onChange={handleInputChange2} style={{
-        width:"30rem",
-        height: "30rem"
-      }} />
-        <div>
-          <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} />
-        </div>
-      </div>
     </Containers>
   );
 }

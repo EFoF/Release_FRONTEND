@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import HomeLayout from "./components/Layout/HomeLayout";
 import Company from "./pages/company";
+import MarkDown from "./pages/company/markdown";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/mark" element={<Home />} />
+          <Route path="/markdown" element={<MarkDown />} />
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/company" element={<Company />} />
