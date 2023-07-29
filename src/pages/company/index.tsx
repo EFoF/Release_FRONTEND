@@ -26,7 +26,7 @@ export default function Company() {
             </CategoryContainer>
         ))}
       </CategoryContainers>
-      <Button></Button>
+      <Button title="회사 생성하기" theme="blue"/>
     </Container>
   );
 }
