@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
 import Home from "./pages/home";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/Sidebar/CompanySide";
 import MainLayout from "./components/Layout/MainLayout";
 import {
   BrowserRouter as Router,

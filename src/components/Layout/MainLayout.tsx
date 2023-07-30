@@ -2,7 +2,7 @@ import React, { ReactNode, useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Footer from "./Footer";
-import Home from "../../img/ant-design_home-outlined.png"
+import Home from "../../img/ant-design_home-outlined.png";
 import {
   BrowserRouter as Router,
   Route,
@@ -11,8 +11,9 @@ import {
   Outlet,
   useNavigate,
 } from "react-router-dom";
-import Sidebar from "../Sidebar";
+import CompanySide from "../Sidebar/CompanySide";
 import PATH from "../../constants/path";
+import MySide from "../Sidebar/MySide";
 
 export const Full = styled.div`
   width: 100%;
@@ -53,30 +54,28 @@ const HomeImg = styled.img`
   width: 3rem;
 `;
 
-
-
-export default function MainLayout() { 
+export default function MainLayout() {
   const [isCompanyBool, setIsCompanyBool] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   console.log(location.pathname);
 
-  useEffect(()=>{
-    if(location.pathname==="/company") {
-      setIsCompanyBool(true)
+  useEffect(() => {
+    if (location.pathname === "/company") {
+      setIsCompanyBool(true);
     }
-  }, [])
-  console.log("isCompanyBool", isCompanyBool)
+  }, []);
+  console.log("isCompanyBool", isCompanyBool);
 
   const handleFloatingClick = () => {
-    navigate(PATH.HOME)
-  }
+    navigate(PATH.HOME);
+  };
 
   return (
     <Full>
-      <Header isDev={false} isCompany={isCompanyBool}/>
+      <Header isDev={false} isCompany={isCompanyBool} />
       <Inner>
-        <Sidebar />
+        <MySide />{/* <CompanySide /> */}
         <Outlet />
       </Inner>
       <FloatingHomeButton onClick={handleFloatingClick}>

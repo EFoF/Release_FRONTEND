@@ -32,6 +32,12 @@ export default function Company() {
       <Button title="회사 생성하기" theme="blue"/>
       <Input value="하이하이" />
       <Input placeholder="하이하이" value={inputValue} />
+      <Input placeholder="하이하이" value={inputValue} />
+      <Input placeholder="하이하이" value={inputValue} />
+      <Input placeholder="하이하이" value={inputValue} />
+      <Input placeholder="하이하이" value={inputValue} />
+      <Input placeholder="하이하이" value={inputValue} />
+      <Input placeholder="하이하이" value={inputValue} />
 
     </Container>
   );

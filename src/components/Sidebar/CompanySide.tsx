@@ -2,27 +2,27 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import "../../styles/font.css";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  // height: calc(100vh); //58.44rem
-  width: 30rem; //20.75rem;
-  position: sticky; //fixed;
-  top: 5.56rem;;
-  border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
-`;
-
 // const Container = styled.div`
 //   display: flex;
 //   flex-direction: column;
 //   background-color: white;
-//   height: 58.44rem;
+//   // height: calc(100vh); //58.44rem
 //   width: 30rem; //20.75rem;
-//   position: sticky;
-//   top: 5.56rem;
+//   position: sticky; //fixed;
+//   top: 5.56rem;;
 //   border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
 // `;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  height: 58.44rem;
+  width: 30rem; //20.75rem;
+  position: sticky;
+  top: 5.56rem;
+  border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
+`;
 
 const SidebarContainer = styled.div`
   display: flex;
@@ -63,7 +63,7 @@ const SubMenuItem = styled.div`
   cursor: pointer;
 `;
 
-export default function Sidebar() {
+export default function CompanySide() {
   const [projects, setProjects] = useState([
     {
       name: "Kakao i Acoount",
