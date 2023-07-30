@@ -78,10 +78,10 @@ export default function MainLayout() {
     <Full>
       <Header isDev={false} isCompany={isCompanyBool} />
       <Inner>
-        <MySide />
+        <CompanySide /> {/*<MySide />*/}
         <OutletWithFooter>
-          <Outlet /> {/* Outlet을 OutletWithFooter 안으로 이동 */}
-          <Footer /> {/* Footer 컴포넌트 추가 */}
+          <Outlet /> 
+          <Footer /> 
         </OutletWithFooter>
       </Inner>
       <FloatingHomeButton onClick={handleFloatingClick}>
