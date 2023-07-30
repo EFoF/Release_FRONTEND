@@ -34,7 +34,7 @@ ${({ButtonTheme, width, disabled}) => `
     width: ${width};
     background-color: ${
         {
-            original: COLORS.WHITE,
+            original: "transparent",
             blue: COLORS.BLUE,
             red: COLORS.RED,
         }[ButtonTheme]
