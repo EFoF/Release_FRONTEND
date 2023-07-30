@@ -19,7 +19,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  height: 61.44rem;
+  height: 65rem; //일단 맞춤 
   width: 30rem; //20.75rem;
   position: sticky;
   top: 5.56rem;
@@ -73,7 +73,7 @@ const BottomContainer = styled.div`
   position: absolute;
   width: 100%;
   // border-top: 0.0625rem solid rgba(0, 0, 0, 0.2);
-  bottom: 1rem; /* 버튼과 하단 간격 조절 */
+  bottom: 2rem; /* 버튼과 하단 간격 조절 */
   left: 50%; /* 가운데 정렬을 위해 왼쪽 위치 조절 */
   transform: translateX(-50%); /* 가운데 정렬을 위해 가로 방향으로 이동 */
 `

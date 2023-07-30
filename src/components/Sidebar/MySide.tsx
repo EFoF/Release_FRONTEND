@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  height: 58.44rem;
+  height: 65rem;
   width: 30rem; //20.75rem;
   position: sticky;
   top: 5.56rem;
@@ -82,7 +82,7 @@ const ButtonContainer = styled.div`
 //   position: relative;
 //   bottom: 0;
   position: absolute;
-  bottom: 1rem; /* 버튼과 하단 간격 조절 */
+  bottom: 2rem; /* 버튼과 하단 간격 조절 */
   left: 50%; /* 가운데 정렬을 위해 왼쪽 위치 조절 */
   transform: translateX(-50%); /* 가운데 정렬을 위해 가로 방향으로 이동 */
 `
