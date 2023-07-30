@@ -75,7 +75,7 @@ export default function MainLayout() {
     <Full>
       <Header isDev={false} isCompany={isCompanyBool} />
       <Inner>
-        <MySide />{/* <CompanySide /> */}
+        <MySide /> 
         <Outlet />
       </Inner>
       <FloatingHomeButton onClick={handleFloatingClick}>

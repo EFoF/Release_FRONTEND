@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import "../../styles/font.css";
+import setting from "../../img/setting1.png"
+import Button from "../Button";
 
 // const Container = styled.div`
 //   display: flex;
@@ -17,7 +19,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  height: 58.44rem;
+  height: 61.44rem;
   width: 30rem; //20.75rem;
   position: sticky;
   top: 5.56rem;
@@ -63,6 +65,27 @@ const SubMenuItem = styled.div`
   cursor: pointer;
 `;
 
+const BottomContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  position: absolute;
+  width: 100%;
+  // border-top: 0.0625rem solid rgba(0, 0, 0, 0.2);
+  bottom: 1rem; /* 버튼과 하단 간격 조절 */
+  left: 50%; /* 가운데 정렬을 위해 왼쪽 위치 조절 */
+  transform: translateX(-50%); /* 가운데 정렬을 위해 가로 방향으로 이동 */
+`
+
+const CompanySetting = styled.img`
+    width: 3.8rem;
+    height: 3.8rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    margin-bottom: 0.65rem;
+`
+
 export default function CompanySide() {
   const [projects, setProjects] = useState([
     {
@@ -106,6 +129,10 @@ export default function CompanySide() {
           )}
         </SidebarContainer>
       ))}
+      <BottomContainer>
+        <CompanySetting src={setting}/>
+        <Button title="프로젝트 생성하기" theme="blue" width="12.68rem"/>
+      </BottomContainer>
     </Container>
   );
 }
