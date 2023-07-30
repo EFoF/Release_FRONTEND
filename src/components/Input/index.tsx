@@ -19,9 +19,14 @@ const InputWrapper = styled.input<{ size: number }>`
   border: 0.1rem solid ${COLORS.GREY[300]};
   color: ${COLORS.GREY[500]};
   font-size: 1.5rem;
-  ::placeholder {
-    color: ${COLORS.GREY[200]};
-    font-weight: 300;
+  &::placeholder {
+    color: ${COLORS.GREY[300]};
+    font-weight: 400;
+  }
+  &:focus {
+    border-color: ${COLORS.BLUE};
+    outline: none; /* 커서가 focus 되었을 때의 기본 아웃라인 스타일 제거 */
+    // box-shadow: 0 0 0 2px ${COLORS.BLUE_HOVER}; /* focus 시에 박스 쉐도우 추가 */
   }
 `;
 
