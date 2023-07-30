@@ -9,6 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   background-color: white;
   height: 65rem;
+    // min-height: calc(100vh - 5.56rem);
   width: 30rem; //20.75rem;
   position: sticky;
   top: 5.56rem;

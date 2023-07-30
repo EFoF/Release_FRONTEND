@@ -13,7 +13,7 @@ export const Container = styled.div`
   // position: sticky;
   // bottom: 0;
   // z-index: 999;
-  position: relative;
+  position: absolute;
   bottom: 0;
   color: white;
 `;

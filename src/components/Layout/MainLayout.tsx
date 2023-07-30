@@ -53,7 +53,7 @@ const HomeImg = styled.img`
 
 const OutletWithFooter = styled.div`
   // flex: 1;
-  // position: relative;
+  position: relative;
   width: 100%;
 `;
 
@@ -78,7 +78,7 @@ export default function MainLayout() {
     <Full>
       <Header isDev={false} isCompany={isCompanyBool} />
       <Inner>
-        <CompanySide />
+        <MySide />
         <OutletWithFooter>
           <Outlet /> {/* Outlet을 OutletWithFooter 안으로 이동 */}
           <Footer /> {/* Footer 컴포넌트 추가 */}
