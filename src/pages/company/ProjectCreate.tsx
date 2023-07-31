@@ -39,6 +39,10 @@ export default function ProjectCreate() {
                 <ToggleImg src={toggleOff}/>
             </ToggleContainer>
         </CategoryContainer>
+        <ButtonContainer>
+          <Button1 title="취소하기"></Button1>
+          <Button title="생성하기" theme="blue"></Button>
+        </ButtonContainer>
       </MainContainer>
     </Container>
   );
@@ -84,4 +88,14 @@ cursor: pointer; //누르면 바꾸기
 export const ToggleContainer = styled.div`
     min-width: 35rem;
     margin-top: 0.7rem;
+`
+
+export const ButtonContainer = styled.div`
+  display: flex;
+    align-self: flex-end;
+  margin-top: 3rem;
+`;
+
+export const Button1 = styled(Button)`
+    margin-right: 1.88rem;
 `

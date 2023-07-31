@@ -43,7 +43,7 @@ ${({ButtonTheme, width, disabled}) => `
         (ButtonTheme === "original" ? "400" : "600")
     };
     border: ${ 
-        ButtonTheme === "original" ? "1px solid #000" : "none"
+        ButtonTheme === "original" ? "1px solid rgba(128, 128, 128, 0.5)" : "none"
     };
     color: ${
         {
