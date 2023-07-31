@@ -15,6 +15,7 @@ import {
 import HomeLayout from "./components/Layout/HomeLayout";
 import Company from "./pages/company";
 import MarkDown from "./pages/company/markdown";
+import ProjectCreate from "./pages/company/ProjectCreate";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/company" element={<Company />} />
+          <Route path="/company/projectCreate" element={<ProjectCreate />} />
         </Route>
       </Routes>
     </Router>
