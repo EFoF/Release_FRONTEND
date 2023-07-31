@@ -3,6 +3,8 @@ import styled from "styled-components";
 import "../../styles/font.css";
 import setting from "../../img/setting1.png"
 import Button from "../Button";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../constants/path";
 
 // const Container = styled.div`
 //   display: flex;
@@ -107,11 +109,16 @@ export default function CompanySide() {
     },
   ]);
 
+  const navigate = useNavigate();
   const [activeProject, setActiveProject] = useState(null);
 
   const handleProjectClick = (index: any) => {
     setActiveProject(activeProject === index ? null : index);
   };
+
+  const handleButtonClick = () => {
+    navigate(PATH.PROJECTCREATE)
+  }
 
   return (
     <Container>
@@ -132,7 +139,7 @@ export default function CompanySide() {
       ))}
       <BottomContainer>
         <CompanySetting src={setting}/>
-        <Button title="프로젝트 생성하기" theme="blue" width="12.68rem"/>
+        <Button title="프로젝트 생성하기" theme="blue" width="12.68rem" onClick={handleButtonClick}/>
       </BottomContainer>
     </Container>
   );
