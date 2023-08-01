@@ -60,8 +60,8 @@ export default function ProjectManage() {
                 {/* ============================ */}
 
                 <ButtonContainer>
-                    <Button1 title="설정완료"></Button1>
                     <Button title="프로젝트 삭제" theme="red"></Button>
+                    <Button1 title="설정완료"></Button1>
                 </ButtonContainer>
             </MainContainer>
         </Container>
@@ -129,7 +129,7 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button1 = styled(Button)`
-    margin-right: 1.88rem;
+    margin-left: 1.88rem;
 `
 
 export const Button2 = styled(Button)`
