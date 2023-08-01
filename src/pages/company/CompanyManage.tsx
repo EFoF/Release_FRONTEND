@@ -18,8 +18,8 @@ const members = [
     { name: '이름5', email: '이메일5' },
 ];
 
-export default function ProjectManage() {
-    const [projectName, setProjectName] = useState("Kakao i Acount");
+export default function CompanyManage() {
+    const [projectName, setProjectName] = useState("카카오 엔터프라이즈");
     const [projectDetail, setProjectDetail] = useState("");
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +35,7 @@ export default function ProjectManage() {
     return (
         <Container>
             <MainContainer>
-                <ProjectManageTitle>프로젝트 관리</ProjectManageTitle>
+                <ProjectManageTitle>회사 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트명</CategoryTitle1>
                     <Input value={projectName} onChange={handleChangeName}></Input>
@@ -44,6 +44,17 @@ export default function ProjectManage() {
                     <CategoryTitle1>프로젝트 오너</CategoryTitle1>
                     <ProjectOwner1>최철웅 (oldstyle@gmail.com)</ProjectOwner1>
                 </CategoryContainer>
+
+                {/* =========== 미완료 =========== */}
+                <CategoryContainer>
+                    <CategoryTitle1>회사 로고</CategoryTitle1>
+                    <LogoContainer>
+                        <Button3 title="첨부하기"></Button3>
+                        {/* 로고 */}
+                    </LogoContainer>
+                </CategoryContainer>
+                {/* ============================ */}
+
                 <CategoryContainer>
                     <CategoryTitle1>초대원 이메일</CategoryTitle1>
                     <Input value={projectDetail} size={22.8} onChange={handleChangeDetail}></Input>
@@ -52,7 +63,7 @@ export default function ProjectManage() {
 
                 {/* =========== 미완료 =========== */}
                 <CategoryContainer>
-                    <CategoryTitle1>프로젝트 멤버</CategoryTitle1>
+                    <CategoryTitle1>회사 멤버</CategoryTitle1>
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
@@ -61,7 +72,7 @@ export default function ProjectManage() {
 
                 <ButtonContainer>
                     <Button1 title="설정완료"></Button1>
-                    <Button title="프로젝트 삭제" theme="red"></Button>
+                    <Button title="회사 삭제" theme="red"></Button>
                 </ButtonContainer>
             </MainContainer>
         </Container>
@@ -91,6 +102,12 @@ margin-bottom: 2rem;
 `;
 
 export const TableContainer = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 35rem;
+`;
+
+export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   min-width: 35rem;
@@ -136,4 +153,11 @@ export const Button2 = styled(Button)`
   margin-left: 1.0rem;
   height: 3.5rem;
   margin-top: 0.8rem;
+`
+
+export const Button3 = styled(Button)`
+  margin-left: 1.0rem;
+  height: 2.8rem;
+  margin-top: 0.8rem;
+  border-radius: 0.3rem;
 `

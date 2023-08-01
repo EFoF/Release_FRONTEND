@@ -14,6 +14,7 @@ import MyProjects from "./pages/company/myProjects";
 import ReleaseCreate from "./pages/company/ReleaseCreate";
 import NoCompany from "./pages/company/NoCompany";
 import NoProject from "./pages/company/NoProject";
+import CompanyManage from "./pages/company/CompanyManage";
 import Member from "./pages/member";
 import PasswordChange from "./pages/member/passwordChange";
 import Withdrawal from "./pages/member/withdrawal";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/auth/member/info/change-password" element={<PasswordChange />} />
           <Route path="/auth/member/info/withdrawal" element={<Withdrawal />} />
           <Route path="/project/projectManage" element={<ProjectManage />} />
+          <Route path="/project/companyManage" element={<CompanyManage />} />
         </Route>
       </Routes>
     </Router>
