@@ -6,6 +6,8 @@ import { CategoryTitle, Title1 } from "../../components/Text/Title";
 import toggleOff from "../../img/ri_toggle-line.png"
 import toggleOn from "../../img/ri_toggle-fill.png"
 import COLORS from "../../constants/color";
+import LogoContainer from "../../components/AddFile";
+import AddFile from "../../components/AddFile";
 
 
 export default function CompanyCreate() {
@@ -26,10 +28,7 @@ export default function CompanyCreate() {
         </CategoryContainer>
         <CategoryContainer>
             <CategoryTitle1>회사 로고</CategoryTitle1>
-            <LogoContainer>
-                <AddButton>첨부하기</AddButton>
-                <AddContainer></AddContainer>
-            </LogoContainer>
+            <AddFile></AddFile>
         </CategoryContainer>
         <ButtonContainer>
           <Button1 title="취소하기"></Button1>
@@ -76,34 +75,34 @@ export const CategoryTitle2 = styled(CategoryTitle)`
   margin-bottom: 18.5rem;
 `;
 
-export const LogoContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    min-width: 35rem;
-`
+// export const LogoContainer = styled.div`
+//     display: flex;
+//     flex-direction: column;
+//     min-width: 35rem;
+// `
 
-export const AddButton = styled.div`
-display: flex;
-  justify-content: center;
-  align-items: center;
-    width: 7.3rem;
-    height: 2.6rem;
-    color: #000;
-font-family: Inter;
-font-size: 1.2rem;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-border: 0.1rem solid ${COLORS.GREY[600]};
-margin-bottom: 0.88rem;
-`
-export const AddContainer = styled.div`
-min-width: 35rem;
-width: 35rem;
-height: 17.625rem;
-border-radius: 0.625rem;
-border: 0.1rem solid ${COLORS.GREY[300]};
-`;
+// export const AddButton = styled.div`
+// display: flex;
+//   justify-content: center;
+//   align-items: center;
+//     width: 7.3rem;
+//     height: 2.6rem;
+//     color: #000;
+// font-family: Inter;
+// font-size: 1.2rem;
+// font-style: normal;
+// font-weight: 400;
+// line-height: normal;
+// border: 0.1rem solid ${COLORS.GREY[600]};
+// margin-bottom: 0.88rem;
+// `
+// export const AddContainer = styled.div`
+// min-width: 35rem;
+// width: 35rem;
+// height: 17.625rem;
+// border-radius: 0.625rem;
+// border: 0.1rem solid ${COLORS.GREY[300]};
+// `;
 
 export const ButtonContainer = styled.div`
   display: flex;
