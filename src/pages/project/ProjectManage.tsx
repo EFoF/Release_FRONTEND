@@ -51,12 +51,12 @@ export default function ProjectManage() {
                 </CategoryContainer>
 
                 {/* =========== 미완료 =========== */}
-                <CategoryContainer>
-                    <CategoryTitle1>프로젝트 멤버</CategoryTitle1>
+                <CategoryMemberContainer>
+                    <CategoryTitle2>프로젝트 멤버</CategoryTitle2>
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
-                </CategoryContainer>
+                </CategoryMemberContainer>
                 {/* ============================ */}
 
                 <ButtonContainer>
@@ -90,6 +90,12 @@ align-items: center;
 margin-bottom: 2rem;
 `;
 
+export const CategoryMemberContainer = styled.div`
+display: flex;
+flex-direction: row;
+margin-bottom: 2rem;
+`;
+
 export const TableContainer = styled.div`
   display: flex;
   align-items: center;
@@ -103,6 +109,11 @@ export const ProjectManageTitle = styled(Title1)`
 export const CategoryTitle1 = styled(CategoryTitle)`
   min-width: 12rem;
   margin-top: 0.4rem;
+`;
+
+export const CategoryTitle2 = styled(CategoryTitle)`
+  min-width: 12rem;
+  margin-top: 1.5rem;
 `;
 
 export const ProjectOwner1 = styled(OwnerName)`
