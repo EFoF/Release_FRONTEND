@@ -19,7 +19,7 @@ const members = [
 ];
 
 export default function CompanyManage() {
-    const [projectName, setProjectName] = useState("카카오 엔터프라이즈");
+    const [projectName, setProjectName] = useState("");
     const [projectDetail, setProjectDetail] = useState("");
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ export default function CompanyManage() {
                 <ProjectManageTitle>회사 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트명</CategoryTitle1>
-                    <Input value={projectName} onChange={handleChangeName}></Input>
+                    <Input value={projectName} onChange={handleChangeName} placeholder={"카카오 엔터프라이즈"}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트 오너</CategoryTitle1>
@@ -62,12 +62,13 @@ export default function CompanyManage() {
                 </CategoryContainer>
 
                 {/* =========== 미완료 =========== */}
-                <CategoryContainer>
-                    <CategoryTitle1>회사 멤버</CategoryTitle1>
+                {/* tbody scroll */}
+                <CategoryMemberContainer>
+                    <CategoryTitle2>회사 멤버</CategoryTitle2>
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
-                </CategoryContainer>
+                </CategoryMemberContainer>
                 {/* ============================ */}
 
                 <ButtonContainer>
@@ -101,6 +102,12 @@ align-items: center;
 margin-bottom: 2rem;
 `;
 
+export const CategoryMemberContainer = styled.div`
+display: flex;
+flex-direction: row;
+margin-bottom: 2rem;
+`;
+
 export const TableContainer = styled.div`
   display: flex;
   align-items: center;
@@ -120,6 +127,11 @@ export const ProjectManageTitle = styled(Title1)`
 export const CategoryTitle1 = styled(CategoryTitle)`
   min-width: 12rem;
   margin-top: 0.4rem;
+`;
+
+export const CategoryTitle2 = styled(CategoryTitle)`
+  min-width: 12rem;
+  margin-top: 1.5rem;
 `;
 
 export const ProjectOwner1 = styled(OwnerName)`
