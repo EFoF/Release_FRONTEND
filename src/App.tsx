@@ -23,6 +23,7 @@ import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
 import NoCompany from "./pages/company/NoCompany";
 import NoProject from "./pages/company/NoProject";
+import CompanyManage from "./pages/company/CompanyManage";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/companies/member/companies" element={<MyCompanies />} />
           <Route path="/companies/company_id/projects" element={<MyProjects />} />
           <Route path="/project/projectManage" element={<ProjectManage />} />
+          <Route path="/project/companyManage" element={<CompanyManage />} />
         </Route>
       </Routes>
     </Router>

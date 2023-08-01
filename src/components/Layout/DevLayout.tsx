@@ -57,6 +57,10 @@ const OutletWithFooter = styled.div`
   width: 100%;
 `;
 
+const OutletContainer = styled.div`
+  margin-bottom: 4.3125rem;
+`;
+
 export default function DevLayout() {
   const [isCompanyBool, setIsCompanyBool] = useState(false);
   const location = useLocation();
@@ -78,11 +82,12 @@ export default function DevLayout() {
     <Full>
       <Header isDev={false} isCompany={isCompanyBool} />
       <Inner>
-        {/*<CompanySide />*/}
         <MySide />
         <OutletWithFooter>
-          <Outlet /> 
-          <Footer /> 
+          <OutletContainer>
+            <Outlet />
+          </OutletContainer>
+          <Footer />
         </OutletWithFooter>
       </Inner>
       <FloatingHomeButton onClick={handleFloatingClick}>

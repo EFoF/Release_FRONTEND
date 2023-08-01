@@ -53,7 +53,6 @@ export default function ProjectManage() {
                 {/* =========== 미완료 =========== */}
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트 멤버</CategoryTitle1>
-                    {/*<Input value={projectDetail} onChange={handleChangeDetail}></Input>*/}
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
@@ -126,6 +125,7 @@ export const ButtonContainer = styled.div`
   display: flex;
     align-self: flex-end;
   margin-top: 3rem;
+  margin-bottom: 5rem;
 `;
 
 export const Button1 = styled(Button)`

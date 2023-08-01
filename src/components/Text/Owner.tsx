@@ -9,7 +9,7 @@ interface TitleProps {
 
 const OwnerName = styled.h1<TitleProps>`
   color: ${(props) => props.color || '#000'};
-  font-family: S-light;
+  font-family: S-Medium;
   font-size: 1.75rem;
   font-style: normal;
   font-weight: 300;
