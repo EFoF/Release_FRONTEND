@@ -22,11 +22,11 @@ export const Full = styled.div`
 export const Inner = styled.div`
   width: 100%;
   display: flex;
-  position: relative; 
-  padding-top: 5.56rem; // header, footer 높이만큼 padding 설정, 이후 사이드바 고려
-  padding-bottom: 4.3rem;
-  min-height: calc(100vh - 4.3125rem); //footer 높이
+  padding-top: 5.56rem; // header 높이만큼 padding 설정, 이후 사이드바 고려
+  flex-direction: row;
+  min-height: 100vh; // footer 높이
 `;
+
 
 export const FloatingHomeButton = styled.div`
   position: fixed;
@@ -47,19 +47,33 @@ export const FloatingHomeButton = styled.div`
 
 const HomeImg = styled.img`
   width: 3rem;
-`
+`;
+
+const OutletWithFooter = styled.div`
+  // flex: 1;
+  position: relative;
+  width: 100%;
+`;
+
+const OutletContainer = styled.div`
+  margin-bottom: 4.3125rem;
+`;
 
 export default function HomeLayout() {
   return (
     <Full>
       <Header isDev={false}/>
       <Inner>
-        <Outlet />
+        <OutletWithFooter>
+          <OutletContainer>
+            <Outlet /> 
+          </OutletContainer>
+          <Footer /> 
+        </OutletWithFooter>
       </Inner>
       <FloatingHomeButton>
         <HomeImg src={Home} />
       </FloatingHomeButton>
-      <Footer />
     </Full>
   );
 }
