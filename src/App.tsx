@@ -18,6 +18,7 @@ import CompanyManage from "./pages/company/CompanyManage";
 import Member from "./pages/member";
 import PasswordChange from "./pages/member/passwordChange";
 import Withdrawal from "./pages/member/withdrawal";
+import CompanyCreate from "./pages/company/CompanyCreate";
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
           <Route path="/company" element={<Company />} />
           <Route path="/company/projectCreate" element={<ProjectCreate />} />
           <Route path="/companies/projects/project_id/categories/category_id/releases" element={<ReleaseCreate />} />
+          <Route path="/company/projectcreate" element={<ProjectCreate />} />
+          <Route path="/company/companycreate" element={<CompanyCreate />} /> 
           <Route path="/project/edit" element={<ProjectEdit />} />
           <Route path="/company/nocompany" element={<NoCompany />} />
           <Route path="/company/noproject" element={<NoProject />} />
