@@ -4,18 +4,18 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 100%;
   height: 4.3125rem;
-  // background: rgba(0, 0, 0, 0.8);
   background: #E5E3E3;
   display: flex;
-  // gap: 60rem;
   align-items: center;
+  position: absolute;
+  bottom: 0;
+  color: white;
+  // gap: 60rem;
+  // background: rgba(0, 0, 0, 0.8);
   // justify-content: space-between;
   // position: sticky;
   // bottom: 0;
   // z-index: 999;
-  position: absolute;
-  bottom: 0;
-  color: white;
 `;
 
 export const LeftBox = styled.div`
