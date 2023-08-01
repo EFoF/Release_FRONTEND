@@ -9,6 +9,8 @@ const PATH = {
     PROJECTCREATE: "/company/projectCreate",
     MYCOMPANIES: "/companies/member/companies",
     MYPROJECTS: "/companies/company_id/projects",
+    PASSWORDCHANGE: "/auth/member/info/change-password",
+    WITHDRAWAL: "/auth/member/info/withdrawal",
 
   } as const;
   
