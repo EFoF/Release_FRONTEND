@@ -4,6 +4,8 @@ import Input from "../../components/Input";
 import {useState} from "react"
 import pencil from "../../img/pencil.png";
 import minus from "../../img/minus.png";
+import {Title1, Title2} from "../../components/Text/Title";
+import {Container1} from "../../components/Container";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -58,24 +60,17 @@ export const DetailContainer = styled.div`
     background-color: #F6F6F6;
 `
 
-export const CompanyContainer = styled.div`
+export const CompanyContainer = styled(Container1)`
   display: flex;
   flex-direction: column;
   margin-top: 3rem;
-  margin-left: 3.8rem;
   width: 80rem;
   height: 20rem;
 
 `;
 
-export const CompanyName = styled.div`
-color: #000;
-font-family: S-Bold;
-font-size: 3rem;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-margin-bottom: 2rem;
+export const CompanyName = styled(Title1)`
+
 `;
 
 export const CompanyIntro = styled.div`
@@ -88,11 +83,11 @@ line-height: normal;
 `;
 
 
-export const CategoryContainers = styled.div`
+export const CategoryContainers = styled(Container1)`
   display: flex;
   flex-direction: column;
   margin-top: 5rem;
-  margin-left: 5.5rem;
+  //margin-left: 5.5rem;
   width: 80rem;
 `;
 
@@ -102,16 +97,8 @@ export const CategoryContainer = styled.div`
   margin-bottom: 3rem;
 `;
 
-export const CategoryName = styled.div`
-  display: flex;
-  color: #000;
-  font-family: S-Bold;
-  font-size: 2.25rem;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
-margin-bottom: 1.5rem;
-
+export const CategoryName = styled(Title2)`
+    
 `;
 
 export const CategoryIntro = styled.div`
