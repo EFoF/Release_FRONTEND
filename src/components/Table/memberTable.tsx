@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import {HeaderCell, TableCell, TableRow} from "./index";
+import minus from "../../img/minus.png";
 
 interface Member {
     name: string;
@@ -15,17 +17,19 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
         <Table>
             <thead>
             <tr>
-                <HeaderCell width="30%">이름</HeaderCell>
-                <HeaderCell width="60%">이메일</HeaderCell>
-                <HeaderCell width="10%">-</HeaderCell>
+                <HeaderCell1 width="30%">이름</HeaderCell1>
+                <HeaderCell1 width="60%">이메일</HeaderCell1>
+                <HeaderCell1 width="10%" />
             </tr>
             </thead>
             <tbody>
             {members.map((member, index) => (
                 <TableRow key={index}>
-                    <TableCellBold width="30%">{member.name}</TableCellBold>
-                    <TableCell width="60%">{member.email}</TableCell>
-                    <TableCell width="10%">-</TableCell>
+                    <TableCell1 width="30%">{member.name}</TableCell1>
+                    <TableCell2 width="60%">{member.email}</TableCell2>
+                    <TableCell2 width="10%">
+                        <DeleteImg src={minus} />
+                    </TableCell2>
                 </TableRow>
             ))}
             </tbody>
@@ -39,40 +43,21 @@ const Table = styled.table`
   margin-top: 0.3rem;
 `;
 
-interface CellProps {
-    width?: string;
-}
-
-const HeaderCell = styled.th<CellProps>`
+export const HeaderCell1 = styled(HeaderCell)`
   padding: 10px;
-  border-bottom: 1px solid #ccc;
-  text-align: center;
-  font-weight: bold;
-  font-size: 15px;
-  width: ${(props) => props.width || 'auto'};
-`;
+`
 
-const TableRow = styled.tr`
-  &:not(:last-child) {
-    border-bottom: 1px solid #ccc;
-  }
-
-  &:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-`;
-
-const TableCell = styled.td<CellProps>`
+const TableCell1 = styled(TableCell)`
   padding: 10px;
-  text-align: center;
-  font-size: 11px;
-  width: ${(props) => props.width || 'auto'};
+  font-weight: bold;
 `;
 
-const TableCellBold = styled(TableCell)<CellProps>`
-  font-weight: bold;
-  font-size: 11px;
-  width: ${(props) => props.width || 'auto'};
+const TableCell2 = styled(TableCell)`
+  padding: 10px;
+`;
+
+const DeleteImg = styled.img`
+  width: 1.5rem;
 `;
 
 export default MemberTable;
