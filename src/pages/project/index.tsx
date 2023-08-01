@@ -24,22 +24,24 @@ export default function Company() {
             카카오 i 서비스 시스템(Kakao i Service System)은 카카오 i 서비스의 백엔드 체계를 나타내며, 카카오 i 계정, 카카오워크, 카카오 i 클라우드 등의 여러 ‘카카오 i 서비스’들과 이들의 계정을 상호 연동해주는 ‘Adapter 서버’로 구성됩니다.
         </CompanyIntro>
       </CompanyContainer>
-      <CategoryContainers>
-        {categories.map((category, index)=>(
-            <CategoryContainer>
-                <EditCategoryContainer>
-                    <CategoryName>{category.name}</CategoryName>
-                    <ButtonContainer>
-                        <EditButton imageUrl={pencil}></EditButton>
-                        <EditButton imageUrl={minus}></EditButton>
-                    </ButtonContainer>
-                </EditCategoryContainer>
-                <CategoryIntro>
-                    {category.intro}
-                </CategoryIntro>
-            </CategoryContainer>
-        ))}
-      </CategoryContainers>
+        <DetailContainer>
+          <CategoryContainers>
+            {categories.map((category, index)=>(
+                <CategoryContainer>
+                    <EditCategoryContainer>
+                        <CategoryName>{category.name}</CategoryName>
+                        <ButtonContainer>
+                            <EditButton imageUrl={pencil}></EditButton>
+                            <EditButton imageUrl={minus}></EditButton>
+                        </ButtonContainer>
+                    </EditCategoryContainer>
+                    <CategoryIntro>
+                        {category.intro}
+                    </CategoryIntro>
+                </CategoryContainer>
+            ))}
+          </CategoryContainers>
+        </DetailContainer>
 
     </Container>
   );
@@ -51,12 +53,18 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
+export const DetailContainer = styled.div`
+    width: 100%;
+    background-color: #F6F6F6;
+`
+
 export const CompanyContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 3rem;
   margin-left: 3.8rem;
   width: 80rem;
+  height: 20rem;
 
 `;
 
@@ -82,7 +90,6 @@ line-height: normal;
 
 export const CategoryContainers = styled.div`
   display: flex;
-  background-color: #F6F6F6;
   flex-direction: column;
   margin-top: 5rem;
   margin-left: 5.5rem;
