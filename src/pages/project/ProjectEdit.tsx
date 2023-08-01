@@ -3,12 +3,15 @@ import Button from "../../components/Button";
 import {useState} from "react"
 import pencil from "../../img/pencil.png";
 import minus from "../../img/minus.png";
+import plus from "../../img/plus.png";
 import {Title1, Title2} from "../../components/Text/Title";
 import {Container1} from "../../components/Container";
 import { Toggle } from "typescript-toggle";
 
 interface EditButtonProps {
     imageUrl: string;
+    width: number;
+    height: number;
 }
 export default function Company() {
   const [isOn, setIsOn] = useState(false);
@@ -26,7 +29,7 @@ export default function Company() {
               <EditContainer>
                   <CompanyName>Kakao i Account</CompanyName>
                   <EditButtonContainer>
-                      <EditButton imageUrl={pencil}></EditButton>
+                      <EditButton imageUrl={pencil} width={24} height={24}></EditButton>
                   </EditButtonContainer>
               </EditContainer>
             <CompanyIntro>
@@ -53,8 +56,8 @@ export default function Company() {
                     <EditContainer>
                             <CategoryName>{category.name}</CategoryName>
                         <EditButtonContainer>
-                            <EditButton imageUrl={pencil}></EditButton>
-                            <EditButton imageUrl={minus}></EditButton>
+                            <EditButton imageUrl={pencil} width={24} height={24}></EditButton>
+                            <EditButton imageUrl={minus} width={24} height={24}></EditButton>
                         </EditButtonContainer>
                     </EditContainer>
                     <CategoryIntro>
@@ -62,6 +65,11 @@ export default function Company() {
                     </CategoryIntro>
                 </CategoryContainer>
             ))}
+              <CategoryContainer>
+                  <CenteredContent>
+                    <EditButton imageUrl={plus} width={57} height={57}/>
+                  </CenteredContent>
+              </CategoryContainer>
           </CategoryContainers>
         </DetailContainer>
 
@@ -150,8 +158,8 @@ export const EditButton = styled.div<EditButtonProps>`
   background-image: url(${props => props.imageUrl});
   background-repeat: no-repeat;
   background-size: contain;
-  width: 24px;
-  height: 24px;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
   margin-left: 1.5rem;
   transition: opacity 0.3s;
   &:hover {
@@ -193,4 +201,10 @@ const ScopeText = styled.h3`
   margin-right: 1.5rem;
   display: flex;
   align-items: center; /* 수직 가운데 정렬 */
+`;
+
+export const CenteredContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
