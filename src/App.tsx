@@ -19,6 +19,9 @@ import MarkDown from "./pages/company/markdown";
 import ProjectCreate from "./pages/company/ProjectCreate";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
+import Member from "./pages/member";
+import PasswordChange from "./pages/member/passwordChange";
+import Withdrawal from "./pages/member/withdrawal";
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
         <Route element={<DevLayout />}>
           <Route path="/companies/member/companies" element={<MyCompanies />} />
           <Route path="/companies/company_id/projects" element={<MyProjects />} />
+          <Route path="/auth/member/info" element={<Member />} />
+          <Route path="/auth/member/info/change-password" element={<PasswordChange />} />
+          <Route path="/auth/member/info/withdrawal" element={<Withdrawal />} />
         </Route>
       </Routes>
     </Router>
