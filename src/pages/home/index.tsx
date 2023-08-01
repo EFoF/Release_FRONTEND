@@ -138,7 +138,21 @@ export const CompanyContainer = styled.div`
   justify-content: center;
 `;
 
+export const ProjectContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 4.75rem;
+  justify-content: center;
+`;
+
 export const CompanyListContainer = styled.div`
+  display: flex;
+  width: 60%;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+`;
+
+export const ProjectListContainer = styled.div`
   display: flex;
   width: 60%;
   flex-wrap: wrap;
@@ -155,7 +169,23 @@ export const CompanyCard = styled.div`
   cursor: pointer;
 `;
 
+export const ProjectCard = styled.div`
+  flex: 0 0 calc(25% - 1rem); /* 한 줄에 최대 4개 요소, 간격을 제외한 너비 설정 */
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3.8rem;
+  cursor: pointer;
+`;
+
 export const CompanyImage = styled.img`
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1.25rem;
+`;
+
+export const ProjectImage = styled.img`
   width: 5rem;
   height: 5rem;
   border-radius: 1.25rem;
@@ -170,6 +200,17 @@ export const CompanyName = styled.div`
   font-weight: 400;
   line-height: normal;
 `;
+
+export const ProjectName = styled.div`
+  margin-top: 1.38rem;
+  color: #000;
+  font-family: S-Regular;
+  font-size: 1.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
 // export const CompanyContainer = styled.div`
 //   display: flex;
 //   width: 100%;
