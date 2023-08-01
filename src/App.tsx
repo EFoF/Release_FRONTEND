@@ -7,7 +7,7 @@ import DevLayout from "./components/Layout/DevLayout";
 import Company from "./pages/company";
 import MarkDown from "./pages/company/markdown";
 import ProjectCreate from "./pages/company/ProjectCreate";
-import ProjectEdit from "./pages/project";
+import ProjectEdit from "./pages/project/ProjectEdit";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
 
