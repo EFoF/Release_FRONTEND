@@ -7,6 +7,9 @@ const PATH = {
     SOCIAL: "/social",
     COMPANY: "/company",
     PROJECTCREATE: "/company/projectCreate",
+    MYCOMPANIES: "/companies/member/companies",
+    MYPROJECTS: "/companies/company_id/projects",
+
   } as const;
   
   export default PATH;
