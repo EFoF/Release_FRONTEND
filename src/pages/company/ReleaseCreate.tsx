@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import React, {useState} from "react";
 import {CategoryTitle, Title1} from "../../components/Text/Title";
-import {Table1, HeaderCell, TableRow, TableCell, TableCellBold} from "../../components/Table";
+import {Table1, HeaderCell, TableRow, TableCell} from "../../components/Table";
+import {Container1} from "../../components/Container";
 
 export default function ReleaseCreate() {
     const [project, setProject] = useState("첫회사 첫 프로젝트");
@@ -86,6 +87,9 @@ export default function ReleaseCreate() {
                                         <TableCell1>dkdk</TableCell1>
                                         <TableCell1>-</TableCell1>
                                     </ReleaseRow>
+                                    <ReleaseRowLast>
+                                        <TableCell1>+</TableCell1>
+                                    </ReleaseRowLast>
                                 </tbody>
                             </ReleaseTable>
                         </ReleaseContainer>
@@ -102,11 +106,10 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const MainContainer = styled.div`
+export const MainContainer = styled(Container1)`
   display: flex;
   flex-direction: column;
   margin-top: 3.31rem;
-  margin-left: 3.8rem;
   width: 80rem;
 `;
 
@@ -136,6 +139,10 @@ export const HeaderCell1 = styled(HeaderCell)`
 `
 
 export const ReleaseRow = styled(TableRow)`
+  margin-left: 0.3rem;
+`
+
+export const ReleaseRowLast = styled(TableRow)`
   margin-left: 0.3rem;
 `
 
