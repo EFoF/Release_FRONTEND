@@ -9,6 +9,7 @@ import {LogoBox} from "../../components/Layout/Header";
 import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
 import memberTable from "../../components/Table/memberTable";
+import AddFile from "../../components/AddFile";
 
 const members = [
     { name: '이름1', email: 'eeeeeeeeeeeee이메일1' },
@@ -37,23 +38,18 @@ export default function CompanyManage() {
             <MainContainer>
                 <ProjectManageTitle>회사 관리</ProjectManageTitle>
                 <CategoryContainer>
-                    <CategoryTitle1>프로젝트명</CategoryTitle1>
+                    <CategoryTitle1>회사명</CategoryTitle1>
                     <Input value={projectName} onChange={handleChangeName} placeholder={"카카오 엔터프라이즈"}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
-                    <CategoryTitle1>프로젝트 오너</CategoryTitle1>
+                    <CategoryTitle1>회사 오너</CategoryTitle1>
                     <ProjectOwner1>최철웅 (oldstyle@gmail.com)</ProjectOwner1>
                 </CategoryContainer>
 
-                {/* =========== 미완료 =========== */}
                 <CategoryContainer>
                     <CategoryTitle1>회사 로고</CategoryTitle1>
-                    <LogoContainer>
-                        <Button3 title="첨부하기"></Button3>
-                        {/* 로고 */}
-                    </LogoContainer>
+                    <AddFile></AddFile>
                 </CategoryContainer>
-                {/* ============================ */}
 
                 <CategoryContainer>
                     <CategoryTitle1>초대원 이메일</CategoryTitle1>
@@ -63,12 +59,12 @@ export default function CompanyManage() {
 
                 {/* =========== 미완료 =========== */}
                 {/* tbody scroll */}
-                <CategoryMemberContainer>
+                <CategoryContainer>
                     <CategoryTitle2>회사 멤버</CategoryTitle2>
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
-                </CategoryMemberContainer>
+                </CategoryContainer>
                 {/* ============================ */}
 
                 <ButtonContainer>
@@ -98,13 +94,7 @@ margin-top: 3.31rem;
 export const CategoryContainer = styled.div`
 display: flex;
 flex-direction: row;
-align-items: center;
-margin-bottom: 2rem;
-`;
-
-export const CategoryMemberContainer = styled.div`
-display: flex;
-flex-direction: row;
+//align-items: center;
 margin-bottom: 2rem;
 `;
 
@@ -120,7 +110,7 @@ export const LogoContainer = styled.div`
   min-width: 35rem;
 `;
 
-export const ProjectManageTitle = styled(Title1)`
+export const ProjectManageTitle= styled(Title1)`
   margin-bottom: 4.69rem;
 `;
 
@@ -164,12 +154,4 @@ export const Button1 = styled(Button)`
 export const Button2 = styled(Button)`
   margin-left: 1.0rem;
   height: 3.5rem;
-  margin-top: 0.8rem;
-`
-
-export const Button3 = styled(Button)`
-  margin-left: 1.0rem;
-  height: 2.8rem;
-  margin-top: 0.8rem;
-  border-radius: 0.3rem;
 `

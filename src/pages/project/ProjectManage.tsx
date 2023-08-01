@@ -9,6 +9,7 @@ import {LogoBox} from "../../components/Layout/Header";
 import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
 import memberTable from "../../components/Table/memberTable";
+import AddFile from "../../components/AddFile";
 
 const members = [
     { name: '이름1', email: 'eeeeeeeeeeeee이메일1' },
@@ -18,7 +19,7 @@ const members = [
     { name: '이름5', email: '이메일5' },
 ];
 
-export default function ProjectManage() {
+export default function CompanyManage() {
     const [projectName, setProjectName] = useState("");
     const [projectDetail, setProjectDetail] = useState("");
 
@@ -38,7 +39,7 @@ export default function ProjectManage() {
                 <ProjectManageTitle>프로젝트 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트명</CategoryTitle1>
-                    <Input value={projectName} onChange={handleChangeName} placeholder={"Kakao i Acount"}></Input>
+                    <Input value={projectName} onChange={handleChangeName} placeholder={"Kakao i Account"}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트 오너</CategoryTitle1>
@@ -51,12 +52,13 @@ export default function ProjectManage() {
                 </CategoryContainer>
 
                 {/* =========== 미완료 =========== */}
-                <CategoryMemberContainer>
+                {/* tbody scroll */}
+                <CategoryContainer>
                     <CategoryTitle2>프로젝트 멤버</CategoryTitle2>
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
-                </CategoryMemberContainer>
+                </CategoryContainer>
                 {/* ============================ */}
 
                 <ButtonContainer>
@@ -77,23 +79,17 @@ export const Container = styled.div`
 `;
 
 export const MainContainer = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-margin-top: 3.31rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.31rem;
 `;
 
 export const CategoryContainer = styled.div`
-display: flex;
-flex-direction: row;
-align-items: center;
-margin-bottom: 2rem;
-`;
-
-export const CategoryMemberContainer = styled.div`
-display: flex;
-flex-direction: row;
-margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  //align-items: center;
+  margin-bottom: 2rem;
 `;
 
 export const TableContainer = styled.div`
@@ -102,7 +98,13 @@ export const TableContainer = styled.div`
   min-width: 35rem;
 `;
 
-export const ProjectManageTitle = styled(Title1)`
+export const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 35rem;
+`;
+
+export const ProjectManageTitle= styled(Title1)`
   margin-bottom: 4.69rem;
 `;
 
@@ -122,29 +124,28 @@ export const ProjectOwner1 = styled(OwnerName)`
 `;
 
 export const ToggleImg = styled.img`
-width: 3.75rem;
-height: 3.75rem;
-cursor: pointer; //누르면 바꾸기
+  width: 3.75rem;
+  height: 3.75rem;
+  cursor: pointer; //누르면 바꾸기
 `
 
 export const ToggleContainer = styled.div`
-    min-width: 35rem;
-    margin-top: 0.7rem;
+  min-width: 35rem;
+  margin-top: 0.7rem;
 `
 
 export const ButtonContainer = styled.div`
   display: flex;
-    align-self: flex-end;
+  align-self: flex-end;
   margin-top: 3rem;
   margin-bottom: 5rem;
 `;
 
 export const Button1 = styled(Button)`
-    margin-left: 1.88rem;
+  margin-left: 1.88rem;
 `
 
 export const Button2 = styled(Button)`
   margin-left: 1.0rem;
   height: 3.5rem;
-  margin-top: 0.8rem;
 `
