@@ -5,44 +5,30 @@ import {useState} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
 import toggleOff from "../../img/ri_toggle-line.png"
 import toggleOn from "../../img/ri_toggle-fill.png"
+import COLORS from "../../constants/color";
+import LogoContainer from "../../components/AddFile";
+import AddFile from "../../components/AddFile";
 
 
-export default function ProjectCreate() {
-    const [projectName, setProjectName] = useState("");
-    const [projectDetail, setProjectDetail] = useState("");
-    const [toggleState, setToggleState] = useState(false);
+export default function CompanyCreate() {
+    const [companyName, setCompanyName] = useState("");
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setProjectName(e.target.value)
-    }
-
-    const handleChangeDetail = (e : React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setProjectDetail(e.target.value)
-    }
-
-    const handleToggleClick = () => {
-        setToggleState((prevState) => !prevState);
+        setCompanyName(e.target.value)
     }
 
   return (
     <Container>
       <MainContainer>
-        <ProjectCreateTitle>프로젝트 생성하기</ProjectCreateTitle>
+        <CompanyCreateTitle>회사 생성하기</CompanyCreateTitle>
         <CategoryContainer>
-            <CategoryTitle1>프로젝트명</CategoryTitle1>
-            <Input value={projectName} onChange={handleChangeName}></Input>
+            <CategoryTitle1>회사명</CategoryTitle1>
+            <Input value={companyName} onChange={handleChangeName}></Input>
         </CategoryContainer>
         <CategoryContainer>
-            <CategoryTitle1>프로젝트 설명</CategoryTitle1>
-            <Input value={projectDetail} onChange={handleChangeDetail}></Input>
-        </CategoryContainer>
-        <CategoryContainer>
-            <CategoryTitle1>공개 여부</CategoryTitle1>
-            <ToggleContainer>
-                <ToggleImg src={toggleState ? toggleOn : toggleOff} onClick={handleToggleClick}/>
-            </ToggleContainer>
+            <CategoryTitle1>회사 로고</CategoryTitle1>
+            <AddFile></AddFile>
         </CategoryContainer>
         <ButtonContainer>
           <Button1 title="취소하기"></Button1>
@@ -71,11 +57,11 @@ margin-top: 3.31rem;
 export const CategoryContainer = styled.div`
 display: flex;
 flex-direction: row;
-align-items: center;
+// align-items: center;
 margin-bottom: 2rem;
 `;
 
-export const ProjectCreateTitle = styled(Title1)`
+export const CompanyCreateTitle = styled(Title1)`
   margin-bottom: 4.69rem;
 `;
 
@@ -84,21 +70,39 @@ export const CategoryTitle1 = styled(CategoryTitle)`
   margin-top: 0.4rem;
 `;
 
-export const ToggleImg = styled.img`
-width: 3.75rem;
-height: 3.75rem;
-cursor: pointer; //누르면 바꾸기
-`
+export const CategoryTitle2 = styled(CategoryTitle)`
+  min-width: 12rem;
+  margin-bottom: 18.5rem;
+`;
 
-interface ToggleContainerProps {
-    toggleState: boolean;
-  }
+// export const LogoContainer = styled.div`
+//     display: flex;
+//     flex-direction: column;
+//     min-width: 35rem;
+// `
 
-export const ToggleContainer = styled.div`
-    min-width: 35rem;
-    margin-top: 0.7rem;
-  border-radius: 1.875rem;
-`
+// export const AddButton = styled.div`
+// display: flex;
+//   justify-content: center;
+//   align-items: center;
+//     width: 7.3rem;
+//     height: 2.6rem;
+//     color: #000;
+// font-family: Inter;
+// font-size: 1.2rem;
+// font-style: normal;
+// font-weight: 400;
+// line-height: normal;
+// border: 0.1rem solid ${COLORS.GREY[600]};
+// margin-bottom: 0.88rem;
+// `
+// export const AddContainer = styled.div`
+// min-width: 35rem;
+// width: 35rem;
+// height: 17.625rem;
+// border-radius: 0.625rem;
+// border: 0.1rem solid ${COLORS.GREY[300]};
+// `;
 
 export const ButtonContainer = styled.div`
   display: flex;
@@ -109,3 +113,4 @@ export const ButtonContainer = styled.div`
 export const Button1 = styled(Button)`
     margin-right: 1.88rem;
 `
+

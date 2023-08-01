@@ -8,8 +8,17 @@ import Company from "./pages/company";
 import MarkDown from "./pages/company/markdown";
 import ProjectCreate from "./pages/company/ProjectCreate";
 import ProjectEdit from "./pages/project/ProjectEdit";
+import ProjectManage from "./pages/project/ProjectManage";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
+import ReleaseCreate from "./pages/company/ReleaseCreate";
+import NoCompany from "./pages/company/NoCompany";
+import NoProject from "./pages/company/NoProject";
+import CompanyManage from "./pages/company/CompanyManage";
+import Member from "./pages/member";
+import PasswordChange from "./pages/member/passwordChange";
+import Withdrawal from "./pages/member/withdrawal";
+import CompanyCreate from "./pages/company/CompanyCreate";
 
 function App() {
   return (
@@ -22,11 +31,21 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/company" element={<Company />} />
           <Route path="/company/projectCreate" element={<ProjectCreate />} />
+          <Route path="/companies/projects/project_id/categories/category_id/releases" element={<ReleaseCreate />} />
+          <Route path="/company/projectcreate" element={<ProjectCreate />} />
+          <Route path="/company/companycreate" element={<CompanyCreate />} /> 
           <Route path="/project/edit" element={<ProjectEdit />} />
+          <Route path="/company/nocompany" element={<NoCompany />} />
+          <Route path="/company/noproject" element={<NoProject />} />
         </Route>
         <Route element={<DevLayout />}>
           <Route path="/companies/member/companies" element={<MyCompanies />} />
           <Route path="/companies/company_id/projects" element={<MyProjects />} />
+          <Route path="/auth/member/info" element={<Member />} />
+          <Route path="/auth/member/info/change-password" element={<PasswordChange />} />
+          <Route path="/auth/member/info/withdrawal" element={<Withdrawal />} />
+          <Route path="/project/projectManage" element={<ProjectManage />} />
+          <Route path="/project/companyManage" element={<CompanyManage />} />
         </Route>
       </Routes>
     </Router>
