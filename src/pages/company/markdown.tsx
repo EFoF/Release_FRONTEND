@@ -42,11 +42,11 @@ export default function MarkDown() {
           height: "30rem",
         }}
       />
-      <div>
-        {/* <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} /> */}
-        <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdownContent} />
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
-      </div>
+      {/*<div>*/}
+      {/*  /!* <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} /> *!/*/}
+      {/*  <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdownContent} />*/}
+      {/*  <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>*/}
+      {/*</div>*/}
     </div>
   );
 }

@@ -19,6 +19,7 @@ import Member from "./pages/member";
 import PasswordChange from "./pages/member/passwordChange";
 import Withdrawal from "./pages/member/withdrawal";
 import CompanyCreate from "./pages/company/CompanyCreate";
+import CategoryCreate from "./pages/category/CategoryCreate";
 
 function App() {
   return (
@@ -33,8 +34,9 @@ function App() {
           <Route path="/company/projectCreate" element={<ProjectCreate />} />
           <Route path="/companies/projects/project_id/categories/category_id/releases" element={<ReleaseCreate />} />
           <Route path="/company/projectcreate" element={<ProjectCreate />} />
-          <Route path="/company/companycreate" element={<CompanyCreate />} /> 
-          <Route path="/project/edit" element={<ProjectEdit />} />
+          <Route path="/company/companycreate" element={<CompanyCreate />} />
+          <Route path="/company/project/category/categorycreate" element={<CategoryCreate />} />
+          <Route path="/company/project/edit" element={<ProjectEdit />} />
           <Route path="/company/nocompany" element={<NoCompany />} />
           <Route path="/company/noproject" element={<NoProject />} />
         </Route>
