@@ -10,6 +10,7 @@ import toggleOn from "../../img/ri_toggle-fill.png"
 export default function ProjectCreate() {
     const [projectName, setProjectName] = useState("");
     const [projectDetail, setProjectDetail] = useState("");
+    const [toggleState, setToggleState] = useState(false);
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -19,6 +20,10 @@ export default function ProjectCreate() {
     const handleChangeDetail = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setProjectDetail(e.target.value)
+    }
+
+    const handleToggleClick = () => {
+        setToggleState((prevState) => !prevState);
     }
 
   return (
@@ -36,7 +41,7 @@ export default function ProjectCreate() {
         <CategoryContainer>
             <CategoryTitle1>공개 여부</CategoryTitle1>
             <ToggleContainer>
-                <ToggleImg src={toggleOff}/>
+                <ToggleImg src={toggleState ? toggleOn : toggleOff} onClick={handleToggleClick}/>
             </ToggleContainer>
         </CategoryContainer>
         <ButtonContainer>
@@ -85,9 +90,14 @@ height: 3.75rem;
 cursor: pointer; //누르면 바꾸기
 `
 
+interface ToggleContainerProps {
+    toggleState: boolean;
+  }
+
 export const ToggleContainer = styled.div`
     min-width: 35rem;
     margin-top: 0.7rem;
+  border-radius: 1.875rem;
 `
 
 export const ButtonContainer = styled.div`

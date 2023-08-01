@@ -30,6 +30,7 @@ export const Inner = styled.div`
   min-height: calc(100vh - 4.3125rem); // footer 높이
 `;
 
+
 export const FloatingHomeButton = styled.div`
   position: fixed;
   bottom: 1.5rem;
@@ -57,6 +58,10 @@ const OutletWithFooter = styled.div`
   width: 100%;
 `;
 
+const OutletContainer = styled.div`
+  margin-bottom: 4.3125rem;
+`;
+
 export default function MainLayout() {
   const [isCompanyBool, setIsCompanyBool] = useState(false);
   const location = useLocation();
@@ -80,7 +85,9 @@ export default function MainLayout() {
       <Inner>
         <CompanySide /> {/*<MySide />*/}
         <OutletWithFooter>
-          <Outlet /> 
+          <OutletContainer>
+            <Outlet /> 
+          </OutletContainer>
           <Footer /> 
         </OutletWithFooter>
       </Inner>
