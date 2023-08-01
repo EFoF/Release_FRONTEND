@@ -19,6 +19,7 @@ import MarkDown from "./pages/company/markdown";
 import ProjectCreate from "./pages/company/ProjectCreate";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
+import NoCompany from "./pages/company/NoCompany";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/company" element={<Company />} />
           <Route path="/company/projectCreate" element={<ProjectCreate />} />
+          <Route path="/company/nocompany" element={<NoCompany />} />
         </Route>
         <Route element={<DevLayout />}>
           <Route path="/companies/member/companies" element={<MyCompanies />} />
