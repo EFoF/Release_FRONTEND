@@ -20,6 +20,7 @@ import ProjectCreate from "./pages/company/ProjectCreate";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
 import NoCompany from "./pages/company/NoCompany";
+import NoProject from "./pages/company/NoProject";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/company" element={<Company />} />
           <Route path="/company/projectCreate" element={<ProjectCreate />} />
           <Route path="/company/nocompany" element={<NoCompany />} />
+          <Route path="/company/noproject" element={<NoProject />} />
         </Route>
         <Route element={<DevLayout />}>
           <Route path="/companies/member/companies" element={<MyCompanies />} />
