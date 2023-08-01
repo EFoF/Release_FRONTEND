@@ -17,6 +17,7 @@ import DevLayout from "./components/Layout/DevLayout";
 import Company from "./pages/company";
 import MarkDown from "./pages/company/markdown";
 import ProjectCreate from "./pages/company/ProjectCreate";
+import ProjectManage from "./pages/project/ProjectManage";
 import ProjectEdit from "./pages/project";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
@@ -41,6 +42,7 @@ function App() {
         <Route element={<DevLayout />}>
           <Route path="/companies/member/companies" element={<MyCompanies />} />
           <Route path="/companies/company_id/projects" element={<MyProjects />} />
+          <Route path="/project/projectManage" element={<ProjectManage />} />
         </Route>
       </Routes>
     </Router>
