@@ -22,6 +22,7 @@ import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
 import NoCompany from "./pages/company/NoCompany";
 import NoProject from "./pages/company/NoProject";
+import CompanyCreate from "./pages/company/CompanyCreate";
 
 function App() {
   return (
@@ -33,7 +34,8 @@ function App() {
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/company" element={<Company />} />
-          <Route path="/company/projectCreate" element={<ProjectCreate />} />
+          <Route path="/company/projectcreate" element={<ProjectCreate />} />
+          <Route path="/company/companycreate" element={<CompanyCreate />} />
           <Route path="/project/edit" element={<ProjectEdit />} />
           <Route path="/company/nocompany" element={<NoCompany />} />
           <Route path="/company/noproject" element={<NoProject />} />
