@@ -16,6 +16,15 @@ const Title1 = styled.h1<TitleProps>`
   line-height: normal;
 `;
 
+const Title2 = styled.h1<TitleProps>`
+  color: ${(props) => props.color || '#808080'};
+  font-family: S-light;
+  font-size: 2.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
 const CategoryTitle = styled.h1<TitleProps>`
   color: ${(props) => props.color || '#000'};
 font-family: S-light;
@@ -31,4 +40,4 @@ line-height: normal;
 //   return <Title1 color={color}>{children}</Title1>;
 // };
 
-export {Title1, CategoryTitle}
+export {Title1, Title2, CategoryTitle}
