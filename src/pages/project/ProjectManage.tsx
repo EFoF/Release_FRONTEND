@@ -19,7 +19,7 @@ const members = [
 ];
 
 export default function ProjectManage() {
-    const [projectName, setProjectName] = useState("Kakao i Acount");
+    const [projectName, setProjectName] = useState("");
     const [projectDetail, setProjectDetail] = useState("");
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ export default function ProjectManage() {
                 <ProjectManageTitle>프로젝트 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트명</CategoryTitle1>
-                    <Input value={projectName} onChange={handleChangeName}></Input>
+                    <Input value={projectName} onChange={handleChangeName} placeholder={"Kakao i Acount"}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트 오너</CategoryTitle1>

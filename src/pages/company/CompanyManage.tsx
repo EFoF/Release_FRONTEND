@@ -19,7 +19,7 @@ const members = [
 ];
 
 export default function CompanyManage() {
-    const [projectName, setProjectName] = useState("카카오 엔터프라이즈");
+    const [projectName, setProjectName] = useState("");
     const [projectDetail, setProjectDetail] = useState("");
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ export default function CompanyManage() {
                 <ProjectManageTitle>회사 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트명</CategoryTitle1>
-                    <Input value={projectName} onChange={handleChangeName}></Input>
+                    <Input value={projectName} onChange={handleChangeName} placeholder={"카카오 엔터프라이즈"}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트 오너</CategoryTitle1>
