@@ -11,6 +11,7 @@ import ProjectManage from "./pages/project/ProjectManage";
 import ProjectEdit from "./pages/project";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
+import ReleaseCreate from "./pages/company/ReleaseCreate";
 import NoCompany from "./pages/company/NoCompany";
 import NoProject from "./pages/company/NoProject";
 import Member from "./pages/member";
@@ -28,6 +29,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/company" element={<Company />} />
           <Route path="/company/projectCreate" element={<ProjectCreate />} />
+          <Route path="/companies/projects/project_id/categories/category_id/releases" element={<ReleaseCreate />} />
           <Route path="/project/edit" element={<ProjectEdit />} />
           <Route path="/company/nocompany" element={<NoCompany />} />
           <Route path="/company/noproject" element={<NoProject />} />
