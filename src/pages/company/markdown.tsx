@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import styled from "styled-components";
 
 export default function MarkDown() {
   const [markdownText, setMarkdownText] = useState("");
@@ -42,11 +43,11 @@ export default function MarkDown() {
           height: "30rem",
         }}
       />
-      {/*<div>*/}
-      {/*  /!* <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} /> *!/*/}
-      {/*  <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdownContent} />*/}
-      {/*  <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>*/}
-      {/*</div>*/}
+      <div>
+        {/* <ReactMarkdown children={markdownText} remarkPlugins={[remarkGfm]} /> */}
+        <ReactMarkdown remarkPlugins={[remarkGfm]} children={markdownContent} />
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+      </div>
     </div>
   );
 }
