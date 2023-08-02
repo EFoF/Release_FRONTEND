@@ -125,7 +125,7 @@ export const CategoryContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 3rem;
-  margin-left: 5rem;
+  //margin-left: 5rem;
 `;
 
 export const CategoryName = styled(Title2)`
