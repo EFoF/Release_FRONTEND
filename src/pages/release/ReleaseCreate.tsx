@@ -486,6 +486,7 @@ export const TableCellTag = styled.td <{optionTagColor: string}>`
   appearance: none;
   text-align-last: center;
   padding: 3px;
+  display: inline-block;
 `
 
 export const TableCellLong = styled(TableCell)`
