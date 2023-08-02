@@ -34,11 +34,11 @@ export default function ProjectCreate() {
     const [searchKey, setSearchKey] = useState("");
 
     const handleCompanyClick = () => {
-        navigate(PATH.COMPANY);
+        navigate(PATH.COMPANYMAIN);
     };
 
     const projectClick = () => {
-        navigate(PATH.MYPROJECTS);
+        navigate(PATH.MYPROJECT);
     };
 
     return (
