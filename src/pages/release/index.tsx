@@ -3,7 +3,6 @@ import React, {useState} from "react";
 import {CategoryTitle, Title1} from "../../components/Text/Title";
 import {Table1, HeaderCell, TableRow, TableCell} from "../../components/Table";
 import {Container1} from "../../components/Container";
-import ConfirmationModal from "../../components/Modal";
 
 
 export default function Release() {
@@ -374,6 +373,7 @@ export const TableCellTag = styled.td <{optionTagColor: string}>`
   appearance: none;
   text-align-last: center;
   padding: 3px;
+  display: inline-block;
 `
 
 export const TableCellLong = styled(TableCell)`
