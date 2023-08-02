@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
-import {useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import pencil from "../../img/pencil.png";
 import minus from "../../img/minus.png";
 import plus from "../../img/plus.png";
@@ -9,6 +9,7 @@ import clear from "../../img/clear.png";
 import {Title1, Title2} from "../../components/Text/Title";
 import {Container1} from "../../components/Container";
 import { Toggle } from "typescript-toggle";
+import ConfirmationModal from "../../components/Modal";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -25,6 +26,8 @@ export default function ProjectEdit() {
   const [isOn, setIsOn] = useState(false);
   const [isEditMode, setIsEditMode] = useState<Boolean[]>([]);
   const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [index, setIndex] = useState<Number>();
   const [categories, setCategories] = useState<Category[]>([
         {name: "개발 프로세스", intro: "카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다."},
         {name: "API", intro: "카카오 i 플랫폼과 연동하여 다양한 IoT 디바이스에서 AI 음성 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다. 카카오 i 플랫 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다. "},
@@ -41,6 +44,23 @@ export default function ProjectEdit() {
   const handleTitleEditClick = () => {
       setIsTitleEdit(!isTitleEdit);
   }
+
+  const handleRemoveButton = (index:number) => {
+      setIsModalOpen(true);
+      setIndex(index);
+  }
+
+    const handleModalCancel = () => {
+        // 모달 닫기
+        setIsModalOpen(false);
+    };
+
+    const handleModalConfirm = () => {
+        // TODO: 인덱스에 해당하는 카테고리 지우고 디비에 반영
+
+        // 모달 닫기
+        setIsModalOpen(false);
+    };
 
   useEffect(() => {
         const newBooleanList = new Array(categories.length).fill(false);
@@ -87,7 +107,7 @@ export default function ProjectEdit() {
                         {!isEditMode[index] ? (
                             <EditButtonContainer>
                                 <EditButton imageUrl={pencil} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                                <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleCategoryEditClick(index)}/>
+                                <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleRemoveButton(index)}/>
                             </EditButtonContainer>
                         ) : (
                             <EditButtonContainer>
@@ -108,7 +128,8 @@ export default function ProjectEdit() {
               </CategoryContainer>
           </CategoryContainers>
         </DetailContainer>
-
+        <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
+                           message={"삭제하시겠습니까?"}/>
     </Container>
   );
 }
