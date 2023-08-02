@@ -1,15 +1,12 @@
 import styled from "styled-components";
 import React, {useState} from "react";
 import {CategoryTitle, Title1} from "../../components/Text/Title";
-import {Table1, HeaderCell, TableRow, TableCell, TableImg} from "../../components/Table";
+import {Table1, HeaderCell, TableRow, TableCell} from "../../components/Table";
 import {Container1} from "../../components/Container";
-import minus from "../../img/minus.png";
-import plus from "../../img/plus.png";
-import check from "../../img/check.png";
-import ConfirmationModal from "../../components/Modal/index";
+import ConfirmationModal from "../../components/Modal";
 
 
-export default function ReleaseCreate() {
+export default function Release() {
     const [project, setProject] = useState("첫회사 첫 프로젝트");
     const [categories, setCategories] = useState([
         {
@@ -96,7 +93,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "UPDATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -107,7 +104,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "DEPRECATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -118,7 +115,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "FIXED"
                 }
             ]
         },
@@ -151,7 +148,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "ADDED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -173,7 +170,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "ADDED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -184,7 +181,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "UPDATED"
                 }
             ]
         },
@@ -217,7 +214,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "DEPRECATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -228,7 +225,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "DEPRECATED"
                 }
             ]
         },
@@ -261,32 +258,11 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "FIXED"
                 }
             ]
         }
     ]);
-
-    const [releaseVersion, setReleaseVersion] = useState("");
-    const [releaseDate, setReleaseDate] = useState("");
-    const [releaseTag, setReleaseTag] = useState("");
-    const [releaseDetail, setReleaseDetail] = useState("");
-
-    const [optionTagColor, setOptionTagColor] = useState("transparent");
-
-    const [addIndex, setAddIndex] = useState(-1);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const handleChangeVersion = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setReleaseVersion(e.target.value);
-    };
-
-    const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setReleaseDate(e.target.value);
-    };
 
     type TagColors = {
         [key: string]: string;
@@ -298,45 +274,6 @@ export default function ReleaseCreate() {
         deprecated: "rgba(255, 34, 34, 0.47)",
         fixed: "rgba(105, 156, 255, 0.56)",
         added: "rgba(200, 182, 166, 0.61)",
-    };
-
-    const handleChangeTag = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        e.preventDefault();
-        setReleaseTag(e.target.value);
-        setOptionTagColor(tagColors[e.target.value] || "transparent");
-    };
-
-    const handleChangeDetail = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        e.preventDefault();
-        setReleaseDetail(e.target.value);
-    };
-
-     const handlePlusBtn = (index: number) => {
-        setReleaseVersion("");
-        setReleaseDate("");
-        setReleaseTag("");
-        setReleaseDetail("");
-        setAddIndex(index);
-    };
-
-    const handleCheckBtn = (index: number) => {
-        // TODO: db 반영
-    }
-
-    const handleMinusBtn = (index: number) => {
-        setIsModalOpen(true);
-    };
-
-    const handleModalCancel = () => {
-        // 모달 닫기
-        setIsModalOpen(false);
-    };
-
-    const handleModalConfirm = () => {
-        // TODO: db 반영
-
-        // 모달 닫기
-        setIsModalOpen(false);
     };
 
     // TODO: 최근 수정자, 수정날짜 추가
@@ -354,7 +291,6 @@ export default function ReleaseCreate() {
                                 <HeaderCell1>날짜</HeaderCell1>
                                 <HeaderCell1>태그</HeaderCell1>
                                 <HeaderCell1>변경사항</HeaderCell1>
-                                <HeaderCell1/>
                             </tr>
                             </thead>
                             <tbody>
@@ -368,76 +304,27 @@ export default function ReleaseCreate() {
                                         </TableCellTag>
                                     </TableCell1>
                                     <TableCellLong>{release.content}</TableCellLong>
-                                    <TableCell1><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCell1>
                                 </ReleaseRow>
                             )}
-                            {addIndex === index && (
-                                <ReleaseRow>
-                                    <TableCell1>
-                                        <StyledInput
-                                            type="text"
-                                            value={releaseVersion}
-                                            onChange={handleChangeVersion}
-                                        />
-                                    </TableCell1>
-                                    <TableCell1>
-                                        <StyledInput
-                                            type="text"
-                                            value={releaseDate}
-                                            onChange={handleChangeDate}
-                                        />
-                                    </TableCell1>
-                                    <TableCell1>
-                                        <StyledSelect
-                                            value={releaseTag}
-                                            onChange={handleChangeTag}
-                                            optionTagColor={optionTagColor}
-                                        >
-                                            <option value="">-- 선택 --</option>
-                                            <option value="new">NEW</option>
-                                            <option value="updated">UPDATED</option>
-                                            <option value="fixed">FIXED</option>
-                                            <option value="deprecated">DEPRECATED</option>
-                                            <option value="added">ADDED</option>
-                                        </StyledSelect>
-                                    </TableCell1>
-                                    <TableCellLong>
-                                        <StyledText
-                                            value={releaseDetail}
-                                            onChange={handleChangeDetail}
-                                        />
-                                    </TableCellLong>
-                                    <TableCell1><TableImg1 src={check}
-                                                           onClick={() => handleCheckBtn(index)}/></TableCell1>
-                                </ReleaseRow>
-                            )}
-                            <ReleaseRow>
-                                <TableCell1 colSpan={5}>
-                                    <TableImgLast src={plus} onClick={() => handlePlusBtn(index)}/>
-                                </TableCell1>
-                            </ReleaseRow>
                             </tbody>
                         </ReleaseTable>
                     </ReleaseContainer>
                 )}
             </MainContainer>
-            <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
-                               message={"삭제하시겠습니까?"}/>
         </Container>
     );
 }
 
 export const Container = styled(Container1)`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  margin-right: 8rem;
+  margin-bottom: 8rem;
 `;
 
 export const MainContainer = styled.div`
-  display: flex;
   flex-direction: column;
   margin-top: 3.31rem;
-  margin-right: 7rem;
 `;
 
 export const ReleaseCreateTitle = styled(Title1)`
@@ -453,15 +340,12 @@ export const ReleaseContainer = styled.div`
 
 export const CategoryTitle1 = styled(CategoryTitle)`
   align-self: start;
-  margin-left: 2rem;
   margin-top: 3.5rem;
   margin-bottom: 2rem;
 `;
 
 export const ReleaseTable = styled(Table1)`
   margin-top: 0.3rem;
-  margin-left: 3rem;
-  //table-layout: auto;
 `;
 
 export const HeaderCell1 = styled(HeaderCell)`
@@ -475,18 +359,14 @@ export const ReleaseRow = styled(TableRow)`
 
 export const TableCell1 = styled(TableCell)`
   padding: 10px;
-  //display: flex;
-  //position: relative; // 추가
-  //z-index: 1; // 추가
 `
 
 export const TableCellTag = styled.td <{optionTagColor: string}>`
-  background-color: ${(props) => props.optionTagColor};
   width: 90px;
   font-size: 11px;
   font-weight: bold;
   line-height: 2.3;
-  //background-color: red;
+  background-color: ${(props) => props.optionTagColor || 'transparent'};
   border: 1px solid transparent;
   border-radius: 35px;
   outline: none;
@@ -494,8 +374,6 @@ export const TableCellTag = styled.td <{optionTagColor: string}>`
   appearance: none;
   text-align-last: center;
   padding: 3px;
-  //position: relative; // 추가
-  //z-index: 2; // 추가
 `
 
 export const TableCellLong = styled(TableCell)`
@@ -504,54 +382,3 @@ export const TableCellLong = styled(TableCell)`
   white-space: normal;
   word-break: break-all;
 `
-
-export const TableImg1 = styled(TableImg)`
-  width: 1.7rem;
-  height: 1.7rem;
-  display: inline-block;
-`
-
-export const TableImgLast = styled(TableImg)`
-  width: 3rem;
-  height: 3rem;
-  display: inline-block;
-`
-
-// TODO: width 수정
-export const StyledInput = styled.input`
-  width: 100%;
-  border-color: transparent;
-  background-color: transparent;
-  text-align: center;
-`;
-
-export const StyledText = styled.textarea`
-  width: 100%;
-  border-color: transparent;
-  background-color: transparent;
-  text-align: center;
-  resize: vertical;
-  overflow: auto;
-`;
-
-export const StyledSelect = styled.select<{optionTagColor: string}>`
-  width: 90px;
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 2.3;
-  background-color: ${(props) => props.optionTagColor};
-  border: 1px solid transparent;
-  border-radius: 35px;
-  outline: none;
-  transition: border-color 0.3s;
-  appearance: none;
-  text-align-last: center;
-  padding: 3px;
-
-  &:focus {
-    border-color: #1E90FF;
-    box-shadow: 0 0 0 0.2rem rgba(30, 144, 255, 0.25);
-  }
-`;
-
-
