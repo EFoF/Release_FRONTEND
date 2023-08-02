@@ -96,7 +96,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "UPDATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -107,7 +107,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "DEPRECATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -118,7 +118,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "FIXED"
                 }
             ]
         },
@@ -151,7 +151,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "ADDED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -173,7 +173,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "ADDED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -184,7 +184,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "UPDATED"
                 }
             ]
         },
@@ -217,7 +217,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "DEPRECATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -228,7 +228,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "DEPRECATED"
                 }
             ]
         },
@@ -261,7 +261,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "FIXED"
                 }
             ]
         }
@@ -481,12 +481,11 @@ export const TableCell1 = styled(TableCell)`
 `
 
 export const TableCellTag = styled.td <{optionTagColor: string}>`
-  background-color: ${(props) => props.optionTagColor};
   width: 90px;
   font-size: 11px;
   font-weight: bold;
   line-height: 2.3;
-  //background-color: red;
+  background-color: ${(props) => props.optionTagColor || 'transparent'};
   border: 1px solid transparent;
   border-radius: 35px;
   outline: none;
@@ -494,8 +493,6 @@ export const TableCellTag = styled.td <{optionTagColor: string}>`
   appearance: none;
   text-align-last: center;
   padding: 3px;
-  //position: relative; // 추가
-  //z-index: 2; // 추가
 `
 
 export const TableCellLong = styled(TableCell)`
