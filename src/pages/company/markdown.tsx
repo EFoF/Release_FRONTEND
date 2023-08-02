@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import styled from "styled-components";
 
 export default function MarkDown() {
   const [markdownText, setMarkdownText] = useState("");
