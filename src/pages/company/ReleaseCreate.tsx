@@ -30,7 +30,7 @@ export default function ReleaseCreate() {
                         "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
                         "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "DEPRECATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -52,7 +52,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "UPDATED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -63,7 +63,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "NEW"
+                    tag: "FIXED"
                 }
             ]
         },
@@ -272,6 +272,8 @@ export default function ReleaseCreate() {
     const [releaseTag, setReleaseTag] = useState("");
     const [releaseDetail, setReleaseDetail] = useState("");
 
+    const [optionTagColor, setOptionTagColor] = useState("transparent");
+
     const [addIndex, setAddIndex] = useState(-1);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -286,9 +288,22 @@ export default function ReleaseCreate() {
         setReleaseDate(e.target.value);
     };
 
+    type TagColors = {
+        [key: string]: string;
+    };
+
+    const tagColors: TagColors = {
+        new: "rgba(157, 233, 131, 0.46)",
+        updated: "rgba(234, 237, 98, 0.71)",
+        deprecated: "rgba(255, 34, 34, 0.47)",
+        fixed: "rgba(105, 156, 255, 0.56)",
+        added: "rgba(200, 182, 166, 0.61)",
+    };
+
     const handleChangeTag = (e: React.ChangeEvent<HTMLSelectElement>) => {
         e.preventDefault();
         setReleaseTag(e.target.value);
+        setOptionTagColor(tagColors[e.target.value] || "transparent");
     };
 
     const handleChangeDetail = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -324,34 +339,7 @@ export default function ReleaseCreate() {
         setIsModalOpen(false);
     };
 
-    interface Category {
-        title?: string;
-        description?: string;
-        detail?: string;
-        lastModifierName?: string;
-        lastModifiedTime?: string;
-        release?: { lastModifiedTime: string; lastModifierName: string }[];
-    }
-
-    const findLatestModified = (category: Category) => {
-        if (!category.release || category.release.length === 0) {
-            return {
-                latestModifierDate: '',
-                latestModifierName: '',
-            };
-        }
-
-        const latest = category.release.reduce((prev, current) => {
-            return prev.lastModifiedTime > current.lastModifiedTime ? prev : current;
-        });
-
-        return {
-            latestModifierDate: String(latest.lastModifiedTime),
-            latestModifierName: latest.lastModifierName,
-        };
-    };
-
-
+    // TODO: 최근 수정자, 수정날짜 추가
     return (
         <Container>
             <MainContainer>
@@ -366,9 +354,7 @@ export default function ReleaseCreate() {
                                 <HeaderCell1>날짜</HeaderCell1>
                                 <HeaderCell1>태그</HeaderCell1>
                                 <HeaderCell1>변경사항</HeaderCell1>
-                                {/*<HeaderCell1>{findLatestModified(category.category).latestModifierDate}</HeaderCell1>*/}
-                                {/*<HeaderCell1>{findLatestModified(category.category).latestModifierName}</HeaderCell1>*/}
-                                <HeaderCell1 />
+                                <HeaderCell1/>
                             </tr>
                             </thead>
                             <tbody>
@@ -376,9 +362,13 @@ export default function ReleaseCreate() {
                                 <ReleaseRow key={rindex}>
                                     <TableCell1>{release.version}</TableCell1>
                                     <TableCell1>{release.releaseDate}</TableCell1>
-                                    <TableCell1>{release.tag}</TableCell1>
-                                    <TableCell2>{release.content}</TableCell2>
-                                    <TableCell1><TableImg1 src={minus} onClick={() => handleMinusBtn(index)} /></TableCell1>
+                                    <TableCell1>
+                                        <TableCellTag optionTagColor={tagColors[release.tag.toLowerCase()]}>
+                                            {release.tag}
+                                        </TableCellTag>
+                                    </TableCell1>
+                                    <TableCellLong>{release.content}</TableCellLong>
+                                    <TableCell1><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCell1>
                                 </ReleaseRow>
                             )}
                             {addIndex === index && (
@@ -401,6 +391,7 @@ export default function ReleaseCreate() {
                                         <StyledSelect
                                             value={releaseTag}
                                             onChange={handleChangeTag}
+                                            optionTagColor={optionTagColor}
                                         >
                                             <option value="">-- 선택 --</option>
                                             <option value="new">NEW</option>
@@ -410,13 +401,14 @@ export default function ReleaseCreate() {
                                             <option value="added">ADDED</option>
                                         </StyledSelect>
                                     </TableCell1>
-                                    <TableCell2>
+                                    <TableCellLong>
                                         <StyledText
                                             value={releaseDetail}
                                             onChange={handleChangeDetail}
                                         />
-                                    </TableCell2>
-                                    <TableCell1><TableImg1 src={check} onClick={() => handleCheckBtn(index)} /></TableCell1>
+                                    </TableCellLong>
+                                    <TableCell1><TableImg1 src={check}
+                                                           onClick={() => handleCheckBtn(index)}/></TableCell1>
                                 </ReleaseRow>
                             )}
                             <ReleaseRow>
@@ -429,22 +421,23 @@ export default function ReleaseCreate() {
                     </ReleaseContainer>
                 )}
             </MainContainer>
-            <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm} message={"삭제하시겠습니까?"} />
+            <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
+                               message={"삭제하시겠습니까?"}/>
         </Container>
     );
 }
 
-export const Container = styled.div`
+export const Container = styled(Container1)`
   width: 100%;
   display: flex;
   flex-direction: column;
 `;
 
-export const MainContainer = styled(Container1)`
+export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 3.31rem;
-  width: 80rem;
+  margin-right: 7rem;
 `;
 
 export const ReleaseCreateTitle = styled(Title1)`
@@ -483,9 +476,29 @@ export const ReleaseRow = styled(TableRow)`
 export const TableCell1 = styled(TableCell)`
   padding: 10px;
   //display: flex;
+  //position: relative; // 추가
+  //z-index: 1; // 추가
 `
 
-export const TableCell2 = styled(TableCell)`
+export const TableCellTag = styled.td <{optionTagColor: string}>`
+  background-color: ${(props) => props.optionTagColor};
+  width: 90px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 2.3;
+  //background-color: red;
+  border: 1px solid transparent;
+  border-radius: 35px;
+  outline: none;
+  transition: border-color 0.3s;
+  appearance: none;
+  text-align-last: center;
+  padding: 3px;
+  //position: relative; // 추가
+  //z-index: 2; // 추가
+`
+
+export const TableCellLong = styled(TableCell)`
   width: 65%;
   padding: 10px 50px;
   white-space: normal;
@@ -521,20 +534,24 @@ export const StyledText = styled.textarea`
   overflow: auto;
 `;
 
-export const StyledSelect = styled.select`
-  width: auto;
+export const StyledSelect = styled.select<{optionTagColor: string}>`
+  width: 90px;
   font-size: 11px;
+  font-weight: bold;
   line-height: 2.3;
-  background-color: transparent;
+  background-color: ${(props) => props.optionTagColor};
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 35px;
   outline: none;
   transition: border-color 0.3s;
   appearance: none;
   text-align-last: center;
+  padding: 3px;
 
   &:focus {
     border-color: #1E90FF;
     box-shadow: 0 0 0 0.2rem rgba(30, 144, 255, 0.25);
   }
 `;
+
+
