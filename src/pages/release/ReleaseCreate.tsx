@@ -6,7 +6,7 @@ import {Container1} from "../../components/Container";
 import minus from "../../img/minus.png";
 import plus from "../../img/plus.png";
 import check from "../../img/check.png";
-import ConfirmationModal from "../../components/Modal/index";
+import ConfirmationModal from "../../components/Modal";
 
 
 export default function ReleaseCreate() {
@@ -428,16 +428,15 @@ export default function ReleaseCreate() {
 }
 
 export const Container = styled(Container1)`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  margin-right: 8rem;
+  margin-bottom: 8rem;
 `;
 
 export const MainContainer = styled.div`
-  display: flex;
   flex-direction: column;
   margin-top: 3.31rem;
-  margin-right: 7rem;
 `;
 
 export const ReleaseCreateTitle = styled(Title1)`
@@ -453,15 +452,12 @@ export const ReleaseContainer = styled.div`
 
 export const CategoryTitle1 = styled(CategoryTitle)`
   align-self: start;
-  margin-left: 2rem;
   margin-top: 3.5rem;
   margin-bottom: 2rem;
 `;
 
 export const ReleaseTable = styled(Table1)`
   margin-top: 0.3rem;
-  margin-left: 3rem;
-  //table-layout: auto;
 `;
 
 export const HeaderCell1 = styled(HeaderCell)`
@@ -475,9 +471,6 @@ export const ReleaseRow = styled(TableRow)`
 
 export const TableCell1 = styled(TableCell)`
   padding: 10px;
-  //display: flex;
-  //position: relative; // 추가
-  //z-index: 1; // 추가
 `
 
 export const TableCellTag = styled.td <{optionTagColor: string}>`

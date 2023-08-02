@@ -11,7 +11,7 @@ import ProjectEdit from "./pages/project/ProjectEdit";
 import ProjectManage from "./pages/project/ProjectManage";
 import MyCompanies from "./pages/company/myCompanies";
 import MyProjects from "./pages/company/myProjects";
-import ReleaseCreate from "./pages/company/ReleaseCreate";
+import ReleaseCreate from "./pages/release/ReleaseCreate";
 import NoCompany from "./pages/company/NoCompany";
 import NoProject from "./pages/company/NoProject";
 import CompanyManage from "./pages/company/CompanyManage";
@@ -20,6 +20,7 @@ import PasswordChange from "./pages/member/passwordChange";
 import Withdrawal from "./pages/member/withdrawal";
 import CompanyCreate from "./pages/company/CompanyCreate";
 import CategoryCreate from "./pages/category/CategoryCreate";
+import Release from "./pages/release";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/company" element={<Company />} />
+          <Route path="/companies/projects/project_id/categories/releases" element={<Release />} />
           <Route path="/company/projectCreate" element={<ProjectCreate />} />
           <Route path="/companies/projects/project_id/categories/category_id/releases" element={<ReleaseCreate />} />
           <Route path="/company/projectcreate" element={<ProjectCreate />} />
