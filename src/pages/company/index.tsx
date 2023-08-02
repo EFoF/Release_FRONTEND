@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import {useState} from "react"
+import Dialog from "../../components/Dialog";
 
 export default function Company() {
   const categories = [
@@ -9,7 +10,7 @@ export default function Company() {
     {name: "API", intro: "카카오 i 플랫폼과 연동하여 다양한 IoT 디바이스에서 AI 음성 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다. 카카오 i 플랫 서비스를 활용할 수 있도록 개발에 필요한 기본적인 개념 및 상세 설명을 제공합니다. "},
     {name: "부록", intro: "카카오 i 계정 서비스를 좀 더 편리하게 사용할 수 있도록 관리자 서비스 페이지를 제공합니다.        "},
   ]
-  const [inputValue, SetInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
 
   return (
     <Container>
