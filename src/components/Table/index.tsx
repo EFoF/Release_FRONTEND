@@ -38,4 +38,8 @@ const TableCellBold = styled(TableCell)<CellProps>`
   width: ${(props) => props.width || 'auto'};
 `;
 
-export {Table1, HeaderCell, TableRow, TableCell, TableCellBold};
+const TableImg = styled.img`
+  cursor: pointer;
+`
+
+export {Table1, HeaderCell, TableRow, TableCell, TableCellBold, TableImg};
