@@ -3,17 +3,13 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import React, {useState} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
-import toggleOff from "../../img/ri_toggle-line.png"
-import toggleOn from "../../img/ri_toggle-fill.png"
-import {LogoBox} from "../../components/Layout/Header";
 import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
-import memberTable from "../../components/Table/memberTable";
 import AddFile from "../../components/AddFile";
 import ConfirmationModal from "../../components/Modal";
 
 const members = [
-    { name: '이름1', email: 'eeeeeeeeeeeee이메일1' },
+    { name: '이름1', email: '이메일1' },
     { name: '이름2', email: '이메일2' },
     { name: '이름3', email: '이메일3' },
     { name: '이름4', email: '이메일4' },
@@ -64,12 +60,10 @@ export default function CompanyManage() {
                     <CategoryTitle1>회사 오너</CategoryTitle1>
                     <ProjectOwner1>최철웅 (oldstyle@gmail.com)</ProjectOwner1>
                 </CategoryContainer>
-
                 <CategoryContainer>
                     <CategoryTitle1>회사 로고</CategoryTitle1>
                     <AddFile></AddFile>
                 </CategoryContainer>
-
                 <CategoryContainer>
                     <CategoryTitle1>초대원 이메일</CategoryTitle1>
                     <Input value={projectDetail} size={22.8} onChange={handleChangeDetail}></Input>
