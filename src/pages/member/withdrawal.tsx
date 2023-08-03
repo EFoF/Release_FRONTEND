@@ -5,7 +5,7 @@ import React, {useState} from "react"
 import {useNavigate} from "react-router-dom";
 import {CompanyTitle} from "../company/myProjects";
 import {Title1} from "../../components/Text/Title";
-import ConfirmationModal from "./confirmationModal";
+import ConfirmationModal from "../../components/Modal";
 
 export default function Withdrawal() {
     const [inputOldPassword, setInputOldPassword] = useState("");
@@ -55,7 +55,8 @@ export default function Withdrawal() {
                     </ButtonContainer>
                 </InfoContainer>
             </MainContainer>
-            <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm} />
+            <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
+                               message={"정말 회원 탈퇴하시겠습니까?"}/>
         </Container>
     );
 }

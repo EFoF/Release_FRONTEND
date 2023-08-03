@@ -3,7 +3,6 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import React, {useState} from "react"
 import {useNavigate} from "react-router-dom";
-import {CompanyTitle} from "../company/myProjects";
 import {Title1} from "../../components/Text/Title";
 
 export default function PasswordChange() {
