@@ -22,6 +22,7 @@ import CompanyCreate from "./pages/company/CompanyCreate";
 import CategoryCreate from "./pages/category/CategoryCreate";
 import Release from "./pages/release";
 import PATH from "./constants/path";
+import Login from "./pages/login";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
         </Route> 
         <Route element={<MainLayout />}>
           <Route path={PATH.COMPANYMAIN} element={<Company />} />
