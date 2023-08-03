@@ -75,7 +75,7 @@ export default function Input({
 }: InputProps) {
   return (
     <Wrapper className={className}>
-      {/* {!labelHidden && <Label>{label}</Label>} */}
+      {label && !labelHidden && <Label>{label}</Label>}
       <InputWrapper
         value={value}
         onChange={onChange}

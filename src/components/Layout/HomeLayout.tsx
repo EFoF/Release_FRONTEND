@@ -11,6 +11,7 @@ import {
   Outlet,
   useNavigate,
 } from "react-router-dom";
+import PATH from "../../constants/path";
 
 export const Full = styled.div`
   width: 100%;
@@ -60,6 +61,11 @@ const OutletContainer = styled.div`
 `;
 
 export default function HomeLayout() {
+  const navigate = useNavigate()
+  const handleFloatingClick = () => {
+    navigate(PATH.HOME);
+  };
+
   return (
     <Full>
       <Header isDev={false}/>
@@ -71,7 +77,7 @@ export default function HomeLayout() {
           <Footer /> 
         </OutletWithFooter>
       </Inner>
-      <FloatingHomeButton>
+      <FloatingHomeButton onClick={handleFloatingClick}>
         <HomeImg src={Home} />
       </FloatingHomeButton>
     </Full>

@@ -23,6 +23,7 @@ import CategoryCreate from "./pages/category/CategoryCreate";
 import Release from "./pages/release";
 import PATH from "./constants/path";
 import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Route> 
         <Route element={<MainLayout />}>
           <Route path={PATH.COMPANYMAIN} element={<Company />} />
