@@ -10,7 +10,7 @@ import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
 import memberTable from "../../components/Table/memberTable";
 import AddFile from "../../components/AddFile";
-import ConfirmationModal from "../company/confirmationModal";
+import ConfirmationModal from "../../components/Modal";
 
 const members = [
     { name: '이름1', email: 'eeeeeeeeeeeee이메일1' },
@@ -85,7 +85,10 @@ export default function CompanyManage() {
                     <Button onClick={handleDelCompany} title="회사 삭제" theme="red"></Button>
                     <Button1 title="설정완료"></Button1>
                 </ButtonContainer>
-                <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm} />
+                <ConfirmationModal isOpen={isModalOpen}
+                                   onCancel={handleModalCancel}
+                                   onConfirm={handleModalConfirm}
+                                    message={"회사를 삭제하시겠습니까?"}/>
             </MainContainer>
         </Container>
     );
