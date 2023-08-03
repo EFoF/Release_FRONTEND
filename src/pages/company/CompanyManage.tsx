@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import {useState} from "react"
+import React, {useState} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
 import toggleOff from "../../img/ri_toggle-line.png"
 import toggleOn from "../../img/ri_toggle-fill.png"
@@ -10,6 +10,7 @@ import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
 import memberTable from "../../components/Table/memberTable";
 import AddFile from "../../components/AddFile";
+import ConfirmationModal from "../company/confirmationModal";
 
 const members = [
     { name: '이름1', email: 'eeeeeeeeeeeee이메일1' },
@@ -22,6 +23,7 @@ const members = [
 export default function CompanyManage() {
     const [projectName, setProjectName] = useState("");
     const [projectDetail, setProjectDetail] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -32,6 +34,23 @@ export default function CompanyManage() {
         e.preventDefault();
         setProjectDetail(e.target.value)
     }
+
+    const handleModalCancel = () => {
+        // 모달 닫기
+        setIsModalOpen(false);
+    };
+
+    const handleModalConfirm = () => {
+        // ...
+
+        // 모달 닫기
+        setIsModalOpen(false);
+    };
+
+    const handleDelCompany = () => {
+        // 모달 열기
+        setIsModalOpen(true);
+    };
 
     return (
         <Container>
@@ -56,21 +75,17 @@ export default function CompanyManage() {
                     <Input value={projectDetail} size={22.8} onChange={handleChangeDetail}></Input>
                     <Button2 title="초대하기"></Button2>
                 </CategoryContainer>
-
-                {/* =========== 미완료 =========== */}
-                {/* tbody scroll */}
                 <CategoryContainer>
                     <CategoryTitle2>회사 멤버</CategoryTitle2>
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
                 </CategoryContainer>
-                {/* ============================ */}
-
                 <ButtonContainer>
-                    <Button title="회사 삭제" theme="red"></Button>
+                    <Button onClick={handleDelCompany} title="회사 삭제" theme="red"></Button>
                     <Button1 title="설정완료"></Button1>
                 </ButtonContainer>
+                <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm} />
             </MainContainer>
         </Container>
     );
