@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import pencil from "../../img/pencil.png";
 import minus from "../../img/minus.png";
 import plus from "../../img/plus.png";
 import check from "../../img/check.png";
 import clear from "../../img/clear.png";
-import {Title1, Title2} from "../../components/Text/Title";
+import {CategoryTitle, Title1, Title2} from "../../components/Text/Title";
 import {Container1} from "../../components/Container";
 import { Toggle } from "typescript-toggle";
 import ConfirmationModal from "../../components/Modal";
+import Input from "../../components/Input";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -34,62 +35,102 @@ interface Project {
 }
 
 export default function ProjectEdit() {
-  const [isEditMode, setIsEditMode] = useState<Boolean[]>([]);
-  const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [index, setIndex] = useState<Number>();
-  const [project, setProject] = useState<Project>(
-      {
-          "description": "카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다.",
-          "scope": true,
-          "title": "Owen-Choi Project"
-      }
-  )
-  const [categories, setCategories] = useState<CategoryData>(
-      {
-          categoryEachDtoList: [
-              {
-                  id: 1,
-                  title: "test category",
-                  description: "test category description"
-              },
-              {
-                  id: 2,
-                  title: "test category",
-                  description: "test category description"
-              },
-              {
-                  id: 3,
-                  title: "test category",
-                  description: "test category description"
-              }
-          ]
-      }
-  )
+    const [isEditMode, setIsEditMode] = useState<Boolean[]>([]);
+    const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+    const [index, setIndex] = useState<Number>();
+    const [isPlusButtonOn, setIsPlusButtonOn] = useState<boolean>(false);
+    const [categoryName, setCategoryName] = useState<string>("");
+    const [categoryDescription, setCategoryDescription] = useState<string>("");
+    const categoryNameRef = useRef('');
+    const categoryDescriptionRef = useRef('');
+    const [project, setProject] = useState<Project>(
+        {
+            "description": "카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다.",
+            "scope": true,
+            "title": "Owen-Choi Project"
+        }
+    )
+    const [categories, setCategories] = useState<CategoryData>(
+        {
+            categoryEachDtoList: [
+                {
+                    id: 1,
+                    title: "test category",
+                    description: "test category description"
+                },
+                {
+                    id: 2,
+                    title: "test category",
+                    description: "test category description"
+                },
+                {
+                    id: 3,
+                    title: "test category",
+                    description: "test category description"
+                }
+            ]
+        }
+    )
 
 
-  const [inputValue, SetInputValue] = useState("");
+    const [inputValue, SetInputValue] = useState("");
 
-  const handleCategoryEditClick = (index:number) => {
-      const updatedList = [...isEditMode];
-      updatedList[index] = !updatedList[index];
-      setIsEditMode(updatedList);
-  }
+    const handleCategoryEditClick = (index:number) => {
+        const updatedList = [...isEditMode];
+        updatedList[index] = !updatedList[index];
+        setIsEditMode(updatedList);
+    }
 
-  const handleTitleEditClick = () => {
-      setIsTitleEdit(!isTitleEdit);
-  }
+    const handleAddNewCategory = () => {
+        setIsAddModalOpen(true);
+    }
 
-  const handleRemoveButton = (index:number) => {
-      setIsModalOpen(true);
-      // 몇번째 인덱스의 리스트를 지울지 따로 저장해줘야 함
-      setIndex(index);
-  }
+    const handleTitleEditClick = () => {
+        setIsTitleEdit(!isTitleEdit);
+    }
+
+    const handleRemoveButton = (index:number) => {
+        setIsDeleteModalOpen(true);
+        // 몇번째 인덱스의 리스트를 지울지 따로 저장해줘야 함
+        setIndex(index);
+    }
 
     const handleModalCancel = () => {
         // 모달 닫기
-        setIsModalOpen(false);
+        setIsDeleteModalOpen(false);
     };
+
+    const handlePlusButton = () => {
+        setIsPlusButtonOn(!isPlusButtonOn);
+    }
+
+    const handleConfirmAddModal = () => {
+
+    }
+
+    const handleCancelAddModal = () => {
+        setIsAddModalOpen(false);
+    }
+
+    const handleCancelCategoryAdd = () => {
+        setIsPlusButtonOn(!isPlusButtonOn);
+    }
+
+    const handleCategoryNameChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setCategoryName(e.target.value);
+    }
+
+    const handleCategoryDescriptionChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+        categoryDescriptionRef.current = e.target.value;
+    }
+
+    const handleOnBlurCategoryDescription = () => {
+        setCategoryDescription(categoryDescriptionRef.current);
+    }
 
     const handleModalConfirm = () => {
         // TODO: 인덱스에 해당하는 카테고리 지우고 디비에 반영
@@ -101,82 +142,98 @@ export default function ProjectEdit() {
             )
         }))
         // 모달 닫기
-        setIsModalOpen(false);
+        setIsDeleteModalOpen(false);
     };
 
-  useEffect(() => {
+    useEffect(() => {
         const newBooleanList = new Array(categories.categoryEachDtoList.length).fill(false);
         setIsEditMode(newBooleanList);
-  }, [categories])
+    }, [categories])
 
-  return (
-    <Container>
-        <Scope>
-          <CompanyContainer>
-              <EditContainer>
-                  <CompanyName>{project.title}</CompanyName>
-                  {isTitleEdit ?
-                      (<EditButtonContainer>
-                          <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleEditClick} />
-                          <EditButton imageUrl={clear} width={24} height={24} onClick={handleTitleEditClick} />
-                      </EditButtonContainer>) :
-                      <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick}></EditButton>
-                  }
-              </EditContainer>
-            <CompanyIntro>
-                {project.description}
-            </CompanyIntro>
-          </CompanyContainer>
-            <ToggleContainer>
-                <EditContainer>
-                    <ScopeText>
-                        공개 여부
-                    </ScopeText>
-                    <Toggle isOn={project.scope} handleChange={() => setProject((project) => ({
-                        ...project,
-                        scope: !project.scope
-                    }))}/>
-                </EditContainer>
-            </ToggleContainer>
-        </Scope>
-        <ButtonContainer>
-            <Button1 title="프로젝트 관리"></Button1>
-            <Button1 title="Release Note"></Button1>
-        </ButtonContainer>
-        <DetailContainer>
-          <CategoryContainers>
-            {categories.categoryEachDtoList.map((category, index)=>(
-                <CategoryContainer>
+    return (
+        <Container>
+            <Scope>
+                <CompanyContainer>
                     <EditContainer>
-                            <CategoryName>{category.title}</CategoryName>
-                        {!isEditMode[index] ? (
-                            <EditButtonContainer>
-                                <EditButton imageUrl={pencil} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                                <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleRemoveButton(index)}/>
-                            </EditButtonContainer>
-                        ) : (
-                            <EditButtonContainer>
-                                <EditButton imageUrl={check} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                                <EditButton imageUrl={clear} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                            </EditButtonContainer>
-                        )}
+                        <CompanyName>{project.title}</CompanyName>
+                        {isTitleEdit ?
+                            (<EditButtonContainer>
+                                <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleEditClick} />
+                                <EditButton imageUrl={clear} width={24} height={24} onClick={handleTitleEditClick} />
+                            </EditButtonContainer>) :
+                            <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick}></EditButton>
+                        }
                     </EditContainer>
-                    <CategoryIntro>
-                        {category.description}
-                    </CategoryIntro>
-                </CategoryContainer>
-            ))}
-              <CategoryContainer>
-                  <CenteredContent>
-                    <EditButton imageUrl={plus} width={57} height={57}/>
-                  </CenteredContent>
-              </CategoryContainer>
-          </CategoryContainers>
-        </DetailContainer>
-        <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
-                           message={"삭제하시겠습니까?"}/>
-    </Container>
-  );
+                    <CompanyIntro>
+                        {project.description}
+                    </CompanyIntro>
+                </CompanyContainer>
+                <ToggleContainer>
+                    <EditContainer>
+                        <ScopeText>
+                            공개 여부
+                        </ScopeText>
+                        <Toggle isOn={project.scope} handleChange={() => setProject((project) => ({
+                            ...project,
+                            scope: !project.scope
+                        }))}/>
+                    </EditContainer>
+                </ToggleContainer>
+            </Scope>
+            <ButtonContainer>
+                <Button1 title="프로젝트 관리"></Button1>
+                <Button1 title="Release Note"></Button1>
+            </ButtonContainer>
+            <DetailContainer>
+                <CategoryContainers>
+                    {categories.categoryEachDtoList.map((category, index)=>(
+                        <CategoryContainer>
+                            <EditContainer>
+                                <CategoryName>{category.title}</CategoryName>
+                                {!isEditMode[index] ? (
+                                    <EditButtonContainer>
+                                        <EditButton imageUrl={pencil} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
+                                        <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleRemoveButton(index)}/>
+                                    </EditButtonContainer>
+                                ) : (
+                                    <EditButtonContainer>
+                                        <EditButton imageUrl={check} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
+                                        <EditButton imageUrl={clear} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
+                                    </EditButtonContainer>
+                                )}
+                            </EditContainer>
+                            <CategoryIntro>
+                                {category.description}
+                            </CategoryIntro>
+                        </CategoryContainer>
+                    ))}
+                    {!isPlusButtonOn ? (
+                        <CategoryContainer>
+                            <CenteredContent>
+                                <EditButton imageUrl={plus} width={57} height={57} onClick={handlePlusButton}/>
+                            </CenteredContent>
+                        </CategoryContainer>
+                    ) : (
+                        <CategoryContainer>
+                            <EditContainer>
+                                <Input placeholder={"제목을 입력해주세요"} value={categoryName} onChange={handleCategoryNameChange} />
+                                <EditButtonContainer>
+                                    <EditButton imageUrl={check} width={24} height={24} onClick={handleAddNewCategory} />
+                                    <EditButton imageUrl={clear} width={24} height={24} onClick={handleCancelCategoryAdd} />
+                                </EditButtonContainer>
+                            </EditContainer>
+                            <TextInput placeholder={"설명을 입력해주세요"} onChange={handleCategoryDescriptionChange} onBlur={handleOnBlurCategoryDescription} />
+                        </CategoryContainer>
+                    )
+                    }
+                </CategoryContainers>
+            </DetailContainer>
+            <ConfirmationModal isOpen={isDeleteModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
+                               message={"삭제하시겠습니까?"}/>
+            <ConfirmationModal isOpen={isAddModalOpen} onCancel={handleCancelAddModal} onConfirm={handleConfirmAddModal}
+                               message={"새 카테고리를 추가 하시겠습니까?"}/>
+        </Container>
+    );
 }
 
 export const Container = styled.div`
@@ -311,4 +368,16 @@ export const CenteredContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const TextInput = styled.textarea`
+  padding: 10px;
+  color: #808080;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 1.5rem;
+  min-height: 20rem;
+  outline: none;
+  font-size: 14px;
+  resize: none;
 `;
