@@ -7,7 +7,7 @@ import clear from "../../img/clear.png";
 import {Title1, Title2} from "../../components/Text/Title";
 import {Container1} from "../../components/Container";
 import markdown from "../company/markdown";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 
@@ -20,6 +20,7 @@ interface EditButtonProps {
 export default function CategoryCreate() {
   const [isPreview, setIsPreview] = useState(false);
   const [markdown, setMarkdown] = useState("# Title");
+  const markdownRef = useRef('');
   const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
 
   const handleClickPreview = () => {
@@ -28,6 +29,17 @@ export default function CategoryCreate() {
 
     const handleTitleEditClick = () => {
         setIsTitleEdit(!isTitleEdit);
+    }
+
+    const handleMarkdownChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+        markdownRef.current = e.target.value
+    }
+
+    const handleOnBlur = () => {
+      if(markdown !== markdownRef.current) {
+          setMarkdown(markdownRef.current);
+      }
     }
 
   return (
@@ -55,8 +67,12 @@ export default function CategoryCreate() {
                     <EditButton imageUrl={pencil} width={24} height={24} onClick={handleClickPreview}/> :
                     <EditButton imageUrl={eye} width={24} height={24} onClick={handleClickPreview}/>}
             </PreviewContainer>
-            {isPreview ?
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown> : <TextInput defaultValue={markdown} />
+            {isPreview ? (
+                <MarkDownPreviewContainer >
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+                </MarkDownPreviewContainer>
+                )
+                : <TextInput defaultValue={markdown} onChange={handleMarkdownChange} onBlur={handleOnBlur}/>
             }
             <PreviewContainer>
                 <Button title="취소하기"></Button>
@@ -187,6 +203,16 @@ export const TextInput = styled.textarea`
   outline: none;
   font-size: 16px;
   resize: none;
+`;
+
+export const MarkDownPreviewContainer = styled.div`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 1.5rem;
+  min-height: 20rem;
+  outline: none;
+  font-size: 16px;
 `;
 
 export const ButtonMargin = styled(Button)`
