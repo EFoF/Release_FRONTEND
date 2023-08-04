@@ -21,9 +21,9 @@ export default function Signup() {
     readOnly?: boolean;
     isCertification?: {
       title: string;
-      size: "large" | "medium" | "small";
-      disabled: boolean;
-      theme: string;
+      size: number; 
+      disabled?: boolean;
+      theme?: string;
       onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
     };
   };
@@ -36,6 +36,11 @@ export default function Signup() {
     //   onChange: onChangeEmail,
       type: "email",
       placeholder: "",
+      isCertification: {
+        title: "인증",
+        size: 15,
+        disabled: false,
+      },
     },
     {
       label: "인증번호 입력",
@@ -45,6 +50,11 @@ export default function Signup() {
     //   onChange: setCode,
       placeholder: "",
       readOnly: false,
+      isCertification: {
+        title: "인증 완료",
+        size: 15,
+        disabled: false,
+      },
     },
     {
       label: "이름",
@@ -97,6 +107,15 @@ export default function Signup() {
                 placeholder={input.placeholder}
                 readOnly={input.readOnly}
               />
+              {input.isCertification && (
+                <CertificationStyledButton
+                  title={input.isCertification?.title}
+                  // size="15"
+                  disabled={input.isCertification.disabled}
+                  // theme={input.isCertification?.theme}
+                  onClick={input.isCertification?.onClick}
+                />
+              )}
             </InputContainer>
           )
         )}
@@ -210,10 +229,11 @@ const PartTitle = styled.div`
 const CertificationStyledButton = styled(Button)`
   margin-top: 2.6rem;
   font-size: 1.4rem;
-  height: 4.7rem;
+  height: 3.1rem;
   border-radius: 0.7rem;
-  width: 7.32rem;
+  min-width: 7.32rem;
 `;
+
 const CodeStyledButton = styled(Button)`
   margin-top: 2.6rem;
   font-size: 1.4rem;
