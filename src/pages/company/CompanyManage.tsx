@@ -8,15 +8,6 @@ import MemberTable from "../../components/Table/memberTable";
 import AddFile from "../../components/AddFile";
 import ConfirmationModal from "../../components/Modal";
 
-// const initMembers = [
-//     { name: '이름1', email: '이메일1' },
-//     { name: '이름2', email: '이메일2' },
-//     { name: '이름3', email: '이메일3' },
-//     { name: '이름4', email: '이메일4' },
-//     { name: '이름5', email: '이메일5' },
-// ];
-//
-
 const initMembers = [
     {
         "id": 1,
