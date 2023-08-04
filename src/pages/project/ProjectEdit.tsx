@@ -39,6 +39,7 @@ export default function ProjectEdit() {
     const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+    const [isModifyModalOpen, setIsModifyModalOpen] = useState<boolean>(false);
     const [index, setIndex] = useState<Number>();
     const [isPlusButtonOn, setIsPlusButtonOn] = useState<boolean>(false);
     const [categoryName, setCategoryName] = useState<string>("");
@@ -132,6 +133,18 @@ export default function ProjectEdit() {
         setCategoryDescription(categoryDescriptionRef.current);
     }
 
+    const handleEditConfirmButton = (index:number) => {
+        setIsModifyModalOpen(true);
+    }
+
+    const handleCancelModifyModal = () => {
+        setIsModifyModalOpen(false);
+    }
+
+    const handleConfirmModifyModal = () => {
+        setIsModifyModalOpen(false);
+    }
+
     const handleModalConfirm = () => {
         // TODO: 인덱스에 해당하는 카테고리 지우고 디비에 반영
         // JSON 데이터 수정
@@ -188,23 +201,27 @@ export default function ProjectEdit() {
                 <CategoryContainers>
                     {categories.categoryEachDtoList.map((category, index)=>(
                         <CategoryContainer>
-                            <EditContainer>
-                                <CategoryName>{category.title}</CategoryName>
                                 {!isEditMode[index] ? (
-                                    <EditButtonContainer>
-                                        <EditButton imageUrl={pencil} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                                        <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleRemoveButton(index)}/>
-                                    </EditButtonContainer>
+                                    <EditContainer>
+                                        <CategoryName>{category.title}</CategoryName>
+                                        <EditButtonContainer>
+                                            <EditButton imageUrl={pencil} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
+                                            <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleRemoveButton(index)}/>
+                                        </EditButtonContainer>
+                                    </EditContainer>
                                 ) : (
-                                    <EditButtonContainer>
-                                        <EditButton imageUrl={check} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                                        <EditButton imageUrl={clear} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                                    </EditButtonContainer>
+                                    <EditContainer>
+                                        <Input placeholder={"제목을 입력해주세요"} value={category.title}/>
+                                        <EditButtonContainer>
+                                            <EditButton imageUrl={check} width={24} height={24} onClick={()=>handleEditConfirmButton(index)} />
+                                            <EditButton imageUrl={clear} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
+                                        </EditButtonContainer>
+                                    </EditContainer>
                                 )}
-                            </EditContainer>
-                            <CategoryIntro>
-                                {category.description}
-                            </CategoryIntro>
+                            {!isEditMode[index] ?
+                                <CategoryIntro>{category.description}</CategoryIntro> :
+                                <TextInput placeholder={"설명을 입력해주세요"} defaultValue={category.description} onChange={handleCategoryDescriptionChange} onBlur={handleOnBlurCategoryDescription} />
+                            }
                         </CategoryContainer>
                     ))}
                     {!isPlusButtonOn ? (
@@ -232,6 +249,8 @@ export default function ProjectEdit() {
                                message={"삭제하시겠습니까?"}/>
             <ConfirmationModal isOpen={isAddModalOpen} onCancel={handleCancelAddModal} onConfirm={handleConfirmAddModal}
                                message={"새 카테고리를 추가 하시겠습니까?"}/>
+            <ConfirmationModal isOpen={isModifyModalOpen} onCancel={handleCancelModifyModal} onConfirm={handleConfirmModifyModal}
+                               message={"변경내역을 반영하시겠습니까?"}/>
         </Container>
     );
 }
