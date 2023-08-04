@@ -7,6 +7,7 @@ const Label = styled.div`
   font-size: 1.3rem;
   color: ${COLORS.GREY[500]};
   padding-bottom: 1rem;
+  padding-left: 0.2rem;
 `;
 
 const InputWrapper = styled.input<{ size: number }>`

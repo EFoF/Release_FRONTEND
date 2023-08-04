@@ -135,9 +135,10 @@ const PersonalInfo = styled.div`
 
 const StyledCheckBox = styled(Input)`
   zoom: 1.2;
-  margin-top: -1rem;
+  margin-top: -0.7rem;
   margin-right: 0.5rem;
 `;
+
 const SignupButton = styled.button`
   font-size: 1.3rem;
   color: ${COLORS.GREY[400]};
@@ -152,6 +153,10 @@ const Warn = styled.p`
   font-size: 1.1rem;
   padding-top: 1rem;
 `;
+
+const CheckString = styled.p`
+  
+`
 
 
 export default function Signup() {
@@ -219,26 +224,8 @@ export default function Signup() {
       placeholder: "",
       readOnly: false,
     },
-    {
-      label: "닉네임",
-      size: 38.38,
-      value: "nickname",
-      type: "text",
-    //   onChange: onChangeNickname,
-      placeholder: "",
-      message: "2글자 이상 입력해주세요.",
-      readOnly: false,
-      isCertification: {
-        title: "확인",
-        size: "small",
-        disabled: false,
-        theme: "quaternary",
-        // onClick: () => {
-        //   checkNickname();
-        // },
-      },
-    },
   ];
+
   return (
     <Wrapper>
       <Container>
@@ -260,6 +247,16 @@ export default function Signup() {
             </InputContainer>
           )
         )}
+        <PersonalDiv>
+          <StyledCheckBox
+            type="checkbox"
+            value=""
+            size={1.3}
+            // onChange={handleCheckboxChange}
+          />
+          <CheckString>DOKLIB 개인정보 수집 및 동의 (필수)</CheckString>
+          <PersonalInfo>자세히</PersonalInfo>
+        </PersonalDiv>
         <Buttons>
           이미 계정이 있으신가요?
           <SignupButton>
