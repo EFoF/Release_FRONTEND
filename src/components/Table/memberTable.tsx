@@ -16,6 +16,7 @@ interface MemberTableProps {
 const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [data, setData] = useState(members);
+    const [indexToDelete, setIndexToDelete] = useState(-1); // 기본값 -1로 설정
 
     // data가 변경될 때마다 members도 업데이트
     useEffect(() => {
@@ -27,10 +28,8 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
     };
 
     const handleModalConfirm = () => {
-        const updatedData = data.slice();
-        const indexToDelete = 0;
-
-        if (indexToDelete >= 0 && indexToDelete < updatedData.length) {
+        if (indexToDelete >= 0 && indexToDelete < data.length) {
+            const updatedData = data.slice();
             updatedData.splice(indexToDelete, 1);
             setData(updatedData);
         }
@@ -38,42 +37,43 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
         setIsModalOpen(false);
     };
 
-    const deleteMember = () => {
+    const deleteMember = (index: number) => { // 삭제 버튼 클릭 시 인덱스를 받아옴
         setIsModalOpen(true);
+        setIndexToDelete(index); // 클릭한 멤버의 인덱스를 설정
     };
 
     return (
         <Table>
-        <TableWrapper>
-            <thead>
-            <tr>
-                <HeaderCell1 width="30%">이름</HeaderCell1>
-                <HeaderCell1 width="60%">이메일</HeaderCell1>
-                <HeaderCell1 width="10%" />
-            </tr>
-            </thead>
-            <tbody>
-            {data.map((member, index) => (
-                <TableRow key={index}>
-                    <TableCell1 width="30%">{member.name}</TableCell1>
-                    <TableCell2 width="60%">{member.email}</TableCell2>
-                    <TableCell2 onClick={deleteMember} width="10%">
-                        <DeleteImg src={minus} />
-                    </TableCell2>
-
-                    <ConfirmationModal
-                        isOpen={isModalOpen}
-                        onCancel={handleModalCancel}
-                        onConfirm={handleModalConfirm}
-                        message={"해당 멤버를 삭제하시겠습니까?"}
-                    />
-                </TableRow>
-            ))}
-            </tbody>
-        </TableWrapper>
+            <TableWrapper>
+                <thead>
+                <tr>
+                    <HeaderCell1 width="30%">이름</HeaderCell1>
+                    <HeaderCell1 width="60%">이메일</HeaderCell1>
+                    <HeaderCell1 width="10%" />
+                </tr>
+                </thead>
+                <tbody>
+                {data.map((member, index) => (
+                    <TableRow key={index}>
+                        <TableCell1 width="30%">{member.name}</TableCell1>
+                        <TableCell2 width="60%">{member.email}</TableCell2>
+                        <TableCell2 onClick={() => deleteMember(index)} width="10%"> {/* 인덱스 전달 */}
+                            <DeleteImg src={minus} />
+                        </TableCell2>
+                    </TableRow>
+                ))}
+                </tbody>
+            </TableWrapper>
+            <ConfirmationModal
+                isOpen={isModalOpen}
+                onCancel={handleModalCancel}
+                onConfirm={handleModalConfirm}
+                message={"해당 멤버를 삭제하시겠습니까?"}
+            />
         </Table>
     );
 };
+
 
 const Table = styled.table`
   width: 100%;
