@@ -7,7 +7,17 @@ import {CompanyTitle} from "../company/myProjects";
 import {Title1} from "../../components/Text/Title";
 import PATH from "../../constants/path";
 
+interface Member {
+    username: string;
+    email: string;
+}
 export default function Member() {
+    const memberResponseDTO: Member = {
+        username: "Owen Choi",
+        email: "owen123@naver.com",
+    };
+
+
     const navigate = useNavigate();
 
     const handlePasswordChange = () => {
@@ -25,11 +35,11 @@ export default function Member() {
                     <InfoTitle>정보 수정</InfoTitle>
                     <InfoItem>
                         <Label>이름</Label>
-                        <Info>Owen Choi</Info>
+                        <Info>{memberResponseDTO.username}</Info>
                     </InfoItem>
                     <InfoItem>
                         <Label>이메일</Label>
-                        <Info>owen123@naver.com</Info>
+                        <Info>{memberResponseDTO.email}</Info>
                     </InfoItem>
                     <ButtonContainer>
                         <Button onClick={handlePasswordChange} title={"비밀번호 변경"}></Button>
