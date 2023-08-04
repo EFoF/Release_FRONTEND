@@ -7,6 +7,127 @@ import styled, { keyframes } from "styled-components";
 import COLORS from "../../constants/color";
 import Button from "../../components/Button";
 
+
+export default function Signup() {
+
+  type InputProps = {
+    label: string;
+    size: number;
+    value: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    type: string;
+    message?: string;
+    placeholder: string;
+    readOnly?: boolean;
+    isCertification?: {
+      title: string;
+      size: "large" | "medium" | "small";
+      disabled: boolean;
+      theme: string;
+      onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+    };
+  };
+
+  const InputList: InputProps[] = [
+    {
+      label: "이메일 주소",
+      size: 35.38,
+      value: "email",
+    //   onChange: onChangeEmail,
+      type: "email",
+      placeholder: "",
+    },
+    {
+      label: "인증번호 입력",
+      size: 35.38,
+      value: "code",
+      type: "text",
+    //   onChange: setCode,
+      placeholder: "",
+      readOnly: false,
+    },
+    {
+      label: "이름",
+      size: 46.5,
+      value: "username",
+    //   onChange: onChangeName,
+      type: "text",
+      placeholder: "",
+      readOnly: false,
+    },
+    {
+      label: "비밀번호",
+      size: 46.5,
+      value: "password",
+    //   onChange: onChangePassword,
+      type: "password",
+      placeholder: "",
+      message: `8자 이상 16자 이하로 입력해주세요.`,
+      readOnly: false,
+    },
+    {
+      label: "비밀번호 확인",
+      size: 46.5,
+      value: "passwordCheck",
+    //   onChange: onChangePasswordCheck,
+      type: "password",
+      placeholder: "",
+      readOnly: false,
+    },
+  ];
+
+  return (
+    <Wrapper>
+      <Container>
+        <SignupTitleContainer>
+          <SignupTitle>회원가입</SignupTitle>
+          <SignupIntro>가입 후 더 많은 기능을 누려보세요!</SignupIntro>
+        </SignupTitleContainer>
+        {InputList.map((input) =>
+           (
+            <InputContainer>
+              <Input
+                key={input.label}
+                size={input.size}
+                label={input.label}
+                value={input.value}
+                type={input.type}
+                onChange={input.onChange}
+                message={input.message}
+                placeholder={input.placeholder}
+                readOnly={input.readOnly}
+              />
+            </InputContainer>
+          )
+        )}
+        <PersonalDiv>
+          <StyledCheckBox
+            type="checkbox"
+            value=""
+            size={1.3}
+            // onChange={handleCheckboxChange}
+          />
+          DOKLIB 개인정보 수집 및 동의 (필수)
+          <PersonalInfo>자세히</PersonalInfo>
+        </PersonalDiv>
+        <Buttons>
+          이미 계정이 있으신가요?
+          <SignupButton>
+            <Link to={PATH.LOGIN}>로그인</Link>
+          </SignupButton>
+          <SignUpStyledButton
+            title="계정 만들기"
+            width="13.5rem"          
+            // disabled={}
+          />
+        </Buttons>
+      </Container>
+    </Wrapper>
+  );
+}
+
+
+
 const Wrapper = styled.div`
   margin-top: 3rem;
   display: flex;
@@ -16,8 +137,6 @@ const Wrapper = styled.div`
   gap: 3rem;
 //   height: 60rem;
   font-size: 1.2rem;
-  border-radius: 0.5rem;
-
 `;
 
 const Container = styled.div`
@@ -154,121 +273,20 @@ const Warn = styled.p`
   padding-top: 1rem;
 `;
 
-const CheckString = styled.p`
-  
-`
+const SignupTitleContainer = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
+`;
 
+const SignupTitle = styled.h1`
+font-family: S-Regular;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
 
-export default function Signup() {
-
-  type InputProps = {
-    label: string;
-    size: number;
-    value: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    type: string;
-    message?: string;
-    placeholder: string;
-    readOnly?: boolean;
-    isCertification?: {
-      title: string;
-      size: "large" | "medium" | "small";
-      disabled: boolean;
-      theme: string;
-      onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
-    };
-  };
-  const InputList: InputProps[] = [
-    {
-      label: "이메일 주소",
-      size: 38.38,
-      value: "email",
-    //   onChange: onChangeEmail,
-      type: "email",
-      placeholder: "",
-    },
-    {
-      label: "인증번호 입력",
-      size: 35.38,
-      value: "code",
-      type: "text",
-    //   onChange: setCode,
-      placeholder: "",
-      readOnly: false,
-    },
-    {
-      label: "비밀번호",
-      size: 46.5,
-      value: "password",
-    //   onChange: onChangePassword,
-      type: "password",
-      placeholder: "",
-      message: `8자 이상 16자 이하로 입력해주세요.`,
-      readOnly: false,
-    },
-    {
-      label: "비밀번호 확인",
-      size: 46.5,
-      value: "passwordCheck",
-    //   onChange: onChangePasswordCheck,
-      type: "password",
-      placeholder: "",
-      readOnly: false,
-    },
-    {
-      label: "이름",
-      size: 46.5,
-      value: "username",
-    //   onChange: onChangeName,
-      type: "text",
-      placeholder: "",
-      readOnly: false,
-    },
-  ];
-
-  return (
-    <Wrapper>
-      <Container>
-        {InputList.map((input) =>
-           (
-            <InputContainer>
-              <Input
-                key={input.label}
-                size={input.size}
-                label={input.label}
-                value={input.value}
-                type={input.type}
-                onChange={input.onChange}
-                message={input.message}
-                placeholder={input.placeholder}
-                readOnly={input.readOnly}
-              />
-              
-            </InputContainer>
-          )
-        )}
-        <PersonalDiv>
-          <StyledCheckBox
-            type="checkbox"
-            value=""
-            size={1.3}
-            // onChange={handleCheckboxChange}
-          />
-          <CheckString>DOKLIB 개인정보 수집 및 동의 (필수)</CheckString>
-          <PersonalInfo>자세히</PersonalInfo>
-        </PersonalDiv>
-        <Buttons>
-          이미 계정이 있으신가요?
-          <SignupButton>
-            <Link to={PATH.LOGIN}>로그인</Link>
-          </SignupButton>
-          <SignUpStyledButton
-            title="계정 만들기"
-            width="13.5rem"          
-            // disabled={}
-          />
-        </Buttons>
-      </Container>
-    </Wrapper>
-  );
-}
+const SignupIntro = styled.p`
+font-family: S-light;
+  font-size: 1.2rem;
+  color: gray;
+`;

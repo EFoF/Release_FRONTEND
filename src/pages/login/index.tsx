@@ -89,12 +89,33 @@ const Message = styled.p`
   padding-top: 1rem;
 `;
 
+
+const SignupTitleContainer = styled.div`
+  text-align: center;
+`;
+
+const SignupTitle = styled.h1`
+font-family: S-Regular;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
+
+const SignupIntro = styled.p`
+font-family: S-light;
+  font-size: 1.2rem;
+  color: gray;
+`;
+
 export default function Login() {
   const navigate = useNavigate();
   let message = "";
 
   return (
     <Containers>
+      <SignupTitleContainer>
+        <SignupTitle>로그인</SignupTitle>
+      </SignupTitleContainer>
       <LoginForm>
         <LoginBox>
           <BoxTitle>아이디</BoxTitle>
