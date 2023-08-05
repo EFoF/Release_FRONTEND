@@ -1,10 +1,6 @@
 import styled from "styled-components";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
 import React, {useState} from "react"
-import {CategoryTitle, Title1, Title2} from "../../components/Text/Title";
-import toggleOff from "../../img/ri_toggle-line.png"
-import toggleOn from "../../img/ri_toggle-fill.png"
+import {Title1, Title2} from "../../components/Text/Title";
 import kakaoenter from "../../img/kakao-enter.jpg";
 import naver from "../../img/naver.png";
 import kakaopay from "../../img/kakao-pay.jpg";
@@ -15,30 +11,76 @@ import kakaogames from "../../img/kakao-games.jpg";
 import facebook from "../../img/facebook.png";
 import {useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
-import {
-    CompanyCard,
-    CompanyContainer,
-    CompanyImage,
-    CompanyListContainer,
-    CompanyName, ProjectCard,
-    ProjectContainer, ProjectImage, ProjectListContainer, ProjectName
-} from "../home";
+import {ProjectCard, ProjectContainer, ProjectImage, ProjectListContainer, ProjectName} from "../home";
 
+interface Project {
+    // id : number;
+    name: string;
+    imgURL: string;
+    companyId: number;
+}
 
-export default function ProjectCreate() {
-    const projects = [
-        {name: "DOKSEOL", imageUrl: kakaoenter},
-        {name: "DOKLIB", imageUrl: naver},
-        {name: "DOKBAK", imageUrl: kakaopay},
-        {name: "DOKDIE", imageUrl: kakaobrain},
-        {name: "DOKSA", imageUrl: eagle},
-        {name: "DOKDO", imageUrl: kakaobank},
-        {name: "DOKSURI", imageUrl: kakaogames},
-        {name: "DOKPA", imageUrl: facebook},
-    ];
+interface ProjectData {
+    findProjectListByCompanyResponseDtoList: Project[];
+}
+
+export default function MyProjects() {
+    const [projects, setProjects] = useState<ProjectData>(
+        {
+            findProjectListByCompanyResponseDtoList: [
+                {
+                    // id: 1,
+                    name: "DOKSEOL",
+                    imgURL: kakaoenter,
+                    companyId: 1,
+                },
+                {
+                    // id: 1,
+                    name: "DOKLIB",
+                    imgURL: kakaoenter,
+                    companyId: 1,
+                },
+                {
+                    // id: 1,
+                    name: "DOKBAK",
+                    imgURL: naver,
+                    companyId: 2,
+                },
+                {
+                    // id: 1,
+                    name: "DOKODIE",
+                    imgURL: naver,
+                    companyId: 2,
+                },
+                {
+                    // id: 1,
+                    name: "DOKSAA",
+                    imgURL: kakaogames,
+                    companyId: 3,
+                },
+                {
+                    // id: 1,
+                    name: "DOKDO",
+                    imgURL: kakaogames,
+                    companyId: 3,
+                },
+                {
+                    // id: 1,
+                    name: "DOKSURI",
+                    imgURL: facebook,
+                    companyId: 4,
+                },
+                {
+                    // id: 1,
+                    name: "DOKPA",
+                    imgURL: facebook,
+                    companyId: 4,
+                }
+            ]
+        }
+    )
 
     const navigate = useNavigate();
-    const [searchKey, setSearchKey] = useState("");
 
     const handleCompanyClick = () => {
         navigate(PATH.COMPANYMAIN);
@@ -51,17 +93,16 @@ export default function ProjectCreate() {
     return (
         <Container>
             <MainContainer>
-                <div style={{ display: "flex" }}>
+                <div style={{display: "flex"}}>
                     <CompanyTitle onClick={companyClick}>내가 소속된 회사</CompanyTitle>
                     <ProjectTitle>내가 소속된 프로젝트</ProjectTitle>
                 </div>
                 <ProjectContainer>
                     <ProjectListContainer>
-                        {projects
-                            .filter((c) => c.name.includes(searchKey))
+                        {projects.findProjectListByCompanyResponseDtoList
                             .map((project, index) => (
                                 <ProjectCard key={index} onClick={handleCompanyClick}>
-                                    <ProjectImage src={project.imageUrl} alt={project.name}/>
+                                    <ProjectImage src={project.imgURL} alt={project.name}/>
                                     <ProjectName>{project.name}</ProjectName>
                                 </ProjectCard>
                             ))}

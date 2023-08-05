@@ -1,37 +1,118 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import {useState} from "react"
+import React, {useState} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
-import toggleOff from "../../img/ri_toggle-line.png"
-import toggleOn from "../../img/ri_toggle-fill.png"
-import {LogoBox} from "../../components/Layout/Header";
 import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
-import memberTable from "../../components/Table/memberTable";
-import AddFile from "../../components/AddFile";
+import ConfirmationModal from "../../components/Modal";
+import PATH from "../../constants/path";
+import {useNavigate} from "react-router-dom";
 
-const members = [
-    { name: '이름1', email: 'eeeeeeeeeeeee이메일1' },
-    { name: '이름2', email: '이메일2' },
-    { name: '이름3', email: '이메일3' },
-    { name: '이름4', email: '이메일4' },
-    { name: '이름5', email: '이메일5' },
-];
+const initMembersDTOS = {
+    "memberListDTOS": [
+        {
+            "id": 1,
+            "name": "user111",
+            "email": "user111@test.com"
+        },
+        {
+            "id": 3,
+            "name": "user333",
+            "email": "user333@test.com"
+        },
+        {
+            "id": 4,
+            "name": "user444",
+            "email": "user444@test.com"
+        },
+        {
+            "id": 2,
+            "name": "user222",
+            "email": "user222@test.com"
+        }
+    ]
+}
+
+const initMembers = initMembersDTOS.memberListDTOS;
 
 export default function CompanyManage() {
     const [projectName, setProjectName] = useState("");
-    const [projectDetail, setProjectDetail] = useState("");
+    const [memberEmail, setMemberEmail] = useState("");     // 초대원 이메일
+    const [isModalOpen1, setIsModalOpen1] = useState(false);
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
+    const [isModalOpen3, setIsModalOpen3] = useState(false);
+    const [members, setMembers] = useState(initMembers);
+    const navigate = useNavigate();
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setProjectName(e.target.value)
     }
 
-    const handleChangeDetail = (e : React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setProjectDetail(e.target.value)
+        setMemberEmail(e.target.value)
     }
+
+    // ===================================
+    // 프로젝트 삭제 모달
+    const handleModalConfirm = () => {
+        setIsModalOpen1(false);
+        navigate(PATH.COMPANY);
+    };
+
+    const handleModalCancel = () => {
+        setIsModalOpen1(false);
+    };
+
+    const handleDelProject = () => {
+        // 모달 열기
+        setIsModalOpen1(true);
+    };
+
+    // ===================================
+    // 초대 확인 모달
+    const handleInviteModalConfirm = () => {
+        // 입력한 이메일을 배열에 추가
+        // 여기서 받은 responseDto 에서 name과 email 추가하기!
+        if (memberEmail.trim() !== "") {
+            const newMember = {
+                id: members.length+1,
+                name: `이름 ${members.length+1}`,
+                email: memberEmail};
+            setMembers([...members, newMember]);
+
+            setMemberEmail(""); // 초대 입력창 비우기
+        }
+        setIsModalOpen2(false);
+    };
+
+    const handleInviteModal = () => {
+        setIsModalOpen2(true);
+    };
+
+    const handleInviteModalCancel = () => {
+        // 모달 닫기
+        setIsModalOpen2(false);
+    };
+
+    // ===================================
+    // 설정 완료 모달
+    const handleConfirm = () => {
+        setIsModalOpen3(true);
+    }
+
+    const handleModalCancel3 = () => {
+        setIsModalOpen3(false);
+    };
+
+    const handleModalConfirm3 = () => {
+        setIsModalOpen3(false);
+        navigate(PATH.COMPANY);
+    };
+
+    // ===================================
 
     return (
         <Container>
@@ -47,24 +128,33 @@ export default function CompanyManage() {
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>초대원 이메일</CategoryTitle1>
-                    <Input value={projectDetail} size={22.8} onChange={handleChangeDetail}></Input>
-                    <Button2 title="초대하기"></Button2>
+                    <Input value={memberEmail} size={22.8} onChange={handleChangeEmail}></Input>
+                    <Button2 onClick={handleInviteModal} title="초대하기"></Button2>
                 </CategoryContainer>
-
-                {/* =========== 미완료 =========== */}
-                {/* tbody scroll */}
                 <CategoryContainer>
                     <CategoryTitle2>프로젝트 멤버</CategoryTitle2>
                     <TableContainer>
                         <MemberTable members={members} />
                     </TableContainer>
                 </CategoryContainer>
-                {/* ============================ */}
-
                 <ButtonContainer>
-                    <Button title="프로젝트 삭제" theme="red"></Button>
-                    <Button1 title="설정완료"></Button1>
+                    <Button onClick={handleDelProject} title="프로젝트 삭제" theme="red"></Button>
+                    <Button1 onClick={handleConfirm} title="설정완료"></Button1>
                 </ButtonContainer>
+                <ConfirmationModal isOpen={isModalOpen1}
+                                   onCancel={handleModalCancel}
+                                   onConfirm={handleModalConfirm}
+                                   message={"프로젝트를 삭제하시겠습니까?"}/>
+
+                <ConfirmationModal isOpen={isModalOpen2}
+                                   onCancel={handleInviteModalCancel}
+                                   onConfirm={handleInviteModalConfirm}
+                                   message={memberEmail+"님을 초대하시겠습니까?"}/>
+
+                <ConfirmationModal isOpen={isModalOpen3}
+                                   onCancel={handleModalCancel3}
+                                   onConfirm={handleModalConfirm3}
+                                   message={"설정을 완료하시겠습니까?"}/>
             </MainContainer>
         </Container>
     );

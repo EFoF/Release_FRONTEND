@@ -1,10 +1,6 @@
 import styled from "styled-components";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
 import React, {useState} from "react"
-import {CategoryTitle, Title1, Title2} from "../../components/Text/Title";
-import toggleOff from "../../img/ri_toggle-line.png"
-import toggleOn from "../../img/ri_toggle-fill.png"
+import {Title1, Title2} from "../../components/Text/Title";
 import kakaoenter from "../../img/kakao-enter.jpg";
 import naver from "../../img/naver.png";
 import kakaopay from "../../img/kakao-pay.jpg";
@@ -17,21 +13,65 @@ import {useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import {CompanyCard, CompanyContainer, CompanyImage, CompanyListContainer, CompanyName} from "../home";
 
+interface Company {
+    id: number;
+    name: string;
+    imageUrl: string;
+}
 
-export default function ProjectCreate() {
-    const companies = [
-        {name: "카카오 엔터프라이즈", imageUrl: kakaoenter},
-        {name: "네이버", imageUrl: naver},
-        {name: "카카오페이", imageUrl: kakaopay},
-        {name: "카카오 브레인", imageUrl: kakaobrain},
-        {name: "EagleEagle", imageUrl: eagle},
-        {name: "카카오 뱅크", imageUrl: kakaobank},
-        {name: "카카오 게임즈", imageUrl: kakaogames},
-        {name: "페이스북", imageUrl: facebook},
-    ];
+interface CompanyData {
+    companyResponseDTOList: Company[];
+}
+
+export default function MyCompanies() {
+    const [companies, setCompanies] = useState<CompanyData>(
+        {
+            companyResponseDTOList: [
+                {
+                    id: 1,
+                    name: "카카오 엔터프라이즈",
+                    imageUrl: kakaoenter
+                },
+                {
+                    id: 2,
+                    name: "네이버",
+                    imageUrl: naver
+                },
+                {
+                    id: 3,
+                    name: "카카오페이",
+                    imageUrl: kakaopay
+                },
+                {
+                    id: 4,
+                    name: "카카오 브레인",
+                    imageUrl: kakaobrain
+                },
+                {
+                    id: 5,
+                    name: "EagleEagle",
+                    imageUrl: eagle
+                },
+                {
+                    id: 6,
+                    name: "카카오 뱅크",
+                    imageUrl: kakaobank
+                },
+                {
+                    id: 7,
+                    name: "카카오 게임즈",
+                    imageUrl: kakaogames
+                },
+                {
+                    id: 8,
+                    name: "페이스북",
+                    imageUrl: facebook
+                }
+            ]
+        }
+    )
 
     const navigate = useNavigate();
-    const [searchKey, setSearchKey] = useState("");
 
     const handleCompanyClick = () => {
         navigate(PATH.COMPANYMAIN);
@@ -44,14 +84,13 @@ export default function ProjectCreate() {
     return (
         <Container>
             <MainContainer>
-                <div style={{ display: "flex" }}>
+                <div style={{display: "flex"}}>
                     <CompanyTitle>내가 소속된 회사</CompanyTitle>
                     <ProjectTitle onClick={projectClick}>내가 소속된 프로젝트</ProjectTitle>
                 </div>
                 <CompanyContainer>
                     <CompanyListContainer>
-                        {companies
-                            .filter((c) => c.name.includes(searchKey))
+                        {companies.companyResponseDTOList
                             .map((company, index) => (
                                 <CompanyCard key={index} onClick={handleCompanyClick}>
                                     <CompanyImage src={company.imageUrl} alt={company.name}/>
