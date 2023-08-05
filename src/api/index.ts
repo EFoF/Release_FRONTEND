@@ -5,9 +5,14 @@ import PATH from "../constants/path";
 axios.defaults.baseURL = API.BASE_URL;
 axios.defaults.withCredentials = true;
 
+const handleUnauthorized = () => {
+  localStorage.clear();
+  window.location.href = PATH.HOME;
+}
+
 const authorizationClient = axios.create({
   baseURL: API.BASE_URL,
-  withCredentials: true, // 요청보낼 때 자격 증명 정보(인증 헤더 등)을 포함시킴
+  withCredentials: true, // 요청보낼 때 자격 증명 정보(인증 헤더 등)을 포함시킴 (origin이 달라도)
 });
 
 authorizationClient.interceptors.request.use((config) => {
@@ -17,6 +22,25 @@ authorizationClient.interceptors.request.use((config) => {
     },
   });
 });
+
+//accesstoken 가지고 있는지 상태 여부 
+let isAlreadyFetchingAccessToken = false;
+
+//파라미터로 토큰을 가진 함수 타입 
+type Subscriber = (accessToken: string) => { };
+//위 함수 타입을 저장해놓는 배열 
+let subscribers: Subscriber[] = [];
+
+//subscribers 배열에 함수를 추가하는 기능 
+function addSubscribers(callback: Subscriber) {
+  subscribers.push(callback)
+}
+
+function onAccessTokenFetched(accessToken: string) {
+  subscribers.forEach((callback)=>{
+    callback(accessToken)
+  })
+}
 
 const unAuthorizationClient = axios.create({
   baseURL: API.BASE_URL,
