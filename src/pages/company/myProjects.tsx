@@ -83,11 +83,11 @@ export default function MyProjects() {
     const navigate = useNavigate();
 
     const handleCompanyClick = () => {
-        navigate(PATH.COMPANY);
+        navigate(PATH.COMPANYMAIN);
     };
 
     const companyClick = () => {
-        navigate(PATH.MYCOMPANIES);
+        navigate(PATH.MYCOMPANY);
     };
 
     return (

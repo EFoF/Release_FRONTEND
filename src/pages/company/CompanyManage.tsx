@@ -57,7 +57,7 @@ export default function CompanyManage() {
     // 회사 삭제 모달
     const handleModalConfirm = () => {
         setIsModalOpen(false);
-        navigate(PATH.MYCOMPANIES);
+        navigate(PATH.MYCOMPANY);
     };
 
     const handleModalCancel = () => {
@@ -103,7 +103,7 @@ export default function CompanyManage() {
     }
     const handleModalConfirm3 = () => {
         setIsModalOpen3(false);
-        navigate(PATH.COMPANY);
+        navigate(PATH.COMPANYMAIN);
     };
     const handleModalCancel3 = () => {
         setIsModalOpen3(false);

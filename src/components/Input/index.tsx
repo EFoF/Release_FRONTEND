@@ -7,6 +7,7 @@ const Label = styled.div`
   font-size: 1.3rem;
   color: ${COLORS.GREY[500]};
   padding-bottom: 1rem;
+  padding-left: 0.2rem;
 `;
 
 const InputWrapper = styled.input<{ size: number }>`
@@ -75,7 +76,7 @@ export default function Input({
 }: InputProps) {
   return (
     <Wrapper className={className}>
-      {/* {!labelHidden && <Label>{label}</Label>} */}
+      {label && !labelHidden && <Label>{label}</Label>}
       <InputWrapper
         value={value}
         onChange={onChange}

@@ -21,6 +21,9 @@ import Withdrawal from "./pages/member/withdrawal";
 import CompanyCreate from "./pages/company/CompanyCreate";
 import CategoryCreate from "./pages/category/CategoryCreate";
 import Release from "./pages/release";
+import PATH from "./constants/path";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 function App() {
   return (
@@ -28,28 +31,25 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/markdown" element={<MarkDown />} />
-        </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route> 
         <Route element={<MainLayout />}>
-          <Route path="/company" element={<Company />} />
-          <Route path="/companies/projects/project_id/categories/releases" element={<Release />} />
-          <Route path="/company/projectCreate" element={<ProjectCreate />} />
-          <Route path="/companies/projects/project_id/categories/category_id/releases" element={<ReleaseCreate />} />
-          <Route path="/company/projectcreate" element={<ProjectCreate />} />
-          <Route path="/company/companycreate" element={<CompanyCreate />} />
-          <Route path="/company/project/category/categorycreate" element={<CategoryCreate />} />
-          <Route path="/company/project/edit" element={<ProjectEdit />} />
-          <Route path="/company/nocompany" element={<NoCompany />} />
-          <Route path="/company/noproject" element={<NoProject />} />
-        </Route>
-        <Route element={<DevLayout />}>
-          <Route path="/companies/member/companies" element={<MyCompanies />} />
-          <Route path="/companies/company_id/projects" element={<MyProjects />} />
-          <Route path="/auth/member/info" element={<Member />} />
-          <Route path="/auth/member/info/change-password" element={<PasswordChange />} />
-          <Route path="/auth/member/info/withdrawal" element={<Withdrawal />} />
-          <Route path="/project/projectManage" element={<ProjectManage />} />
-          <Route path="/project/companyManage" element={<CompanyManage />} />
+          <Route path={PATH.COMPANYMAIN} element={<Company />} />
+          <Route path={PATH.RELEASECREATE} element={<ReleaseCreate />} />
+          <Route path={PATH.PROJECTCREATE} element={<ProjectCreate />} />
+          <Route path={PATH.COMPANYCREATE} element={<CompanyCreate />} />
+          <Route path={PATH.CATEGORYEDIT} element={<CategoryCreate />} />
+          <Route path={PATH.PROJECTEDIT} element={<ProjectEdit />} />
+          <Route path={PATH.NOCOMPANY} element={<NoCompany />} />
+          <Route path={PATH.NOPROJECT} element={<NoProject />} />
+          <Route path={PATH.MYCOMPANY} element={<MyCompanies />} />
+          <Route path={PATH.MYPROJECT} element={<MyProjects />} />
+          <Route path={PATH.MYINFO} element={<Member />} />
+          <Route path={PATH.PASSWORDCHANGE} element={<PasswordChange />} />
+          <Route path={PATH.WITHDRAWAL} element={<Withdrawal />} />
+          <Route path={PATH.PROJECTMANAGE} element={<ProjectManage />} />
+          <Route path={PATH.COMPANYMANAGE} element={<CompanyManage />} />
         </Route>
       </Routes>
     </Router>

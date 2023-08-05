@@ -32,7 +32,7 @@ export default function Home() {
   const [searchKey, setSearchKey] = useState("");
 
   const handleCompanyClick = () => {
-    navigate(PATH.COMPANY);
+    navigate(PATH.COMPANYMAIN);
   };
 
   const handleInputChange = (e: {
