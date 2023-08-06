@@ -16,18 +16,33 @@ import naver from "../../img/naver.png";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import "../../styles/font.css";
+import { searchCompany } from "../../api/company";
+
+const companiesMock = [
+  { name: "카카오 엔터프라이즈", imageUrl: kakaoenter },
+  { name: "네이버", imageUrl: naver },
+  { name: "카카오페이", imageUrl: kakaopay },
+  { name: "카카오 브레인", imageUrl: kakaobrain },
+  { name: "EagleEagle", imageUrl: eagle },
+  { name: "카카오 뱅크", imageUrl: kakaobank },
+  { name: "카카오 게임즈", imageUrl: kakaogames },
+  { name: "페이스북", imageUrl: facebook },
+];
+
+interface Company {
+  name: string;
+  imageUrl: string;
+}
 
 export default function Home() {
-  const companies = [
-    { name: "카카오 엔터프라이즈", imageUrl: kakaoenter },
-    { name: "네이버", imageUrl: naver },
-    { name: "카카오페이", imageUrl: kakaopay },
-    { name: "카카오 브레인", imageUrl: kakaobrain },
-    { name: "EagleEagle", imageUrl: eagle },
-    { name: "카카오 뱅크", imageUrl: kakaobank },
-    { name: "카카오 게임즈", imageUrl: kakaogames },
-    { name: "페이스북", imageUrl: facebook },
-  ];
+  const [companies, setCompanies] = useState<Company[]>([])
+  
+  useEffect(()=>{
+    searchCompany().then((fetchedCompanies)=>{
+      setCompanies(fetchedCompanies.content);
+    })
+  },[]);
+  
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
 

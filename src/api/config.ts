@@ -7,6 +7,7 @@ const REISSUE = "/reissue"
 const WIDHDRAWAL = "/withdrawal";
 const UPDATA_PW = "/update/password";
 const MEMBER_INFO = "/member/info";
+const COMPANIES = "/companies";
 
 // const CHECK_EMAIL = "email/exists/";
 // const EMAIL_SEND = "email/certificate";
@@ -24,6 +25,8 @@ const API = {
   WIDHDRAWAL: `${AUTH}${WIDHDRAWAL}`,
   UPDATA_PW: `${AUTH}${UPDATA_PW}`,
   MEMBER_INFO: `${AUTH}${MEMBER_INFO}`,
+
+  COMPANIES: `${COMPANIES}`,
 
   // CHECK_EMAIL: `${AUTH}${CHECK_EMAIL}`,
   // EMAIL_SEND: `${AUTH}${EMAIL_SEND}`,
