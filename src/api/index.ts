@@ -2,7 +2,7 @@ import axios from "axios";
 import API from "./config";
 import PATH from "../constants/path";
 
-axios.defaults.baseURL = API.BASE_URL; //
+axios.defaults.baseURL = API.BASE_URL; 
 axios.defaults.withCredentials = true;
 
 const authorizationClient = axios.create({
