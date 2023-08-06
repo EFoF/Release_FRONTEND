@@ -17,14 +17,14 @@ export default function ReleaseCreate() {
                 title: "첫 프로젝트 첫 카테고리",
                 description: "아ㅣㄹ넝ㄹㄴ",
                 detail: "null",
-                lastModifierName: "null",
+                lastModifierName: "jyeon1872@nnver.com",
                 lastModifiedTime: "null"
             },
             release: [
                 {
                     releaseDate: "2023-08-01",
                     lastModifiedTime: "2023-08-01T14:10:10.620659",
-                    lastModifierName: "null",
+                    lastModifierName: "박정연",
                     content: "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
                         "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
                         "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
@@ -35,7 +35,7 @@ export default function ReleaseCreate() {
                 {
                     releaseDate: "2023-08-01",
                     lastModifiedTime: "2023-08-01T14:10:25.007838",
-                    lastModifierName: "null",
+                    lastModifierName: "박정연",
                     content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
                         "sdklfjskldfjsdlkf" +
                         "sldfkjsldfkj" +
@@ -46,7 +46,7 @@ export default function ReleaseCreate() {
                 {
                     releaseDate: "2023-08-01",
                     lastModifiedTime: "2023-08-01T14:10:29.561621",
-                    lastModifierName: "null",
+                    lastModifierName: "박정연",
                     content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
                         "sdklfjskldfjsdlkf" +
                         "sldfkjsldfkj" +
@@ -57,7 +57,7 @@ export default function ReleaseCreate() {
                 {
                     releaseDate: "2023-08-01",
                     lastModifiedTime: "2023-08-01T14:10:34.006635",
-                    lastModifierName: "null",
+                    lastModifierName: "박정연",
                     content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
                         "sdklfjskldfjsdlkf" +
                         "sldfkjsldfkj" +
@@ -151,7 +151,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "ADDED"
+                    tag: "FIXED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -173,7 +173,7 @@ export default function ReleaseCreate() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "ADDED"
+                    tag: "FIXED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -296,8 +296,7 @@ export default function ReleaseCreate() {
         new: "rgba(157, 233, 131, 0.46)",
         updated: "rgba(234, 237, 98, 0.71)",
         deprecated: "rgba(255, 34, 34, 0.47)",
-        fixed: "rgba(105, 156, 255, 0.56)",
-        added: "rgba(200, 182, 166, 0.61)",
+        fixed: "rgba(105, 156, 255, 0.56)"
     };
 
     const handleChangeTag = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -354,6 +353,7 @@ export default function ReleaseCreate() {
                                 <HeaderCell1>날짜</HeaderCell1>
                                 <HeaderCell1>태그</HeaderCell1>
                                 <HeaderCell1>변경사항</HeaderCell1>
+                                <HeaderCell1>수정자</HeaderCell1>
                                 <HeaderCell1/>
                             </tr>
                             </thead>
@@ -368,6 +368,7 @@ export default function ReleaseCreate() {
                                         </TableCellTag>
                                     </TableCell1>
                                     <TableCellLong>{release.content}</TableCellLong>
+                                    <TableCell1>{release.lastModifierName}</TableCell1>
                                     <TableCell1><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCell1>
                                 </ReleaseRow>
                             )}
@@ -398,7 +399,6 @@ export default function ReleaseCreate() {
                                             <option value="updated">UPDATED</option>
                                             <option value="fixed">FIXED</option>
                                             <option value="deprecated">DEPRECATED</option>
-                                            <option value="added">ADDED</option>
                                         </StyledSelect>
                                     </TableCell1>
                                     <TableCellLong>
@@ -412,7 +412,7 @@ export default function ReleaseCreate() {
                                 </ReleaseRow>
                             )}
                             <ReleaseRow>
-                                <TableCell1 colSpan={5}>
+                                <TableCell1 colSpan={6}>
                                     <TableImgLast src={plus} onClick={() => handlePlusBtn(index)}/>
                                 </TableCell1>
                             </ReleaseRow>
