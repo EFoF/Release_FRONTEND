@@ -50,6 +50,7 @@ function App() {
           <Route path={PATH.WITHDRAWAL} element={<Withdrawal />} />
           <Route path={PATH.PROJECTMANAGE} element={<ProjectManage />} />
           <Route path={PATH.COMPANYMANAGE} element={<CompanyManage />} />
+          <Route path={PATH.RELEASE} element={<Release />} />
         </Route>
       </Routes>
     </Router>

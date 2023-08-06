@@ -11,6 +11,8 @@ import {Container1} from "../../components/Container";
 import { Toggle } from "typescript-toggle";
 import ConfirmationModal from "../../components/Modal";
 import Input from "../../components/Input";
+import PATH from "../../constants/path";
+import {useNavigate} from "react-router-dom";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -35,6 +37,7 @@ interface Project {
 }
 
 export default function ProjectEdit() {
+    const navigate = useNavigate();
     const [isEditMode, setIsEditMode] = useState<Boolean[]>([]);
     const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -145,6 +148,10 @@ export default function ProjectEdit() {
         setIsModifyModalOpen(false);
     }
 
+    const handleReleaseButton = () => {
+        navigate(PATH.RELEASE)
+    }
+
     const handleModalConfirm = () => {
         // TODO: 인덱스에 해당하는 카테고리 지우고 디비에 반영
         // JSON 데이터 수정
@@ -195,7 +202,7 @@ export default function ProjectEdit() {
             </Scope>
             <ButtonContainer>
                 <Button1 title="프로젝트 관리"></Button1>
-                <Button1 title="Release Note"></Button1>
+                <Button1 title="Release Note" onClick={handleReleaseButton}></Button1>
             </ButtonContainer>
             <DetailContainer>
                 <CategoryContainers>
