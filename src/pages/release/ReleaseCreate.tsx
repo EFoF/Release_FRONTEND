@@ -353,8 +353,8 @@ export default function ReleaseCreate() {
                                 <HeaderCell1>날짜</HeaderCell1>
                                 <HeaderCell1>태그</HeaderCell1>
                                 <HeaderCell1>변경사항</HeaderCell1>
-                                <HeaderCell1/>
                                 <HeaderCell1>수정자</HeaderCell1>
+                                <HeaderCell1/>
                             </tr>
                             </thead>
                             <tbody>
@@ -368,8 +368,8 @@ export default function ReleaseCreate() {
                                         </TableCellTag>
                                     </TableCell1>
                                     <TableCellLong>{release.content}</TableCellLong>
-                                    <TableCell1><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCell1>
                                     <TableCell1>{release.lastModifierName}</TableCell1>
+                                    <TableCell1><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCell1>
                                 </ReleaseRow>
                             )}
                             {addIndex === index && (
