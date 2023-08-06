@@ -147,7 +147,7 @@ export default function Release() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "ADDED"
+                    tag: "FIXED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -169,7 +169,7 @@ export default function Release() {
                         "sldfkjsldfkj" +
                         "sdlkfjs",
                     version: "1.1.0",
-                    tag: "ADDED"
+                    tag: "FIXED"
                 },
                 {
                     releaseDate: "2023-08-01",
@@ -271,8 +271,7 @@ export default function Release() {
         new: "rgba(157, 233, 131, 0.46)",
         updated: "rgba(234, 237, 98, 0.71)",
         deprecated: "rgba(255, 34, 34, 0.47)",
-        fixed: "rgba(105, 156, 255, 0.56)",
-        added: "rgba(200, 182, 166, 0.61)",
+        fixed: "rgba(105, 156, 255, 0.56)"
     };
 
     // TODO: 최근 수정자, 수정날짜 추가
