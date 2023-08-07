@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {CategoryTitle, Title1} from "../../components/Text/Title";
 import {Table1, HeaderCell, TableRow, TableCell, TableImg} from "../../components/Table";
 import {Container1} from "../../components/Container";
@@ -7,6 +7,7 @@ import minus from "../../img/minus.png";
 import plus from "../../img/plus.png";
 import check from "../../img/check.png";
 import ConfirmationModal from "../../components/Modal";
+import Tooltip from "./Tooltip";
 
 type Release = {
     id: number
@@ -34,6 +35,7 @@ type CategoryItem = {
 }
 
 export default function ReleaseCreate() {
+    const [user, setUser] = useState("수정자");
     const [project, setProject] = useState("첫회사 첫 프로젝트");
     const [categories, setCategories] = useState<CategoryItem[]>([
         {
@@ -195,6 +197,13 @@ export default function ReleaseCreate() {
         setIsModalOpen(false);
     };
 
+    const tooltipRef = useRef<HTMLDivElement | null>(null);
+
+    const [hovered, setHovered] = useState(false);
+
+    const [hoveredRelease, setHoveredRelease] = useState<Release | null>(null);
+
+
     // TODO: 최근 수정자, 수정날짜 추가
     return (
         <Container>
@@ -208,8 +217,8 @@ export default function ReleaseCreate() {
                             <tr>
                                 <HeaderCell1>버전</HeaderCell1>
                                 <HeaderCell1>날짜</HeaderCell1>
-                                <HeaderCell1>태그</HeaderCell1>
-                                <HeaderCell1>변경사항</HeaderCell1>
+                                <HeaderCellTag>태그</HeaderCellTag>
+                                <HeaderCellLong>변경사항</HeaderCellLong>
                                 <HeaderCell1>수정자</HeaderCell1>
                                 <HeaderCell1/>
                             </tr>
@@ -225,10 +234,27 @@ export default function ReleaseCreate() {
                                         </TableCellTag>
                                     </TableCell1>
                                     <TableCellLong>{release.content}</TableCellLong>
-                                    <TableCell1>{release.lastModifierName}</TableCell1>
+                                    <TableCell1
+                                        onMouseEnter={(event) => {
+                                            tooltipRef.current = event.currentTarget;
+                                            setHovered(true);
+                                            setHoveredRelease(release);
+                                        }}
+                                        onMouseLeave={() => {
+                                            setHovered(false);
+                                            setHoveredRelease(null);
+                                        }}
+                                    >
+                                        {release.lastModifierName}
+                                    </TableCell1>
                                     <TableCellIcon><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCellIcon>
+                                    <Tooltip
+                                        show={hovered && hoveredRelease && hoveredRelease === release}
+                                        tooltipRef={tooltipRef}
+                                        release={hoveredRelease}
+                                    />
                                 </ReleaseRow>
-                            )}
+                                )}
                             {addIndex === index && (
                                 <ReleaseRow>
                                     <TableCell1>
@@ -264,6 +290,7 @@ export default function ReleaseCreate() {
                                             onChange={handleChangeDetail}
                                         />
                                     </TableCellLong>
+                                    <TableCell1>{user}</TableCell1>
                                     <TableCell1><TableImg1 src={check}
                                                            onClick={() => handleCheckBtn(index)}/></TableCell1>
                                 </ReleaseRow>
@@ -275,7 +302,7 @@ export default function ReleaseCreate() {
                             </ReleaseRow>
                             </tbody>
                         </ReleaseTable>
-                    </ReleaseContainer>
+                        </ReleaseContainer>
                 )}
             </MainContainer>
             <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
@@ -320,6 +347,19 @@ export const ReleaseTable = styled(Table1)`
 export const HeaderCell1 = styled(HeaderCell)`
   padding: 10px;
   margin-top: 0.4rem;
+  width: 10rem;
+  min-width: 10rem;
+  max-width: 15rem;
+`
+
+export const HeaderCellTag = styled(HeaderCell)`
+  width: 90px;
+  padding: 3px;
+`
+
+export const HeaderCellLong = styled(HeaderCell)`
+  width: 63rem;
+  min-width: 50rem;
 `
 
 export const ReleaseRow = styled(TableRow)`
@@ -376,6 +416,7 @@ export const TableImgLast = styled(TableImg)`
 
 // TODO: width 수정
 export const StyledInput = styled.input`
+  font-size: 11px;
   width: 100%;
   border-color: transparent;
   background-color: transparent;
@@ -383,6 +424,7 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledText = styled.textarea`
+  font-size: 11px;
   width: 100%;
   border-color: transparent;
   background-color: transparent;

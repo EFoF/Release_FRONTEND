@@ -41,7 +41,60 @@ export default function Release() {
                 "lastModifierName": "null",
                 "lastModifiedTime": "null"
             },
-            release: []
+            release: [
+                {
+                    "lastModifiedTime": "2023-08-07T00:12:04.482328",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
+                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
+                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
+                    "version": "v1.1.0",
+                    "tag": "NEW",
+                    "id": 4
+                },
+                {
+                    "lastModifiedTime": "2023-08-07T00:12:19.109047",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "박정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
+                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
+                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
+                    "version": "v1.4.0",
+                    "tag": "UPDATED",
+                    "id": 5
+                },
+                {
+                    "lastModifiedTime": "2023-08-07T00:12:27.798027",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "박정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
+                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
+                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
+                    "version": "v1.9.0",
+                    "tag": "DEPRECATED",
+                    "id": 6
+                },
+                {
+                    "lastModifiedTime": "2023-08-07T00:12:36.225951",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
+                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
+                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
+                    "version": "v1.9.3",
+                    "tag": "FIXED",
+                    "id": 7
+                }
+            ]
         },
         {
             category: {
@@ -102,15 +155,15 @@ export default function Release() {
                             <tr>
                                 <HeaderCell1>버전</HeaderCell1>
                                 <HeaderCell1>날짜</HeaderCell1>
-                                <HeaderCell1>태그</HeaderCell1>
-                                <HeaderCell1>변경사항</HeaderCell1>
+                                <HeaderCellTag>태그</HeaderCellTag>
+                                <HeaderCellLong>변경사항</HeaderCellLong>
                             </tr>
                             </thead>
                             <tbody>
                             {category.release.map((release: Release, rindex: number) =>
                                 <ReleaseRow key={rindex}>
                                     <TableCell1>{release.version}</TableCell1>
-                                    <TableCell1>{release.releaseDate}</TableCell1>
+                                    <TableCell1>{new Date(release.releaseDate).toISOString().split('T')[0]}</TableCell1>
                                     <TableCell1>
                                         <TableCellTag optionTagColor={tagColors[release.tag.toLowerCase()]}>
                                             {release.tag}
@@ -164,6 +217,19 @@ export const ReleaseTable = styled(Table1)`
 export const HeaderCell1 = styled(HeaderCell)`
   padding: 10px;
   margin-top: 0.4rem;
+  width: 10rem;
+  min-width: 10rem;
+  max-width: 15rem;
+`
+
+export const HeaderCellTag = styled(HeaderCell)`
+  width: 90px;
+  padding: 3px;
+`
+
+export const HeaderCellLong = styled(HeaderCell)`
+  width: 63rem;
+  min-width: 50rem;
 `
 
 export const ReleaseRow = styled(TableRow)`
