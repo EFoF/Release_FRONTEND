@@ -14,7 +14,7 @@ import PATH from "../../constants/path";
 import {ProjectCard, ProjectContainer, ProjectImage, ProjectListContainer, ProjectName} from "../home";
 
 interface Project {
-    // id : number;
+    id : number;
     name: string;
     imgURL: string;
     companyId: number;
@@ -29,49 +29,49 @@ export default function MyProjects() {
         {
             findProjectListByCompanyResponseDtoList: [
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKSEOL",
                     imgURL: kakaoenter,
                     companyId: 1,
                 },
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKLIB",
                     imgURL: kakaoenter,
                     companyId: 1,
                 },
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKBAK",
                     imgURL: naver,
                     companyId: 2,
                 },
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKODIE",
                     imgURL: naver,
                     companyId: 2,
                 },
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKSAA",
                     imgURL: kakaogames,
                     companyId: 3,
                 },
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKDO",
                     imgURL: kakaogames,
                     companyId: 3,
                 },
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKSURI",
                     imgURL: facebook,
                     companyId: 4,
                 },
                 {
-                    // id: 1,
+                    id: 1,
                     name: "DOKPA",
                     imgURL: facebook,
                     companyId: 4,
