@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import {CategoryTitle, Title1} from "../../components/Text/Title";
 import {Table1, HeaderCell, TableRow, TableCell, TableImg} from "../../components/Table";
 import {Container1} from "../../components/Container";
@@ -7,263 +7,122 @@ import minus from "../../img/minus.png";
 import plus from "../../img/plus.png";
 import check from "../../img/check.png";
 import ConfirmationModal from "../../components/Modal";
+import Tooltip from "./Tooltip";
 
+type Release = {
+    id: number
+    tag: string,
+    version: string,
+    content: string,
+    lastModifierName: string,
+    lastModifierEmail: string,
+    releaseDate: string,
+    lastModifiedTime: string
+}
+
+type Category = {
+    id: number,
+    detail: string,
+    title: string,
+    description: string,
+    lastModifierName: string,
+    lastModifiedTime: string
+}
+
+type CategoryItem = {
+    category: Category
+    release: Release[]
+}
 
 export default function ReleaseCreate() {
+    const [user, setUser] = useState("수정자");
     const [project, setProject] = useState("첫회사 첫 프로젝트");
-    const [categories, setCategories] = useState([
+    const [categories, setCategories] = useState<CategoryItem[]>([
         {
             category: {
-                title: "첫 프로젝트 첫 카테고리",
-                description: "아ㅣㄹ넝ㄹㄴ",
-                detail: "null",
-                lastModifierName: "jyeon1872@nnver.com",
-                lastModifiedTime: "null"
+                "id": 4,
+                "detail": "null",
+                "title": "2번째 프로젝트 1번째 카테고리",
+                "description": "아ㅣㄹ넝ㄹㄴ",
+                "lastModifierName": "null",
+                "lastModifiedTime": "null"
             },
-            release: [
+            release:  [
                 {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:10.620659",
-                    lastModifierName: "박정연",
-                    content: "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                    "lastModifiedTime": "2023-08-07T00:12:04.482328",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
                         "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
                         "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
                         "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
-                    version: "1.1.0",
-                    tag: "DEPRECATED"
+                    "version": "v1.1.0",
+                    "tag": "NEW",
+                    "id": 4
                 },
                 {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:25.007838",
-                    lastModifierName: "박정연",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "NEW"
+                    "lastModifiedTime": "2023-08-07T00:12:19.109047",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "박정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
+                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
+                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
+                    "version": "v1.4.0",
+                    "tag": "UPDATED",
+                    "id": 5
                 },
                 {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:29.561621",
-                    lastModifierName: "박정연",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "UPDATED"
+                    "lastModifiedTime": "2023-08-07T00:12:27.798027",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "박정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
+                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
+                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
+                    "version": "v1.9.0",
+                    "tag": "DEPRECATED",
+                    "id": 6
                 },
                 {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:34.006635",
-                    lastModifierName: "박정연",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "FIXED"
+                    "lastModifiedTime": "2023-08-07T00:12:36.225951",
+                    "releaseDate": "2023-08-07T00:12:36.225951",
+                    "lastModifierEmail": "jeongyeon@gmail.com",
+                    "lastModifierName": "정연이",
+                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
+                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
+                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
+                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
+                    "version": "v1.9.3",
+                    "tag": "FIXED",
+                    "id": 7
                 }
             ]
         },
         {
             category: {
-                title: "첫번째 프로젝트 두번째 카테고리",
-                description: "아ㅣㄹ넝ㄹㄴ",
-                detail: "null",
-                lastModifierName: "null",
-                lastModifiedTime: "null"
+                "id": 5,
+                "detail": "null",
+                "title": "2번째 프로젝트 2번째 카테고리",
+                "description": "아ㅣㄹ넝ㄹㄴ",
+                "lastModifierName": "null",
+                "lastModifiedTime": "null"
             },
-            release: [
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:50.751726",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "NEW"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:52.610176",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "UPDATED"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:54.723116",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "DEPRECATED"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:10:56.309203",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "FIXED"
-                }
-            ]
+            release: []
         },
         {
             category: {
-                title: "첫번째 프로젝트 세번째 카테고리",
-                description: "아ㅣㄹ넝ㄹㄴ",
+                id: 6,
                 detail: "null",
+                title: "2번째 프로젝트 3번째 카테고리",
+                description: "아ㅣㄹ넝ㄹㄴ",
                 lastModifierName: "null",
                 lastModifiedTime: "null"
             },
-            release: [
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:07.544848",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "NEW"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:08.970794",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "FIXED"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:10.549661",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "NEW"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:11.770884",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "FIXED"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:13.117891",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "UPDATED"
-                }
-            ]
-        },
-        {
-            category: {
-                title: "첫번째 프로젝트 네번째 카테고리",
-                description: "아ㅣㄹ넝ㄹㄴ",
-                detail: "null",
-                lastModifierName: "null",
-                lastModifiedTime: "null"
-            },
-            release: [
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:27.182969",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "NEW"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:28.609412",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "DEPRECATED"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:29.905167",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "DEPRECATED"
-                }
-            ]
-        },
-        {
-            category: {
-                title: "첫번째 프로젝트 다섯번째 카테고리",
-                description: "아ㅣㄹ넝ㄹㄴ",
-                detail: "null",
-                lastModifierName: "null",
-                lastModifiedTime: "null"
-            },
-            release: [
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:36.651553",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "NEW"
-                },
-                {
-                    releaseDate: "2023-08-01",
-                    lastModifiedTime: "2023-08-01T14:11:38.176223",
-                    lastModifierName: "null",
-                    content: "sdflksjdflskdjfslsdlfksdjfwlsdlkfsjfwelrkjesdkfjsklfjsdklfjs" +
-                        "sdklfjskldfjsdlkf" +
-                        "sldfkjsldfkj" +
-                        "sdlkfjs",
-                    version: "1.1.0",
-                    tag: "FIXED"
-                }
-            ]
+            release: []
         }
     ]);
 
@@ -338,12 +197,28 @@ export default function ReleaseCreate() {
         setIsModalOpen(false);
     };
 
+    const tooltipRef = useRef<HTMLDivElement | null>(null);
+
+    const [hovered, setHovered] = useState(false);
+
+    const [hoveredRelease, setHoveredRelease] = useState<Release | null>(null);
+
+    const hoveredTooltip = useRef<boolean>(false);
+
+    const handleTableCellMouseLeave = () => {
+        if (!hoveredTooltip.current) {
+            setHovered(false);
+            setHoveredRelease(null);
+        }
+    };
+
+
     // TODO: 최근 수정자, 수정날짜 추가
     return (
         <Container>
             <MainContainer>
                 <ReleaseCreateTitle>{project}</ReleaseCreateTitle>
-                {categories.map((category, index) =>
+                {categories.map((category: CategoryItem, index: number) =>
                     <ReleaseContainer>
                         <CategoryTitle1 key={index}>{category.category.title}</CategoryTitle1>
                         <ReleaseTable>
@@ -351,27 +226,36 @@ export default function ReleaseCreate() {
                             <tr>
                                 <HeaderCell1>버전</HeaderCell1>
                                 <HeaderCell1>날짜</HeaderCell1>
-                                <HeaderCell1>태그</HeaderCell1>
-                                <HeaderCell1>변경사항</HeaderCell1>
+                                <HeaderCellTag>태그</HeaderCellTag>
+                                <HeaderCellLong>변경사항</HeaderCellLong>
                                 <HeaderCell1>수정자</HeaderCell1>
                                 <HeaderCell1/>
                             </tr>
                             </thead>
                             <tbody>
-                            {category.release.map((release, rindex) =>
+                            {category.release.map((release: Release, rindex: number) =>
                                 <ReleaseRow key={rindex}>
                                     <TableCell1>{release.version}</TableCell1>
-                                    <TableCell1>{release.releaseDate}</TableCell1>
+                                    <TableCell1>{new Date(release.releaseDate).toISOString().split('T')[0]}</TableCell1>
                                     <TableCell1>
                                         <TableCellTag optionTagColor={tagColors[release.tag.toLowerCase()]}>
                                             {release.tag}
                                         </TableCellTag>
                                     </TableCell1>
                                     <TableCellLong>{release.content}</TableCellLong>
-                                    <TableCell1>{release.lastModifierName}</TableCell1>
-                                    <TableCell1><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCell1>
+                                    <TableCell1
+                                        onMouseEnter={(event) => {
+                                            tooltipRef.current = event.currentTarget;
+                                            setHovered(true);
+                                            setHoveredRelease(release);
+                                        }}
+                                        onMouseLeave={handleTableCellMouseLeave}
+                                    >
+                                        {release.lastModifierName}
+                                    </TableCell1>
+                                    <TableCellIcon><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCellIcon>
                                 </ReleaseRow>
-                            )}
+                                )}
                             {addIndex === index && (
                                 <ReleaseRow>
                                     <TableCell1>
@@ -407,6 +291,7 @@ export default function ReleaseCreate() {
                                             onChange={handleChangeDetail}
                                         />
                                     </TableCellLong>
+                                    <TableCell1>{user}</TableCell1>
                                     <TableCell1><TableImg1 src={check}
                                                            onClick={() => handleCheckBtn(index)}/></TableCell1>
                                 </ReleaseRow>
@@ -418,8 +303,25 @@ export default function ReleaseCreate() {
                             </ReleaseRow>
                             </tbody>
                         </ReleaseTable>
-                    </ReleaseContainer>
+                        </ReleaseContainer>
                 )}
+                {
+                    hovered && hoveredRelease && (
+                        <Tooltip
+                            tooltipRef={tooltipRef}
+                            onMouseEnter={() => {
+                                hoveredTooltip.current = true;
+                                setHovered(true);
+                            }}
+                            onMouseLeave={() => {
+                                hoveredTooltip.current = false;
+                                setHovered(false);
+                            }}
+                            show={hovered}
+                            release={hoveredRelease}
+                        />
+                    )
+                }
             </MainContainer>
             <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
                                message={"삭제하시겠습니까?"}/>
@@ -463,6 +365,19 @@ export const ReleaseTable = styled(Table1)`
 export const HeaderCell1 = styled(HeaderCell)`
   padding: 10px;
   margin-top: 0.4rem;
+  width: 10rem;
+  min-width: 10rem;
+  max-width: 15rem;
+`
+
+export const HeaderCellTag = styled(HeaderCell)`
+  width: 90px;
+  padding: 3px;
+`
+
+export const HeaderCellLong = styled(HeaderCell)`
+  width: 63rem;
+  min-width: 50rem;
 `
 
 export const ReleaseRow = styled(TableRow)`
@@ -471,6 +386,9 @@ export const ReleaseRow = styled(TableRow)`
 
 export const TableCell1 = styled(TableCell)`
   padding: 10px;
+  width: 10rem;
+  min-width: 10rem;
+  max-width: 15rem;
 `
 
 export const TableCellTag = styled.td <{optionTagColor: string}>`
@@ -490,10 +408,16 @@ export const TableCellTag = styled.td <{optionTagColor: string}>`
 `
 
 export const TableCellLong = styled(TableCell)`
-  width: 65%;
+  width: 63rem;
+  min-width: 50rem;
   padding: 10px 50px;
   white-space: normal;
   word-break: break-all;
+`
+
+export const TableCellIcon = styled(TableCell)`
+  padding: 10px;
+  width: 3rem;
 `
 
 export const TableImg1 = styled(TableImg)`
@@ -510,6 +434,7 @@ export const TableImgLast = styled(TableImg)`
 
 // TODO: width 수정
 export const StyledInput = styled.input`
+  font-size: 11px;
   width: 100%;
   border-color: transparent;
   background-color: transparent;
@@ -517,6 +442,7 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledText = styled.textarea`
+  font-size: 11px;
   width: 100%;
   border-color: transparent;
   background-color: transparent;
