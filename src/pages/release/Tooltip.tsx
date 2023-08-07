@@ -1,12 +1,15 @@
-import React, { RefObject } from "react";
+import React, {RefObject, useState} from "react";
+import styled from "styled-components";
 
 interface TooltipProps {
-    show: boolean | null;
+    show: boolean;
     tooltipRef: RefObject<HTMLDivElement>;
     release: {
         lastModifierEmail: string;
         lastModifiedTime: string;
     } | null;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
 }
 
 const formatDate = (dateString: string): string => {
@@ -19,16 +22,21 @@ const formatDate = (dateString: string): string => {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
 };
 
-const Tooltip: React.FC<TooltipProps> = ({ show, tooltipRef, release }) => {
-    if (show && release && tooltipRef.current) {
+const Tooltip: React.FC<TooltipProps> = ({ show, tooltipRef, release, onMouseEnter, onMouseLeave }) => {
+    const [localHovered, setLocalHovered] = useState(false);
+
+    if (show && release && tooltipRef.current && !localHovered) {
         const rect = tooltipRef.current.getBoundingClientRect();
 
         return (
             <div
+                ref={tooltipRef}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
                 style={{
                     position: "absolute",
                     top: `${rect.top - 65}px`,
-                    left: `${rect.left - 175}px`,
+                    left: `${rect.left - 160}px`,
                     backgroundColor: "white",
                     border: "1px solid black",
                     padding: "4px",
@@ -36,13 +44,22 @@ const Tooltip: React.FC<TooltipProps> = ({ show, tooltipRef, release }) => {
                     zIndex: 1000,
                 }}
             >
-                <div>Email: {release.lastModifierEmail}</div>
-                <div>Date: {formatDate(release.lastModifiedTime)}</div>
+                <div>{formatDate(release.lastModifiedTime)}</div>
+                <div>
+                    <EmailLink email={release.lastModifierEmail}>{release.lastModifierEmail}</EmailLink>
+                </div>
             </div>
         );
     } else {
         return null;
     }
 };
+
+export const EmailLink = styled.a.attrs<{ email: string }>(props => ({
+    href: `mailto:${props.email}`,
+}))`
+  cursor: pointer;
+`;
+
 
 export default Tooltip;

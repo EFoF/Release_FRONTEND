@@ -203,6 +203,15 @@ export default function ReleaseCreate() {
 
     const [hoveredRelease, setHoveredRelease] = useState<Release | null>(null);
 
+    const hoveredTooltip = useRef<boolean>(false);
+
+    const handleTableCellMouseLeave = () => {
+        if (!hoveredTooltip.current) {
+            setHovered(false);
+            setHoveredRelease(null);
+        }
+    };
+
 
     // TODO: 최근 수정자, 수정날짜 추가
     return (
@@ -240,19 +249,11 @@ export default function ReleaseCreate() {
                                             setHovered(true);
                                             setHoveredRelease(release);
                                         }}
-                                        onMouseLeave={() => {
-                                            setHovered(false);
-                                            setHoveredRelease(null);
-                                        }}
+                                        onMouseLeave={handleTableCellMouseLeave}
                                     >
                                         {release.lastModifierName}
                                     </TableCell1>
                                     <TableCellIcon><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCellIcon>
-                                    <Tooltip
-                                        show={hovered && hoveredRelease && hoveredRelease === release}
-                                        tooltipRef={tooltipRef}
-                                        release={hoveredRelease}
-                                    />
                                 </ReleaseRow>
                                 )}
                             {addIndex === index && (
@@ -304,6 +305,23 @@ export default function ReleaseCreate() {
                         </ReleaseTable>
                         </ReleaseContainer>
                 )}
+                {
+                    hovered && hoveredRelease && (
+                        <Tooltip
+                            tooltipRef={tooltipRef}
+                            onMouseEnter={() => {
+                                hoveredTooltip.current = true;
+                                setHovered(true);
+                            }}
+                            onMouseLeave={() => {
+                                hoveredTooltip.current = false;
+                                setHovered(false);
+                            }}
+                            show={hovered}
+                            release={hoveredRelease}
+                        />
+                    )
+                }
             </MainContainer>
             <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
                                message={"삭제하시겠습니까?"}/>
