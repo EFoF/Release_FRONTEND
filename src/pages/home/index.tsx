@@ -40,6 +40,7 @@ export default function Home() {
   useEffect(()=>{
     searchCompany().then((fetchedCompanies)=>{
       setCompanies(fetchedCompanies.content);
+      console.log(companies)
     })
   },[]);
   

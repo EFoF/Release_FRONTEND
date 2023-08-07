@@ -8,6 +8,8 @@ const WIDHDRAWAL = "/withdrawal";
 const UPDATA_PW = "/update/password";
 const MEMBER_INFO = "/member/info";
 const COMPANIES = "/companies";
+const PROJECT = "/companies/projects";
+
 
 // const CHECK_EMAIL = "email/exists/";
 // const EMAIL_SEND = "email/certificate";
@@ -27,6 +29,8 @@ const API = {
   MEMBER_INFO: `${AUTH}${MEMBER_INFO}`,
 
   COMPANIES: `${COMPANIES}`,
+  PROJECT: `${PROJECT}`,
+
 
   // CHECK_EMAIL: `${AUTH}${CHECK_EMAIL}`,
   // EMAIL_SEND: `${AUTH}${EMAIL_SEND}`,
