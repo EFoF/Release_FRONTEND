@@ -33,8 +33,12 @@ const AddContainer = styled.img`
   border: 0.1rem solid ${COLORS.GREY[100]};
 `;
 
-export default function AddFile() {
-  // TODO: 회사 관리에서 이전 이미지 가져오는 로직 추가해야 
+interface AddfileProps {
+  onImageUpload?: (imageFile: File) => void;
+}
+ 
+export default function AddFile({onImageUpload}: AddfileProps) {
+  // TODO: 회사 관리에서 이전 이미지 가져오는 로직 추가해야 - addfile 파라미터로? 
   const [imageSrc, setImageSrc]: any = useState(null); 
 
     const onUpload = (e: any) => {
@@ -42,12 +46,18 @@ export default function AddFile() {
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
+        if(onImageUpload) {
+          // const imageUrl = URL.createObjectURL(file) //로컬에서의 이미지 url - 수정의 여지 
+          onImageUpload(file) //부모에 file 넘김 
+        }
+
         return new Promise<void>((resolve) => { 
             reader.onload = () => {	
-                setImageSrc(reader.result || null); // 파일의 컨텐츠
+                setImageSrc(reader.result || null); // 미리보기 위한 
                 resolve();
             };
         });
+        
     }
 
   return (
