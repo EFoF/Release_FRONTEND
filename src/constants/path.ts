@@ -16,7 +16,7 @@ const PATH = {
     CATEGORYEDIT: `${PATHHEADER.DEV}/category-edit`,
     PROJECTEDIT: `${PATHHEADER.DEV}/project-edit`,
     COMPANYMAIN: `${PATHHEADER.COMPANY}`,
-    RELEASE: `${PATHHEADER.COMPANY}/`,
+    RELEASE: `${PATHHEADER.COMPANY}/release`,
     CATEGORY: `${PATHHEADER.COMPANY}/:category`,
     NOCOMPANY: `${PATHHEADER.MYPAGE}/nocompany`,
     COMPANYCREATE: `${PATHHEADER.MYPAGE}/company-create`,

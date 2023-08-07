@@ -93,7 +93,7 @@ export default function CompanySide() {
   const [projects, setProjects] = useState([
     {
       name: "Kakao i Acoount",
-      subMenu: ["개발 프로세스", "API", "부록", "Release Note"],
+      subMenu: ["개발 프로세스", "API", "부록"],
     },
     {
       name: "Kakao i Agent",
@@ -120,6 +120,10 @@ export default function CompanySide() {
     navigate(PATH.PROJECTCREATE)
   }
 
+  const handleReleaseClick = () => {
+    navigate(PATH.RELEASE)
+  }
+
   return (
     <Container>
       {projects.map((project, index) => (
@@ -133,6 +137,7 @@ export default function CompanySide() {
               {project.subMenu.map((item, subIndex) => (
                 <SubMenuItem key={subIndex}>{item}</SubMenuItem>
               ))}
+              <SubMenuItem onClick={handleReleaseClick}>Release Note</SubMenuItem>
             </SubMenuContainer>
           )}
         </SidebarContainer>
