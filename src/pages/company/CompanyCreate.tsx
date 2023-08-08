@@ -12,14 +12,14 @@ import { createCompany } from "../../api/company";
 
 export default function CompanyCreate() {
     const [companyName, setCompanyName] = useState("");
-    const [companyImgFile, setCompanyImgFile] = useState<File | null>(null);
+    const [companyImgFile, setCompanyImgFile] = useState<string | null>(null);
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setCompanyName(e.target.value);
     }
 
-    const handleAddFile = (img: File) => { //AddFile에서 imgfile 형식으로 받아옴
+    const handleAddFile = (img: string) => { //AddFile에서 imgfile 형식으로 받아옴
       setCompanyImgFile(img)
     }
 
@@ -27,12 +27,10 @@ export default function CompanyCreate() {
       if(companyImgFile !== null) {
         const formData = new FormData();
         formData.append('image', companyImgFile);
-        const companyData = {
-          companyName: companyName,
-          formData: formData,
-        }
-        createCompany(companyData).then((fetchedData)=>{
-          if(fetchedData===0) console.log("create success")
+        formData.append('name', companyName);
+        
+        createCompany(formData).then((fetchedData)=>{
+          if(fetchedData) console.log("create success", fetchedData)
         })
       } else {
         console.log("no img");

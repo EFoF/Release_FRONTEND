@@ -96,7 +96,7 @@ authorizationClient.interceptors.request.use((config) => {
     },
   });
 }, (error) => {
-  console.error("[Axios]", error);
+  console.error("2[Axios]", error);
   return Promise.reject(error)
 } );
 
@@ -127,7 +127,7 @@ unAuthorizationClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error("[Axios]", error);
+    console.error("1[Axios]", error);
     return Promise.reject(error);
   }
 );
