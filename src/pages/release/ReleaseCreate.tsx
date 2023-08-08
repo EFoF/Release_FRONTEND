@@ -137,6 +137,8 @@ export default function ReleaseCreate() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
+
     const handleChangeVersion = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setReleaseVersion(e.target.value);
@@ -178,11 +180,25 @@ export default function ReleaseCreate() {
     };
 
     const handleCheckBtn = (index: number) => {
+        setIsModalOpen2(true);
         // TODO: db 반영
     }
 
+    const handleModalCancel2 = () => {
+        // 모달 닫기
+        setIsModalOpen2(false);
+    };
+
+    const handleModalConfirm2 = () => {
+        // TODO: db 반영
+
+        // 모달 닫기
+        setIsModalOpen2(false);
+    };
+
     const handleMinusBtn = (index: number) => {
         setIsModalOpen(true);
+        // TODO: db 반영
     };
 
     const handleModalCancel = () => {
@@ -325,6 +341,8 @@ export default function ReleaseCreate() {
             </MainContainer>
             <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
                                message={"삭제하시겠습니까?"}/>
+            <ConfirmationModal isOpen={isModalOpen2} onCancel={handleModalCancel2} onConfirm={handleModalConfirm2}
+                               message={"저장하시겠습니까?"}/>
         </Container>
     );
 }
