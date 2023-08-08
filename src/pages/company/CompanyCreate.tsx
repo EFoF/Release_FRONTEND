@@ -8,14 +8,35 @@ import toggleOn from "../../img/ri_toggle-fill.png"
 import COLORS from "../../constants/color";
 import LogoContainer from "../../components/AddFile";
 import AddFile from "../../components/AddFile";
-
+import { createCompany } from "../../api/company";
 
 export default function CompanyCreate() {
     const [companyName, setCompanyName] = useState("");
+    const [companyImgFile, setCompanyImgFile] = useState<File | null>(null);
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setCompanyName(e.target.value)
+        setCompanyName(e.target.value);
+    }
+
+    const handleAddFile = (img: File) => { //AddFile에서 imgfile 형식으로 받아옴
+      setCompanyImgFile(img)
+    }
+
+    const handleCreate = () => {
+      if(companyImgFile !== null) {
+        const formData = new FormData();
+        formData.append('image', companyImgFile);
+        const companyData = {
+          companyName: companyName,
+          formData: formData,
+        }
+        createCompany(companyData).then((fetchedData)=>{
+          if(fetchedData===0) console.log("create success")
+        })
+      } else {
+        console.log("no img");
+      }
     }
 
   return (
@@ -28,11 +49,11 @@ export default function CompanyCreate() {
         </CategoryContainer>
         <CategoryContainer>
             <CategoryTitle1>회사 로고</CategoryTitle1>
-            <AddFile></AddFile>
+            <AddFile onImageUpload={handleAddFile}/>
         </CategoryContainer>
         <ButtonContainer>
           <Button1 title="취소하기"></Button1>
-          <Button title="생성하기" theme="blue"></Button>
+          <Button title="생성하기" theme="blue" onClick={handleCreate}></Button>
         </ButtonContainer>
       </MainContainer>
     </Container>
