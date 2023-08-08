@@ -5,7 +5,7 @@ const LOGOUT = "/logout";
 const SIGNUP = "/signup";
 const REISSUE = "/reissue"
 const WIDHDRAWAL = "/withdrawal";
-const UPDATA_PW = "/update/password";
+const UPDATE_PW = "/update/password";
 const MEMBER_INFO = "/member/info";
 const COMPANIES = "/companies";
 const PROJECT = "/companies/projects";
@@ -25,8 +25,11 @@ const API = {
   LOGOUT: `${AUTH}${LOGOUT}`,
   REISSUE: `${AUTH}${REISSUE}`,
   WIDHDRAWAL: `${AUTH}${WIDHDRAWAL}`,
-  UPDATA_PW: `${AUTH}${UPDATA_PW}`,
+  UPDATE_PW: `${AUTH}${UPDATE_PW}`,
   MEMBER_INFO: `${AUTH}${MEMBER_INFO}`,
+  SEND_EMAIL: `${AUTH}/mail/sending`,
+  VERIFY: `${AUTH}/mail/verification`,
+
 
   COMPANIES: `${COMPANIES}`,
   PROJECT: `${PROJECT}`,
