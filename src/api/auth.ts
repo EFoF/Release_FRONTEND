@@ -2,8 +2,8 @@ import { authorizationClient, unAuthorizationClient } from ".";
 import API from "./config";
 
 export const login = async (userLoginData: Object) => { //email, pw
-    const {data} = await unAuthorizationClient.post(API.LOGIN, userLoginData);
-    return data;
+    const response = await unAuthorizationClient.post(API.LOGIN, userLoginData);
+    return response;
 };
 
 export const signup = async (userSignupData: object) => { //mail, logintype, pw, username
