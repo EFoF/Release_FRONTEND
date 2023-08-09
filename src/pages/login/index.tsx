@@ -3,6 +3,8 @@ import COLORS from "../../constants/color";
 import PATH from "../../constants/path";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
+import {useState} from "react"
+import { login } from "../../api/auth";
 
 const Containers = styled.div`
   width: 100%;
@@ -110,19 +112,41 @@ font-family: S-light;
 export default function Login() {
   const navigate = useNavigate();
   let message = "";
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
 
-  return (
+  const onChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setUserEmail(e.target.value);
+  }
+
+  const onChangePassword = (e : React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setUserPassword(e.target.value);
+  }
+
+  const handleLogin = () => {
+    const userLoginData = {
+      email: userEmail,
+      password: userPassword,
+    }
+    login(userLoginData).then((fetchedData)=>{
+      if(fetchedData) console.log("login", fetchedData)
+    })
+  }
+
+  return ( 
     <Containers>
       <SignupTitleContainer>
         <SignupTitle>로그인</SignupTitle>
       </SignupTitleContainer>
       <LoginForm>
         <LoginBox>
-          <BoxTitle>아이디</BoxTitle>
+          <BoxTitle>이메일</BoxTitle>
           <BoxInput
-            placeholder="아이디를 입력해주세요"
-            // value={}
-            // onChange={onChangeEmail}
+            placeholder="이메일을 입력해주세요"
+            value={userEmail}
+            onChange={onChangeEmail}
           />
           {message.length > 0 && <Message> {message}</Message>}
         </LoginBox>
@@ -131,8 +155,8 @@ export default function Login() {
           <BoxInput
             placeholder="비밀번호를 입력해주세요"
             type={"password"}
-            // value={password}
-            // onChange={onChangePassword}
+            value={userPassword}
+            onChange={onChangePassword}
           />
         </LoginBox>
         <hr />
@@ -142,7 +166,7 @@ export default function Login() {
           <div>비밀번호 찾기</div>
         </Box>
         <ButtonContainer>
-            <Button theme="blue" title="로그인"></Button>
+            <Button theme="blue" title="로그인" onClick={handleLogin}></Button>
         </ButtonContainer>
       </LoginForm>
       {/* <SNSLogin /> */}
