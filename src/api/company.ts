@@ -29,3 +29,17 @@ export const getMyCompanies = async (
   const {data} = await authorizationClient.get(`${API.COMPANIES}/member/companies`);
   return data;
 };
+
+export const updateCompany = async (companyId: number, companyData: FormData) => {
+  const {data} = await authorizationClient.put(`${API.COMPANIES}/${companyId}`, companyData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  return data;
+};
+
+export const deleteCompany = async (companyId: number) => {
+  const {data} = await authorizationClient.delete(`${API.COMPANIES}/${companyId}`);
+  return data;
+};
