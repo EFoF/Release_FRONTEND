@@ -3,16 +3,17 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import {useState} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
+import { Navigate, useNavigate } from "react-router";
+import PATH from "../../constants/path";
 
 
 export default function NoCompany() {
+    const navigate = useNavigate();
     return (
-        <Container>
-            <MainContainer>
-                <MainText>속한 회사가 없습니다</MainText>
-                <Button theme="blue" title="회사 생성하기"></Button>
-            </MainContainer>
-        </Container>
+        <MainContainer>
+            <MainText>속한 회사가 없습니다</MainText>
+            <Button theme="blue" title="회사 생성하기" onClick={()=>navigate(PATH.COMPANYCREATE)}></Button>
+        </MainContainer>
     )
 }
 
