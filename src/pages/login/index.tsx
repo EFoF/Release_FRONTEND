@@ -117,7 +117,7 @@ export default function Login() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  const {mutateLogin} = useLogin();
+  // const {mutateLogin} = useLogin();
 
   const onChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -134,10 +134,16 @@ export default function Login() {
       email: userEmail,
       password: userPassword,
     }
+    login(userLoginData).then((fetchedData)=>{
+      if(fetchedData) {
+        console.log("login", fetchedData.headers.authorization)
+        localStorage.setItem("accessToken", fetchedData.headers.authorization);
+      }
+    })
     
-    console.log(userLoginData)
-    mutateLogin.mutate(userLoginData);
-    console.log("mutateLogin", mutateLogin)
+    // console.log(userLoginData)
+    // mutateLogin.mutate(userLoginData);
+    // console.log("mutateLogin", mutateLogin)
   }
 
   return ( 
