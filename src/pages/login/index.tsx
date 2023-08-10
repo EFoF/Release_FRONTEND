@@ -138,7 +138,7 @@ export default function Login() {
       if(fetchedData) {
         console.log("login", fetchedData.headers.authorization)
         localStorage.setItem("accessToken", fetchedData.headers.authorization);
-        navigate(PATH.HOME) //mycomp로 변환 
+        navigate(PATH.MYCOMPANY) //mycomp로 변환 
       }
     })
     

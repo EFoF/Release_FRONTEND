@@ -2,7 +2,7 @@ import eagle from "../../img/icon-park-outline_eagle.png";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
-
+import profile from "../../img/profile.png"
 
 export const Container = styled.div`
   width: 100%;
@@ -50,7 +50,7 @@ export const ForDev = styled.div`
   line-height: normal;
 `;
 
-export const RightBox = styled.div`
+export const RightBox1 = styled.div`
   margin-left: auto;
   margin-right: 3rem;
   color: #000;
@@ -60,6 +60,33 @@ export const RightBox = styled.div`
   font-weight: 400;
   line-height: normal;
   cursor: pointer;
+`;
+
+export const RightBox2 = styled.div`
+display: flex;
+align-items: center;
+margin-right: 2.5rem;
+gap: 2rem;
+`
+
+export const ProfileBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const ProfileImg = styled.img`
+  width: 2.4rem;
+  height: 2.6rem;
+  margin-right: 0.4rem;
+`;
+
+export const ProfileName = styled.div`
+  font-size: 1.5rem;
+`;
+
+export const Logout = styled.div`
+font-size: 1.5rem;
+
 `;
 
 interface HeaderProps {
@@ -80,7 +107,14 @@ export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가�
         {(isCompany ?<div>카카오 엔터프라이즈</div> : <div onClick={handleLogoClick}>독수리 플랫폼</div>)}
       </LogoBox>
       {(isDev ? <ForDev>for Developers</ForDev> : "")}
-      <RightBox onClick={()=>navigate(PATH.LOGIN)}>개발자이신가요?</RightBox>
+      <RightBox1 onClick={()=>navigate(PATH.LOGIN)}>개발자이신가요?</RightBox1>
+      <RightBox2>
+        <ProfileBox>
+          <ProfileImg src={profile} alt="Person" />
+          <ProfileName>최철웅</ProfileName>
+        </ProfileBox>
+        <Logout>로그아웃</Logout>
+      </RightBox2>
     </Container>
   );
 }
