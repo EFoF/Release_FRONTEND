@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import {useState} from "react"
 import { login } from "../../api/auth";
+import useLogin from "../../hooks/useLogin";
+import { useMutation } from "@tanstack/react-query";
 
 const Containers = styled.div`
   width: 100%;
@@ -86,6 +88,7 @@ const Box = styled.div`
     }
   }
 `;
+
 const Message = styled.p`
   font-size: 1.1rem;
   padding-top: 1rem;
@@ -114,6 +117,8 @@ export default function Login() {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
+  const {mutateLogin} = useLogin();
+
   const onChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setUserEmail(e.target.value);
@@ -129,9 +134,10 @@ export default function Login() {
       email: userEmail,
       password: userPassword,
     }
-    login(userLoginData).then((fetchedData)=>{
-      if(fetchedData) console.log("login", fetchedData)
-    })
+    
+    console.log(userLoginData)
+    mutateLogin.mutate(userLoginData);
+    console.log("mutateLogin", mutateLogin)
   }
 
   return ( 
