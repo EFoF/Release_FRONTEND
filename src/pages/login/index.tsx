@@ -91,7 +91,6 @@ const Message = styled.p`
   padding-top: 1rem;
 `;
 
-
 const SignupTitleContainer = styled.div`
   text-align: center;
 `;
