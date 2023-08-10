@@ -66,6 +66,7 @@ export const RightBox1 = styled.div`
 
 export const RightBox2 = styled.div`
 display: flex;
+margin-left: auto;
 align-items: center;
 margin-right: 2.5rem;
 gap: 2rem;
@@ -74,6 +75,7 @@ gap: 2rem;
 export const ProfileBox = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const ProfileImg = styled.img`
@@ -88,6 +90,7 @@ export const ProfileName = styled.div`
 
 export const Logout = styled.div`
 font-size: 1.5rem;
+cursor: pointer;
 `;
 
 interface HeaderProps {
@@ -98,6 +101,7 @@ interface HeaderProps {
 export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가하기
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  console.log("isLogin", isLogin)
 
   const handleLogoClick = () => {
     navigate(PATH.HOME)
@@ -105,6 +109,7 @@ export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가�
 
   const handleLogout = () => {
     setIsLogin(false);
+    localStorage.clear();
     navigate(PATH.HOME);
   }
 
@@ -115,14 +120,15 @@ export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가�
         {(isCompany ?<div>카카오 엔터프라이즈</div> : <div onClick={handleLogoClick}>독수리 플랫폼</div>)}
       </LogoBox>
       {(isDev ? <ForDev>for Developers</ForDev> : "")}
-      <RightBox1 onClick={()=>navigate(PATH.LOGIN)}>개발자이신가요?</RightBox1>
-      <RightBox2>
+      {(isLogin ? <RightBox2>
         <ProfileBox>
           <ProfileImg src={profile} alt="Person" />
           <ProfileName>최철웅</ProfileName>
         </ProfileBox>
         <Logout onClick={handleLogout}>로그아웃</Logout>
-      </RightBox2>
+      </RightBox2> : <RightBox1 onClick={()=>navigate(PATH.LOGIN)}>개발자이신가요?</RightBox1>)}
+      
+      
     </Container>
   );
 }
