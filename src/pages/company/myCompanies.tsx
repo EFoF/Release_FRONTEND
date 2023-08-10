@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {Title1, Title2} from "../../components/Text/Title";
 import kakaoenter from "../../img/kakao-enter.jpg";
 import naver from "../../img/naver.png";
@@ -12,6 +12,7 @@ import facebook from "../../img/facebook.png";
 import {useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import {CompanyCard, CompanyContainer, CompanyImage, CompanyListContainer, CompanyName} from "../home";
+import { getMyCompanies } from "../../api/company";
 
 interface Company {
     id: number;
@@ -19,57 +20,20 @@ interface Company {
     imageUrl: string;
 }
 
-interface CompanyData {
-    companyResponseDTOList: Company[];
-}
-
 export default function MyCompanies() {
-    const [companies, setCompanies] = useState<CompanyData>(
-        {
-            companyResponseDTOList: [
-                {
-                    id: 1,
-                    name: "카카오 엔터프라이즈",
-                    imageUrl: kakaoenter
-                },
-                {
-                    id: 2,
-                    name: "네이버",
-                    imageUrl: naver
-                },
-                {
-                    id: 3,
-                    name: "카카오페이",
-                    imageUrl: kakaopay
-                },
-                {
-                    id: 4,
-                    name: "카카오 브레인",
-                    imageUrl: kakaobrain
-                },
-                {
-                    id: 5,
-                    name: "EagleEagle",
-                    imageUrl: eagle
-                },
-                {
-                    id: 6,
-                    name: "카카오 뱅크",
-                    imageUrl: kakaobank
-                },
-                {
-                    id: 7,
-                    name: "카카오 게임즈",
-                    imageUrl: kakaogames
-                },
-                {
-                    id: 8,
-                    name: "페이스북",
-                    imageUrl: facebook
-                }
-            ]
-        }
-    )
+    const [companies, setCompanies] = useState<Company[] | null>(null)
+    useEffect(() => {
+        const fetchMyCompanies = async () => {
+            try {
+                const { content } = await getMyCompanies();
+                console.log("content", content);
+                setCompanies(content);
+              } catch (error) {
+                console.error('Error fetching companies:', error);
+              }
+        };
+        fetchMyCompanies();
+      }, []);
 
     const navigate = useNavigate();
 
@@ -90,7 +54,7 @@ export default function MyCompanies() {
                 </div>
                 <CompanyContainer>
                     <CompanyListContainer>
-                        {companies.companyResponseDTOList
+                        {companies !== null && companies
                             .map((company, index) => (
                                 <CompanyCard key={index} onClick={handleCompanyClick}>
                                     <CompanyImage src={company.imageUrl} alt={company.name}/>

@@ -19,3 +19,13 @@ export const searchCompany = async (
     const {data} = await unAuthorizationClient.get(API.COMPANIES);
     return data;
 };
+
+export const getMyCompanies = async (
+  offset?: number,
+  pageNumber?: number,
+  pageSize?: number,
+  paged?: boolean,
+) => {
+  const {data} = await authorizationClient.get(`${API.COMPANIES}/member/companies`);
+  return data;
+};

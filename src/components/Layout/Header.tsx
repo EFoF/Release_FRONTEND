@@ -2,9 +2,9 @@ import eagle from "../../img/icon-park-outline_eagle.png";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
-import profile from "../../img/profile.png"
+import profile from "../../img/profile.png";
 import { isLoginState } from "../../states/isLogin";
-import { useRecoilState } from 'recoil';
+import { useRecoilState } from "recoil";
 
 export const Container = styled.div`
   width: 100%;
@@ -13,9 +13,9 @@ export const Container = styled.div`
   display: flex;
   border-bottom: 0.0625rem solid rgba(0, 0, 0, 0.2);
   align-items: center;
-    position: fixed;
-    top: 0;
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  z-index: 999;
 `;
 
 export const LogoBox = styled.div`
@@ -65,12 +65,12 @@ export const RightBox1 = styled.div`
 `;
 
 export const RightBox2 = styled.div`
-display: flex;
-margin-left: auto;
-align-items: center;
-margin-right: 2.5rem;
-gap: 2rem;
-`
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  margin-right: 2.5rem;
+  gap: 2rem;
+`;
 
 export const ProfileBox = styled.div`
   display: flex;
@@ -89,8 +89,8 @@ export const ProfileName = styled.div`
 `;
 
 export const Logout = styled.div`
-font-size: 1.5rem;
-cursor: pointer;
+  font-size: 1.5rem;
+  cursor: pointer;
 `;
 
 interface HeaderProps {
@@ -98,37 +98,46 @@ interface HeaderProps {
   isCompany?: boolean;
 }
 
-export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가하기
+export default function Header({ isDev, isCompany }: HeaderProps) {
+  //isDev 추가하기
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  console.log("isLogin", isLogin)
+  console.log("isLogin", isLogin);
 
   const handleLogoClick = () => {
-    navigate(PATH.HOME)
-  } //회사면 첫 디폴트 카테고리로 
+    navigate(PATH.HOME);
+  }; //회사면 첫 디폴트 카테고리로
 
   const handleLogout = () => {
     setIsLogin(false);
     localStorage.clear();
     navigate(PATH.HOME);
-  }
+  };
 
   return (
     <Container>
       <LogoBox>
-        {(isCompany ? "" : <LogoImg src={eagle} />)}
-        {(isCompany ?<div>카카오 엔터프라이즈</div> : <div onClick={handleLogoClick}>독수리 플랫폼</div>)}
+        {isCompany ? "" : <LogoImg src={eagle} />}
+        {isCompany ? (
+          <div>카카오 엔터프라이즈</div>
+        ) : (
+          <div onClick={handleLogoClick}>독수리 플랫폼</div>
+        )}
       </LogoBox>
-      {(isDev ? <ForDev>for Developers</ForDev> : "")}
-      {(isLogin ? <RightBox2>
-        <ProfileBox>
-          <ProfileImg src={profile} alt="Person" />
-          <ProfileName>최철웅</ProfileName>
-        </ProfileBox>
-        <Logout onClick={handleLogout}>로그아웃</Logout>
-      </RightBox2> : <RightBox1 onClick={()=>navigate(PATH.LOGIN)}>개발자이신가요?</RightBox1>)}
-      
-      
+      {isDev ? <ForDev>for Developers</ForDev> : ""}
+      {isLogin ? (
+        <RightBox2>
+          <ProfileBox>
+            <ProfileImg src={profile} alt="Person" />
+            <ProfileName>최철웅</ProfileName>
+          </ProfileBox>
+          <Logout onClick={handleLogout}>로그아웃</Logout>
+        </RightBox2>
+      ) : (
+        <RightBox1 onClick={() => navigate(PATH.LOGIN)}>
+          개발자이신가요?
+        </RightBox1>
+      )}
     </Container>
   );
 }

@@ -28,4 +28,3 @@ const PATH = {
 } as const;
   
 export default PATH;
-  
