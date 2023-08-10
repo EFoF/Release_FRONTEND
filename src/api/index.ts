@@ -45,7 +45,7 @@ async function resetTokenAndReattemptRequest(error: any) {
     const retryOriginalRequest = new Promise((resolve, reject) => {
       addSubscribers(async (accessToken)=>{
         try {
-          errorResponse.config.headers.Authorization = `Bearer ${accessToken}`;
+          errorResponse.config.headers.Authorization = `${accessToken}`; //삭제
           resolve(authorizationClient(errorResponse.config));
         } catch (err) {
           reject(err);
@@ -92,7 +92,7 @@ async function resetTokenAndReattemptRequest(error: any) {
 authorizationClient.interceptors.request.use((config) => {
   return Object.assign(config, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `${localStorage.getItem("accessToken")}`, //삭제 
     },
   });
 }, (error) => {
@@ -106,6 +106,7 @@ authorizationClient.interceptors.response.use(
   return response;
 }, 
   async (error) => { //그 외 응답 실패 시 
+    console.log("resp 받고 에러 : ", error)
     if(error.response.data.errorCode === 401 && localStorage.getItem("accessToken")) { //401인데 로컬스토리지 엑세스토큰이 존재할 때
       return resetTokenAndReattemptRequest(error); //엑세스토큰 재발급하고 재요청 
     }

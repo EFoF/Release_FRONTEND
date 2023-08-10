@@ -59,6 +59,7 @@ export const RightBox = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  cursor: pointer;
 `;
 
 interface HeaderProps {
@@ -76,10 +77,10 @@ export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가�
     <Container>
       <LogoBox>
         {(isCompany ? "" : <LogoImg src={eagle} />)}
-        {(isCompany ?<div>카카오 엔터프라이즈</div> : <div>독수리 플랫폼</div>)}
+        {(isCompany ?<div>카카오 엔터프라이즈</div> : <div onClick={handleLogoClick}>독수리 플랫폼</div>)}
       </LogoBox>
       {(isDev ? <ForDev>for Developers</ForDev> : "")}
-      <RightBox>개발자이신가요?</RightBox>
+      <RightBox onClick={()=>navigate(PATH.LOGIN)}>개발자이신가요?</RightBox>
     </Container>
   );
 }
