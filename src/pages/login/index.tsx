@@ -7,6 +7,9 @@ import {useState} from "react"
 import { login } from "../../api/auth";
 import useLogin from "../../hooks/useLogin";
 import { useMutation } from "@tanstack/react-query";
+import { isLoginState } from "../../states/isLogin";
+import { useRecoilState } from 'recoil';
+
 
 const Containers = styled.div`
   width: 100%;
@@ -116,7 +119,8 @@ export default function Login() {
   let message = "";
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  
   // const {mutateLogin} = useLogin();
 
   const onChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -138,6 +142,7 @@ export default function Login() {
       if(fetchedData) {
         console.log("login", fetchedData.headers.authorization)
         localStorage.setItem("accessToken", fetchedData.headers.authorization);
+        setIsLogin(true);
         navigate(PATH.MYCOMPANY) //mycomp로 변환 
       }
     })

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import profile from "../../img/profile.png"
+import { isLoginState } from "../../states/isLogin";
+import { useRecoilState } from 'recoil';
 
 export const Container = styled.div`
   width: 100%;
@@ -86,7 +88,6 @@ export const ProfileName = styled.div`
 
 export const Logout = styled.div`
 font-size: 1.5rem;
-
 `;
 
 interface HeaderProps {
@@ -96,9 +97,16 @@ interface HeaderProps {
 
 export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가하기
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+
   const handleLogoClick = () => {
     navigate(PATH.HOME)
   } //회사면 첫 디폴트 카테고리로 
+
+  const handleLogout = () => {
+    setIsLogin(false);
+    navigate(PATH.HOME);
+  }
 
   return (
     <Container>
@@ -113,7 +121,7 @@ export default function Header({isDev, isCompany}:HeaderProps) { //isDev 추가�
           <ProfileImg src={profile} alt="Person" />
           <ProfileName>최철웅</ProfileName>
         </ProfileBox>
-        <Logout>로그아웃</Logout>
+        <Logout onClick={handleLogout}>로그아웃</Logout>
       </RightBox2>
     </Container>
   );
