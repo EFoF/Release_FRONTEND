@@ -31,4 +31,8 @@ export const verification = async (userMailData: object) => { //email, code
     return data;
 };
 
+export const loadMyInfo = async () => { 
+    const {data} = await authorizationClient.get(API.MEMBER_INFO);
+    return data;
+};
 //reissue는 index에 

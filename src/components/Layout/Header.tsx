@@ -5,6 +5,8 @@ import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
 import { isLoginState } from "../../states/isLogin";
 import { useRecoilState } from "recoil";
+import { useState, useEffect } from "react"
+import { loadMyInfo } from "../../api/auth";
 
 export const Container = styled.div`
   width: 100%;
@@ -102,7 +104,20 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
   //isDev 추가하기
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [myName, setMyName] = useState("")
   console.log("isLogin", isLogin);
+
+  useEffect(()=>{
+    const fetchMyInfo = async () => {
+      try {
+        const { username } = await loadMyInfo();
+        setMyName(username);
+      } catch (error) {
+        console.error('Error fetching companies:', error);
+      }
+    }
+    fetchMyInfo();
+  }, [])
 
   const handleLogoClick = () => {
     navigate(PATH.HOME);
@@ -133,7 +148,7 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
         <RightBox2>
           <ProfileBox>
             <ProfileImg src={profile} alt="Person" />
-            <ProfileName>최철웅</ProfileName>
+            <ProfileName>{myName}</ProfileName>
           </ProfileBox>
           <Logout onClick={handleLogout}>로그아웃</Logout>
         </RightBox2>
