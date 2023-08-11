@@ -1,15 +1,17 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import React, {useState} from "react"
-import {useNavigate} from "react-router-dom";
+import React, {useState, useEffect} from "react"
+import {useNavigate, useLocation } from "react-router-dom";
 import {Title1} from "../../components/Text/Title";
+import { updatePassword } from "../../api/auth";
 
 export default function PasswordChange() {
     const [inputOldPassword, setInputOldPassword] = useState("");
     const [inputNewPassword, setInputNewPassword] = useState("");
     const [checkNewPassword, setCheckNewPassword] = useState("");
 
+    const { state } = useLocation();
     const navigate = useNavigate();
 
     const handleChangeInputOldPassword = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +34,21 @@ export default function PasswordChange() {
     };
 
     const handleChangePassword = () => {
-        // 비밀번호 변경 axios 연결
+      const userInfo = {
+        "inputEmail": state,
+        "inputNewPassword": inputNewPassword,
+        "inputOldPassword": inputOldPassword,
+      }
+
+      const updateMyPassword = async () => {
+        try {
+          const data = await updatePassword(userInfo);
+          console.log("content", data);
+        } catch (error) {
+          console.error("Error Update Password:", error);
+        }
+      };
+      updateMyPassword();
     };
 
     return (
@@ -42,15 +58,15 @@ export default function PasswordChange() {
                     <InfoTitle>비밀번호 변경</InfoTitle>
                     <InfoItem>
                         <Label>현재 비밀번호</Label>
-                        <Input size={20} value={inputOldPassword} onChange={handleChangeInputOldPassword}></Input>
+                        <Input type="password" size={20} value={inputOldPassword} onChange={handleChangeInputOldPassword}></Input>
                     </InfoItem>
                     <InfoItem>
                         <Label>새 비밀번호</Label>
-                        <Input size={20} value={inputNewPassword} onChange={handleChangeInputNewPassword}></Input>
+                        <Input type="password" size={20} value={inputNewPassword} onChange={handleChangeInputNewPassword}></Input>
                     </InfoItem>
                     <InfoItem>
                         <Label>새 비밀번호 확인</Label>
-                        <Input size={20} value={checkNewPassword} onChange={handleChangeCheckNewPassword}></Input>
+                        <Input type="password" size={20} value={checkNewPassword} onChange={handleChangeCheckNewPassword}></Input>
                     </InfoItem>
                     <ButtonContainer>
                         <Button onClick={handleBack} title={"돌아가기"}></Button>

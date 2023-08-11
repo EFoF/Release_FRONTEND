@@ -35,4 +35,9 @@ export const loadMyInfo = async () => {
     const {data} = await authorizationClient.get(API.MEMBER_INFO);
     return data;
 };
+
+export const updatePassword = async (userInfo: object) => { //pw
+    const {data} = await authorizationClient.patch(API.UPDATE_PW, userInfo);
+    return data;
+};
 //reissue는 index에 

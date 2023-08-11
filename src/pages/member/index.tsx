@@ -16,10 +16,10 @@ export default function Member() {
   const [myName, setMyName] = useState("");
   const [MyEmail, setMyEmail] = useState("")
 
-    const memberResponseDTO: Member = {
-        username: "Owen Choi",
-        email: "owen123@naver.com",
-    };
+    // const memberResponseDTO: Member = {
+    //     username: "Owen Choi",
+    //     email: "owen123@naver.com",
+    // };
 
     useEffect(()=>{
       const fetchMyInfo = async () => {
@@ -38,7 +38,7 @@ export default function Member() {
     const navigate = useNavigate();
 
     const handlePasswordChange = () => {
-        navigate(PATH.PASSWORDCHANGE);
+        navigate(PATH.PASSWORDCHANGE, {state: MyEmail});
     };
 
     const handleWithdrawal = () => {
