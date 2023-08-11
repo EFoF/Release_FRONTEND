@@ -113,7 +113,7 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
         const { username } = await loadMyInfo();
         setMyName(username);
       } catch (error) {
-        console.error('Error fetching companies:', error);
+        console.error('Error fetching info:', error);
       }
     }
     fetchMyInfo();

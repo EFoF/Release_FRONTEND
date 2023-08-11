@@ -1,21 +1,38 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {useNavigate} from "react-router-dom";
 import {CompanyTitle} from "../company/myProjects";
 import {Title1} from "../../components/Text/Title";
 import PATH from "../../constants/path";
+import { loadMyInfo } from "../../api/auth";
 
 interface Member {
     username: string;
     email: string;
 }
 export default function Member() {
+  const [myName, setMyName] = useState("");
+  const [MyEmail, setMyEmail] = useState("")
+
     const memberResponseDTO: Member = {
         username: "Owen Choi",
         email: "owen123@naver.com",
     };
+
+    useEffect(()=>{
+      const fetchMyInfo = async () => {
+        try {
+          const { email, username } = await loadMyInfo();
+          setMyName(username);
+          setMyEmail(email)
+        } catch (error) {
+          console.error('Error fetching info:', error);
+        }
+      }
+      fetchMyInfo();
+    }, [])
 
 
     const navigate = useNavigate();
@@ -35,11 +52,11 @@ export default function Member() {
                     <InfoTitle>정보 수정</InfoTitle>
                     <InfoItem>
                         <Label>이름</Label>
-                        <Info>{memberResponseDTO.username}</Info>
+                        <Info>{myName}</Info>
                     </InfoItem>
                     <InfoItem>
                         <Label>이메일</Label>
-                        <Info>{memberResponseDTO.email}</Info>
+                        <Info>{MyEmail}</Info>
                     </InfoItem>
                     <ButtonContainer>
                         <Button onClick={handlePasswordChange} title={"비밀번호 변경"}></Button>

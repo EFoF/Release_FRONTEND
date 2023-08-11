@@ -3,6 +3,8 @@ import styled from "styled-components";
 import "../../styles/font.css";
 import setting from "../../img/setting1.png"
 import Button from "../Button";
+import { useNavigate } from "react-router";
+import PATH from "../../constants/path";
 
 const Container = styled.div`
   display: flex;
@@ -89,13 +91,18 @@ const ButtonContainer = styled.div`
 `
 
 export default function MySide() {
+  const navigate = useNavigate();
+
+  const handleMySettingClick = () => {
+    navigate(PATH.MYINFO);
+  }
   
   return (
     <Container>
       <SidebarContainer>
         <MyRow>
             <MyTitle>내 정보</MyTitle>
-            <MySetting src={setting}/>
+            <MySetting src={setting} onClick={handleMySettingClick}/>
         </MyRow>
         <MyInfo>
             <MyName>최철웅</MyName>
