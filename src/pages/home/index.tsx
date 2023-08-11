@@ -42,6 +42,7 @@ export default function Home() {
       setCompanies(fetchedCompanies.content);
       console.log(companies)
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   
   const navigate = useNavigate();
