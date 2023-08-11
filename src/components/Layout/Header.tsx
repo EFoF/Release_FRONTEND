@@ -146,7 +146,7 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
       {isDev ? <ForDev>for Developers</ForDev> : ""}
       {isLogin ? (
         <RightBox2>
-          <ProfileBox>
+          <ProfileBox onClick={()=>{navigate(PATH.MYINFO)}}>
             <ProfileImg src={profile} alt="Person" />
             <ProfileName>{myName}</ProfileName>
           </ProfileBox>

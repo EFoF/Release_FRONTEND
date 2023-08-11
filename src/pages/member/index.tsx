@@ -14,7 +14,7 @@ interface Member {
 }
 export default function Member() {
   const [myName, setMyName] = useState("");
-  const [MyEmail, setMyEmail] = useState("")
+  const [myEmail, setMyEmail] = useState("")
 
     // const memberResponseDTO: Member = {
     //     username: "Owen Choi",
@@ -38,7 +38,7 @@ export default function Member() {
     const navigate = useNavigate();
 
     const handlePasswordChange = () => {
-        navigate(PATH.PASSWORDCHANGE, {state: MyEmail});
+        navigate(PATH.PASSWORDCHANGE, {state: myEmail});
     };
 
     const handleWithdrawal = () => {
@@ -56,7 +56,7 @@ export default function Member() {
                     </InfoItem>
                     <InfoItem>
                         <Label>이메일</Label>
-                        <Info>{MyEmail}</Info>
+                        <Info>{myEmail}</Info>
                     </InfoItem>
                     <ButtonContainer>
                         <Button onClick={handlePasswordChange} title={"비밀번호 변경"}></Button>

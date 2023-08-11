@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "../../styles/font.css";
 import setting from "../../img/setting1.png"
 import Button from "../Button";
 import { useNavigate } from "react-router";
 import PATH from "../../constants/path";
+import { loadMyInfo } from "../../api/auth";
 
 const Container = styled.div`
   display: flex;
@@ -92,10 +93,25 @@ const ButtonContainer = styled.div`
 
 export default function MySide() {
   const navigate = useNavigate();
+  const [myName, setMyName] = useState("");
+  const [myEmail, setMyEmail] = useState("")
 
   const handleMySettingClick = () => {
     navigate(PATH.MYINFO);
   }
+
+  useEffect(()=>{
+    const fetchMyInfo = async () => {
+      try {
+        const { email, username } = await loadMyInfo();
+        setMyName(username);
+        setMyEmail(email)
+      } catch (error) {
+        console.error('Error fetching info:', error);
+      }
+    }
+    fetchMyInfo();
+  }, [])
   
   return (
     <Container>
@@ -105,12 +121,12 @@ export default function MySide() {
             <MySetting src={setting} onClick={handleMySettingClick}/>
         </MyRow>
         <MyInfo>
-            <MyName>최철웅</MyName>
-            <MyEmail>(dlrhdcjs@naver.com)</MyEmail>
+            <MyName>{myName}</MyName>
+            <MyEmail>{myEmail}</MyEmail>
         </MyInfo>
       </SidebarContainer>
       <ButtonContainer>
-        <Button title="회사 생성하기" theme="blue"/>
+        <Button title="회사 생성하기" theme="blue" onClick={()=>{navigate(PATH.COMPANYCREATE)}}/>
       </ButtonContainer>
     </Container>
   );

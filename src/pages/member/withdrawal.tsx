@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {CompanyTitle} from "../company/myProjects";
 import {Title1} from "../../components/Text/Title";
 import ConfirmationModal from "../../components/Modal";
+import { withdrawal } from "../../api/auth";
 
 export default function Withdrawal() {
     const [inputOldPassword, setInputOldPassword] = useState("");
@@ -34,7 +35,15 @@ export default function Withdrawal() {
 
     const handleModalConfirm = () => {
         // 회원 탈퇴 로직 추가
-        // ...
+        const withdrawalMyAccount = async () => {
+          try {
+            const data = await withdrawal({inputOldPassword});
+            console.log(data)
+          } catch (error) {
+            console.error('Error withdrawl:', error);
+          }
+        }
+        withdrawalMyAccount();
 
         // 모달 닫기
         setIsModalOpen(false);
@@ -47,7 +56,7 @@ export default function Withdrawal() {
                     <InfoTitle>회원 탈퇴</InfoTitle>
                     <InfoItem>
                         <Label>현재 비밀번호</Label>
-                        <Input size={20} value={inputOldPassword} onChange={handleChangeInputOldPassword}></Input>
+                        <Input type="password" size={20} value={inputOldPassword} onChange={handleChangeInputOldPassword}></Input>
                     </InfoItem>
                     <ButtonContainer>
                         <Button onClick={handleBack} title={"돌아가기"}></Button>
