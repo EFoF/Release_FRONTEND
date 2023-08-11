@@ -90,6 +90,20 @@ export default function MyProjects() {
         navigate(PATH.MYCOMPANY);
     };
 
+    // content 형식 확인 및 api 있는지 확인 및 회사이름 확인 
+    // useEffect(() => { 
+    //     const fetchMyProjects = async () => {
+    //       try {
+    //         const { findProjectListResponseDtos } = await getMyCompanies();
+    //         console.log("content", findProjectListResponseDtos.content);
+    //         setCompanies(content);
+    //       } catch (error) {
+    //         console.error("Error fetching companies:", error);
+    //       }
+    //     };
+    //     fetchMyProjects();
+    //   }, []);
+
     return (
         <Container>
             <MainContainer>
