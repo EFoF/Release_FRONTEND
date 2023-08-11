@@ -9,10 +9,13 @@ import COLORS from "../../constants/color";
 import LogoContainer from "../../components/AddFile";
 import AddFile from "../../components/AddFile";
 import { createCompany } from "../../api/company";
+import { useNavigate } from "react-router";
+import PATH from "../../constants/path";
 
 export default function CompanyCreate() {
     const [companyName, setCompanyName] = useState("");
     const [companyImgFile, setCompanyImgFile] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -30,7 +33,10 @@ export default function CompanyCreate() {
         formData.append('name', companyName);
         
         createCompany(formData).then((fetchedData)=>{
-          if(fetchedData) console.log("create success", fetchedData)
+          if(fetchedData) {
+            console.log("create success", fetchedData);
+            navigate(PATH.MYCOMPANY);
+          }
         })
       } else {
         console.log("no img");

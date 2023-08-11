@@ -9,6 +9,7 @@ import useLogin from "../../hooks/useLogin";
 import { useMutation } from "@tanstack/react-query";
 import { isLoginState } from "../../states/isLogin";
 import { useRecoilState } from 'recoil';
+import SNSLogin from "./snsLogin";
 
 
 const Containers = styled.div`
@@ -186,7 +187,7 @@ export default function Login() {
             <Button theme="blue" title="로그인" onClick={handleLogin}></Button>
         </ButtonContainer>
       </LoginForm>
-      {/* <SNSLogin /> */}
+      <SNSLogin />
     </Containers>
   );
 }
