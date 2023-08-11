@@ -1,4 +1,4 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL; //아직 env에 작성 x
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const AUTH = "/auth";
 const LOGIN = "/signin";
 const LOGOUT = "/logout";
