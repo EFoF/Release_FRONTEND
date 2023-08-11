@@ -60,7 +60,7 @@ export default function Home() {
   return (
     <Containers>
       <HomeContainer>
-        <ServiceName>독수리 플랫폼</ServiceName>
+        <ServiceName>DOKLIB</ServiceName>
         <MainInputContainer>
           <MainInput
             placeholder="회사명을 검색해보세요"

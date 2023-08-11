@@ -6,10 +6,12 @@ export const Container = styled.div`
   height: 4.3125rem;
   background: #E5E3E3;
   display: flex;
+  flex-direction: row; //column
   align-items: center;
+  // justify-content: center;
   position: absolute;
   bottom: 0;
-  color: white;
+  // color: white;
   // gap: 60rem;
   // background: rgba(0, 0, 0, 0.8);
   // justify-content: space-between;
@@ -17,6 +19,9 @@ export const Container = styled.div`
   // bottom: 0;
   // z-index: 999;
 `;
+
+export const LogoContainer = styled.div`
+`
 
 export const LeftBox = styled.div`
     margin-left: 1.4rem;
@@ -36,17 +41,20 @@ export const LeftBox = styled.div`
 export const LogoImg = styled.img`
   width: 3.12rem;
   height: 3.12rem;
-  margin: auto;
+  margin-left: 1.3rem;
+  // margin: auto;
 `
 
 export default function Footer() { 
   return (
     <Container>
-        <LeftBox>
-            <div>개인정보처리방침 | </div>
-            <div>서비스 이용약관</div>
-        </LeftBox>
+      <LogoContainer>
         <LogoImg src={eagle}/>
+      </LogoContainer>
+      <LeftBox>
+          <div>개인정보처리방침 | </div>
+          <div>서비스 이용약관</div>
+      </LeftBox>
     </Container>
   )
 }

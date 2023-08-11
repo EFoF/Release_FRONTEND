@@ -35,8 +35,8 @@ export const LogoBox = styled.div`
 `;
 
 export const LogoImg = styled.img`
-  width: 4.375rem;
-  height: 4.6875rem;
+  width: 4rem;
+  height: 4.2rem;
   flex-shrink: 0;
   margin-top: 0.4rem;
 `;
@@ -106,7 +106,11 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
 
   const handleLogoClick = () => {
     navigate(PATH.HOME);
-  }; //회사면 첫 디폴트 카테고리로
+  }; 
+
+  const handleCompanyTitleClick = () => {
+    navigate(PATH.COMPANYMAIN);
+  }; //회사면 첫 디폴트 카테고리로, dev면 다르게? 
 
   const handleLogout = () => {
     setIsLogin(false);
@@ -119,9 +123,9 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
       <LogoBox>
         {isCompany ? "" : <LogoImg src={eagle} />}
         {isCompany ? (
-          <div>카카오 엔터프라이즈</div>
+          <div onClick={handleCompanyTitleClick}>카카오 엔터프라이즈</div>
         ) : (
-          <div onClick={handleLogoClick}>독수리 플랫폼</div>
+          <div onClick={handleLogoClick}>DOKLIB</div>
         )}
       </LogoBox>
       {isDev ? <ForDev>for Developers</ForDev> : ""}
