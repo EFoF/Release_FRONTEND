@@ -13,6 +13,10 @@ jobs:
       - name: Check Node v
         run: node -v
 
+      - name: .env setting
+        run: |
+          echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_SERVER_IP }}" >> .env
+
       - name: Install dependencies
         run: npm install
 
