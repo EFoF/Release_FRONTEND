@@ -71,6 +71,7 @@ export default function DevLayout() {
     if (location.pathname === "/company") {
       setIsCompanyBool(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log("isCompanyBool", isCompanyBool);
 
