@@ -108,6 +108,7 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
   console.log("isLogin", isLogin);
 
   useEffect(()=>{
+    if(isLogin) {
     const fetchMyInfo = async () => {
       try {
         const { username } = await loadMyInfo();
@@ -117,7 +118,8 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
       }
     }
     fetchMyInfo();
-  }, [])
+  }
+  }, [isLogin])
 
   const handleLogoClick = () => {
     navigate(PATH.HOME);

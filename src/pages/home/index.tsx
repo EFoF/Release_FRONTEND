@@ -38,11 +38,17 @@ export default function Home() {
   const [companies, setCompanies] = useState<Company[]>([])
   
   useEffect(()=>{
-    searchCompany().then((fetchedCompanies)=>{
-      setCompanies(fetchedCompanies.content);
-      console.log(companies)
-    })
-  },[]);
+    const fetchAllCompanies = async () => {
+      try {
+        const {content} = await searchCompany();
+        console.log("companies", content);
+        setCompanies(content);
+      } catch(error) {
+        console.error("Error fetching companies:", error);
+      }
+    }
+    fetchAllCompanies();
+  },[companies]);
   
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
