@@ -59,3 +59,4 @@ jobs:
             docker container prune -f
             docker pull ${{ secrets.DOCKER_USERNAME }}/release_frontend 
             docker run -d -p 3000:80 --name doklib_ws2 ${{ secrets.DOCKER_USERNAME }}/release_frontend:latest
+            
