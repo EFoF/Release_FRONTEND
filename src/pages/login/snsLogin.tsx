@@ -52,7 +52,7 @@ export default function SNSLogin() {
       <SNSWrapper>
         <ImgWrapper>
           <SNSIMG src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/320px-Google_%22G%22_Logo.svg.png" />
-          <Label>Google</Label>
+            <a href="http://localhost:8080/oauth2/authorization/google"><Label>Google</Label></a>
         </ImgWrapper>
         <ImgWrapper>
           <SNSIMG src="https://cdn.imweb.me/upload/S20210304872ba49a108a8/89a68d1e3674a.png" />
