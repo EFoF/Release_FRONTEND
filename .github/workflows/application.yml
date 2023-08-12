@@ -1,0 +1,41 @@
+name: doklib-frontend
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code.   # Repo checkout
+        uses: actions/checkout@v3
+
+      - name: Check Node v
+        run: node -v
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate build          # React Build
+        run: npm run build
+
+      - name: web docker build and push
+        run: |
+          docker login -u ${{ secrets.WAS1_DOCKER_USERNAME }} -p ${{ secrets.WAS1_DOCKER_PASSWORD }}
+          docker build --platform linux/amd64 -t ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend .
+          docker push ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend 
+          
+      - name: executing remote ws1 using password
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_BASTION_KEY }}
+          username: ubuntu
+          key: ${{ secrets.WAS_PEM_KEY }}
+          port: 22
+          script: |
+            chmod 400 ${{ secrets.WAS_PEM_NAME }}
+            ssh -T -i ${{ secrets.WAS_PEM_NAME }} ubuntu@${{ secrets.SSH_WS1_HOST }} << EOF
+            docker kill release_frontend
+            docker container prune -f
+            docker pull ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend 
+            docker run -d -p 3000:80 --name doklib_ws1 ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend:latest
