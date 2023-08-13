@@ -32,7 +32,7 @@ jobs:
       - name: executing remote ws1 using password
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_BASTION_IP }}
+          host: ${{ secrets.SSH_BASTION_HOST }}
           username: ubuntu
           key: ${{ secrets.PEM_KEY }}
           port: 22
@@ -48,7 +48,7 @@ jobs:
       - name: executing remote ws2 using password
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_BASTION_IP }}
+          host: ${{ secrets.SSH_BASTION_HOST }}
           username: ubuntu
           key: ${{ secrets.PEM_KEY }}
           port: 22
