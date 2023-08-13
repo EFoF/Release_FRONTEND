@@ -107,7 +107,8 @@ authorizationClient.interceptors.response.use(
 }, 
   async (error) => { //그 외 응답 실패 시 
     console.log("resp 받고 에러 : ", error)
-    if(error.response.data.errorCode === 401 && localStorage.getItem("accessToken")) { //401인데 로컬스토리지 엑세스토큰이 존재할 때
+    if(error.response.status === 401 && localStorage.getItem("accessToken")) { //401인데 로컬스토리지 엑세스토큰이 존재할 때
+      console.log("refresh ㄱㄱ ", error)
       return resetTokenAndReattemptRequest(error); //엑세스토큰 재발급하고 재요청 
     }
     return Promise.reject(error); //인증 에러가 아닌 다른 에러
