@@ -13,29 +13,50 @@ jobs:
       - name: Check Node v
         run: node -v
 
+      - name: .env setting
+        run: |
+          echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_SERVER_IP }}" >> .env
+
       - name: Install dependencies
         run: npm install
 
       - name: Generate build          # React Build
-        run: npm run build
+        run: CI='false' npm run build
 
       - name: web docker build and push
         run: |
-          docker login -u ${{ secrets.WAS1_DOCKER_USERNAME }} -p ${{ secrets.WAS1_DOCKER_PASSWORD }}
-          docker build --platform linux/amd64 -t ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend .
-          docker push ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend 
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/release_frontend .
+          docker push ${{ secrets.DOCKER_USERNAME }}/release_frontend 
           
       - name: executing remote ws1 using password
         uses: appleboy/ssh-action@v0.1.7
         with:
-          host: ${{ secrets.SSH_BASTION_KEY }}
+          host: ${{ secrets.SSH_BASTION_IP }}
           username: ubuntu
-          key: ${{ secrets.WAS_PEM_KEY }}
+          key: ${{ secrets.PEM_KEY }}
           port: 22
           script: |
-            chmod 400 ${{ secrets.WAS_PEM_NAME }}
-            ssh -T -i ${{ secrets.WAS_PEM_NAME }} ubuntu@${{ secrets.SSH_WS1_HOST }} << EOF
-            docker kill release_frontend
+            chmod 400 ${{ secrets.PEM_NAME }}
+            ssh -T -i ${{ secrets.PEM_NAME }} ubuntu@${{ secrets.SSH_WS1_HOST }} << EOF
+            docker kill doklib_ws1
             docker container prune -f
-            docker pull ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend 
-            docker run -d -p 3000:80 --name doklib_ws1 ${{ secrets.WAS1_DOCKER_USERNAME }}/release_frontend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/release_frontend 
+            docker run -d -p 3000:80 --name doklib_ws1 ${{ secrets.DOCKER_USERNAME }}/release_frontend:latest
+
+
+      - name: executing remote ws2 using password
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_BASTION_IP }}
+          username: ubuntu
+          key: ${{ secrets.PEM_KEY }}
+          port: 22
+          script: |
+            chmod 400 ${{ secrets.PEM_NAME }}
+            ssh -T -i ${{ secrets.PEM_NAME }} ubuntu@${{ secrets.SSH_WS2_HOST }} << EOF
+            docker kill doklib_ws2
+            docker container prune -f
+            docker pull ${{ secrets.DOCKER_USERNAME }}/release_frontend 
+            docker run -d -p 3000:80 --name doklib_ws2 ${{ secrets.DOCKER_USERNAME }}/release_frontend:latest
+            
