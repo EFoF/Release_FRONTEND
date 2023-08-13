@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Title1, Title2} from "../../components/Text/Title";
 import kakaoenter from "../../img/kakao-enter.jpg";
 import naver from "../../img/naver.png";
@@ -12,6 +12,7 @@ import facebook from "../../img/facebook.png";
 import {useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import {ProjectCard, ProjectContainer, ProjectImage, ProjectListContainer, ProjectName} from "../home";
+import { getMyCompanies, getMyProjects } from "../../api/company";
 
 interface Project {
     id : number;
@@ -20,65 +21,8 @@ interface Project {
     companyId: number;
 }
 
-interface ProjectData {
-    findProjectListByCompanyResponseDtoList: Project[];
-}
-
 export default function MyProjects() {
-    const [projects, setProjects] = useState<ProjectData>(
-        {
-            findProjectListByCompanyResponseDtoList: [
-                {
-                    id: 1,
-                    name: "DOKSEOL",
-                    imgURL: kakaoenter,
-                    companyId: 1,
-                },
-                {
-                    id: 1,
-                    name: "DOKLIB",
-                    imgURL: kakaoenter,
-                    companyId: 1,
-                },
-                {
-                    id: 1,
-                    name: "DOKBAK",
-                    imgURL: naver,
-                    companyId: 2,
-                },
-                {
-                    id: 1,
-                    name: "DOKODIE",
-                    imgURL: naver,
-                    companyId: 2,
-                },
-                {
-                    id: 1,
-                    name: "DOKSAA",
-                    imgURL: kakaogames,
-                    companyId: 3,
-                },
-                {
-                    id: 1,
-                    name: "DOKDO",
-                    imgURL: kakaogames,
-                    companyId: 3,
-                },
-                {
-                    id: 1,
-                    name: "DOKSURI",
-                    imgURL: facebook,
-                    companyId: 4,
-                },
-                {
-                    id: 1,
-                    name: "DOKPA",
-                    imgURL: facebook,
-                    companyId: 4,
-                }
-            ]
-        }
-    )
+    const [projects, setProjects] = useState<Project[] | null>(null)
 
     const navigate = useNavigate();
 
@@ -91,18 +35,18 @@ export default function MyProjects() {
     };
 
     // content 형식 확인 및 api 있는지 확인 및 회사이름 확인 
-    // useEffect(() => { 
-    //     const fetchMyProjects = async () => {
-    //       try {
-    //         const { findProjectListResponseDtos } = await getMyCompanies();
-    //         console.log("content", findProjectListResponseDtos.content);
-    //         setCompanies(content);
-    //       } catch (error) {
-    //         console.error("Error fetching companies:", error);
-    //       }
-    //     };
-    //     fetchMyProjects();
-    //   }, []);
+    useEffect(() => {  
+        const fetchMyProjects = async () => {
+          try { 
+            const { list: {content} } = await getMyProjects();
+            console.log("content", content);
+            setProjects(content);
+          } catch (error) {
+            console.error("Error fetching companies:", error);
+          }
+        };
+        fetchMyProjects();
+    }, []);
 
     return (
         <Container>
@@ -113,8 +57,8 @@ export default function MyProjects() {
                 </div>
                 <ProjectContainer>
                     <ProjectListContainer>
-                        {projects.findProjectListByCompanyResponseDtoList
-                            .map((project, index) => (
+                        {projects !== null &&
+                            projects.map((project, index) => (
                                 <ProjectCard key={index} onClick={handleCompanyClick}>
                                     <ProjectImage src={project.imgURL} alt={project.name}/>
                                     <ProjectName>{project.name}</ProjectName>
