@@ -31,7 +31,6 @@ export default function CompanyCreate() {
         const formData = new FormData();
         formData.append('image', companyImgFile);
         formData.append('name', companyName);
-        console.log("formData", formData);
         
         createCompany(formData).then((fetchedData)=>{
           if(fetchedData) {
