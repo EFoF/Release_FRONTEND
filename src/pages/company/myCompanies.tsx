@@ -59,12 +59,12 @@ export default function MyCompanies() {
           <NoCompany />
         ) : (
           <MainContainer>
-            <div style={{ display: "flex" }}>
-              <CompanyTitle>내가 소속된 회사</CompanyTitle>
-              <ProjectTitle onClick={projectClick}>
-                내가 소속된 프로젝트
-              </ProjectTitle>
-            </div>
+              <TabContainer>
+                <CompanyTitle>내가 소속된 회사</CompanyTitle>
+                <ProjectTitle onClick={projectClick}>
+                  내가 소속된 프로젝트
+                </ProjectTitle>
+              </TabContainer>
             <CompanyContainer>
               <CompanyListContainer>
                 {companies !== null &&
@@ -96,6 +96,10 @@ export const MainContainer = styled.div`
   align-items: center;
   margin-top: 3.31rem;
 `;
+
+export const TabContainer = styled.div`
+display: flex;
+`
 
 export const CompanyTitle = styled(Title1)`
   margin-bottom: 4.69rem;
