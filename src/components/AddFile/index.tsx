@@ -47,11 +47,11 @@ export default function AddFile({ onImageUpload }: AddfileProps) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
-        console.log("file", file)
-        if(onImageUpload) {
-          // const imageUrl = URL.createObjectURL(file) //로컬에서의 이미지 url - 수정의 여지 
-          onImageUpload(file.name) //부모에 file 넘김 
-        }
+      console.log("file 그 자체", file)
+      if(onImageUpload) {
+        // const imageUrl = URL.createObjectURL(file) //로컬에서의 이미지 url - 수정의 여지 
+        onImageUpload(file) //부모에 file 넘김 
+      }
 
     return new Promise<void>((resolve) => {
       reader.onload = () => {

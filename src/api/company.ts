@@ -30,6 +30,16 @@ export const getMyCompanies = async (
   return data;
 };
 
+export const getMyProjects = async (
+  offset?: number,
+  pageNumber?: number,
+  pageSize?: number,
+  paged?: boolean,
+) => {
+  const {data} = await authorizationClient.get(`${API.COMPANIES}/projects`);
+  return data;
+};
+
 export const updateCompany = async (companyId: number, companyData: FormData) => {
   const {data} = await authorizationClient.put(`${API.COMPANIES}/${companyId}`, companyData, {
       headers: {
