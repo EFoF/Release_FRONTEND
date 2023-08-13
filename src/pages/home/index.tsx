@@ -48,7 +48,7 @@ export default function Home() {
       }
     }
     fetchAllCompanies();
-  },[companies]);
+  },[]);
   
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");

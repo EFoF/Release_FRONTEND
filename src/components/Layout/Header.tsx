@@ -103,22 +103,22 @@ interface HeaderProps {
 export default function Header({ isDev, isCompany }: HeaderProps) {
   //isDev 추가하기
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const [myName, setMyName] = useState("")
-  console.log("isLogin", isLogin);
+  // const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const [myName, setMyName] = useState("");
+  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"))
 
   useEffect(()=>{
     if(isLogin) {
-    const fetchMyInfo = async () => {
-      try {
-        const { username } = await loadMyInfo();
-        setMyName(username);
-      } catch (error) {
-        console.error('Error fetching info:', error);
+      const fetchMyInfo = async () => {
+        try {
+          const { username } = await loadMyInfo();
+          setMyName(username);
+        } catch (error) {
+          console.error('Error fetching info:', error);
+        }
       }
+      fetchMyInfo();
     }
-    fetchMyInfo();
-  }
   }, [isLogin])
 
   const handleLogoClick = () => {
