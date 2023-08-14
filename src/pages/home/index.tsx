@@ -27,19 +27,6 @@ interface Company {
 export default function Home() {
   const [companies, setCompanies] = useState<Company[]>([])
   
-  useEffect(()=>{
-    const fetchAllCompanies = async () => {
-      try {
-        const {content} = await searchCompany();
-        console.log("companies", content);
-        setCompanies(content);
-      } catch(error) {
-        console.error("Error fetching companies:", error);
-      }
-    }
-    fetchAllCompanies();
-  },[]);
-  
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
 
@@ -53,6 +40,19 @@ export default function Home() {
     setSearchKey(e.target.value);
   };
 
+  const handleClickSearch = () => {
+    const fetchAllCompanies = async () => {
+      try {
+        const {content} = await searchCompany();
+        console.log("companies", content);
+        setCompanies(content);
+      } catch(error) {
+        console.error("Error fetching companies:", error);
+      }
+    }
+    fetchAllCompanies();
+  }
+
   return (
     <Containers>
       <HomeContainer>
@@ -64,7 +64,7 @@ export default function Home() {
             onChange={handleInputChange}
           />
           <SearchButton>
-            <SearchIcon src={search} />
+            <SearchIcon src={search} onClick={handleClickSearch}/>
           </SearchButton>
         </MainInputContainer>
       </HomeContainer>
