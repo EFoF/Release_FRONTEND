@@ -20,6 +20,8 @@ import {
 } from "../home";
 import { getMyCompanies } from "../../api/company";
 import NoCompany from "./NoCompany";
+import { useRecoilState } from "recoil";
+import { companyIdState } from "../../states/companyState";
 
 interface Company {
   id: number;
@@ -29,6 +31,8 @@ interface Company {
 
 export default function MyCompanies() {
   const [companies, setCompanies] = useState<Company[] | null>(null);
+  const [companyID, setCompanyID] = useRecoilState<number>(companyIdState);
+
   useEffect(() => {
     const fetchMyCompanies = async () => {
       try {
@@ -44,8 +48,9 @@ export default function MyCompanies() {
 
   const navigate = useNavigate();
 
-  const handleCompanyClick = () => {
-    navigate(PATH.COMPANYMAIN);
+  const handleCompanyClick = (companyId: number) => {
+    setCompanyID(companyId);
+    navigate(PATH.PROJECTEDIT, {state: companyId});
   };
 
   const projectClick = () => {
@@ -69,7 +74,7 @@ export default function MyCompanies() {
               <CompanyListContainer>
                 {companies !== null &&
                   companies.map((company, index) => (
-                    <CompanyCard key={index} onClick={handleCompanyClick}>
+                    <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id)}>
                       <CompanyImage src={company.imageUrl} alt={company.name} />
                       <CompanyName>{company.name}</CompanyName>
                     </CompanyCard>

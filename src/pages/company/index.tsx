@@ -15,38 +15,45 @@ export default function Company() {
     {name: "부록", intro: "카카오 i 계정 서비스를 좀 더 편리하게 사용할 수 있도록 관리자 서비스 페이지를 제공합니다.        "},
   ]);
 
-  const [projectId, setProjectId] = useState("");
+  const [projectId, setProjectId] = useState();
   
-
   const { state: companyId } = useLocation();
+
+  console.log("companyId", companyId)
   //이전 클릭 이벤트에서 받은 id 통해서 comp 정보 불러오기 
   //inner에서는 일단 프로젝트들 id 저장 / 프로젝트 title, description로 렌더링
   //프로젝트 id 통해서 모든 카테고리 부름 / title과 description
-  useEffect(()=>{
-    const fetchProjectFunction = async() => {
-      try {
-        const {findProjectListResponseDtos: {content}} = await fetchProject(companyId);
-        console.log("fetched project", content);
-        setProjectId(content.project_id);
-      } catch(error) {
-        console.error("Error fetching companies project info:", error);
-      }
-    }
-    fetchProjectFunction();
-  }, [companyId])
 
-  useEffect(()=>{
-    const fetchCategoriesFunction = async() => {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const {categoryEachDtoList: categories} = await fetchCategories(projectId);
+        const {projectList} = await fetchProject(companyId);
+        console.log("fetched project", projectList);
+        setProjectId(projectList[0].id); //일단 첫 프로젝트 띄울것이기 때문 
+        console.log("projectId", projectId)
+
+        // setProjectId가 완료된 후에 fetchCategories 실행
+        if(projectId) fetchCategoriesAfterSettingProjectId(projectId)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    const fetchCategoriesAfterSettingProjectId = async (projectId: number) => {
+      try {
+        console.log("projectId2", projectId)
+        const { categoryEachDtoList: categories } = await fetchCategories(projectId);
         console.log("fetched categories", categories);
         setCategories(categories);
-      } catch(error) {
-        console.error("Error fetching companies project categories:", error);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
       }
-    }
-    fetchCategoriesFunction();
-  }, [projectId])
+    };
+  
+    fetchData();
+  }, [companyId, projectId]);
+
+  console.log("projectId", projectId)
 
   return (
     <Container>

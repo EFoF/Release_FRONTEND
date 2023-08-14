@@ -25,4 +25,4 @@ export const fetchProject = async (
 ) => {
     const {data} = await unAuthorizationClient.get(`${API.COMPANIES}/${companyId}/projects`);
     return data; //data만 해야 회사 image도 불러올 수 있나 
-};
+}; //unauth로 수정해야 
