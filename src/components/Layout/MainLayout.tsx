@@ -69,11 +69,8 @@ export default function MainLayout() {
   console.log(location.pathname);
 
   useEffect(() => {
-    if (location.pathname === "/company") {
-      setIsCompanyBool(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setIsCompanyBool(location.pathname.includes("company"));
+  }, [location.pathname]);
   console.log("isCompanyBool", isCompanyBool);
 
   const handleFloatingClick = () => {

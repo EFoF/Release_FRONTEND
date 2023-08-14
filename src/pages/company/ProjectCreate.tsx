@@ -38,7 +38,6 @@ export default function ProjectCreate() {
       scope: toggleState, 
       title: projectName,
     }
-    console.log("projectData", projectData);
     const createMyProject = async () => {
       try {
         const data = await createProject(companyId, projectData);

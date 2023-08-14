@@ -5,9 +5,14 @@ const PATHHEADER = {
 }
 
 const PATH = {
+    HOME: "/",  
     LOGIN: "/login",
     SIGNUP: "/signup",
-    HOME: "/",
+
+    COMPANYMAIN: `${PATHHEADER.COMPANY}/:companyId`, //회사 메인은 자동으로 가장 먼저있는 프로젝트 화면 보여줌 
+    RELEASE: `${PATHHEADER.COMPANY}/release`,
+    CATEGORY: `${PATHHEADER.COMPANY}/:companyId/:projectId/:categoryId`,
+
     PROJECTCREATE: `${PATHHEADER.DEV}/project-create`,
     NOPROJECT: `${PATHHEADER.DEV}/noproject`,
     COMPANYMANAGE: `${PATHHEADER.DEV}/company-manage`,
@@ -15,9 +20,7 @@ const PATH = {
     RELEASECREATE: `${PATHHEADER.DEV}/release-create`,
     CATEGORYEDIT: `${PATHHEADER.DEV}/category-edit`,
     PROJECTEDIT: `${PATHHEADER.DEV}/project-edit`,
-    COMPANYMAIN: `${PATHHEADER.COMPANY}`,
-    RELEASE: `${PATHHEADER.COMPANY}/release`,
-    CATEGORY: `${PATHHEADER.COMPANY}/:category`,
+
     NOCOMPANY: `${PATHHEADER.MYPAGE}/nocompany`,
     COMPANYCREATE: `${PATHHEADER.MYPAGE}/company-create`,
     MYCOMPANY: `${PATHHEADER.MYPAGE}/mycompany`,
