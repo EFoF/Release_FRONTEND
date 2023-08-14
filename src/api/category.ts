@@ -2,6 +2,6 @@ import { authorizationClient, unAuthorizationClient } from ".";
 import API from "./config";
 
 export const fetchCategories = async (projectId: string) => {
-    const {data} = await unAuthorizationClient.put(`${API.PROJECT}/${projectId}/categories`);
+    const {data} = await unAuthorizationClient.get(`${API.PROJECT}/${projectId}/categories`);
     return data;
 };

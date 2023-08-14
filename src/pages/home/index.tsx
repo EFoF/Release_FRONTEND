@@ -18,26 +18,29 @@ import PATH from "../../constants/path";
 import "../../styles/font.css";
 import { searchCompany } from "../../api/company";
 
-const companiesMock = [
-  { name: "카카오 엔터프라이즈", imageUrl: kakaoenter },
-  { name: "네이버", imageUrl: naver },
-  { name: "카카오페이", imageUrl: kakaopay },
-  { name: "카카오 브레인", imageUrl: kakaobrain },
-  { name: "EagleEagle", imageUrl: eagle },
-  { name: "카카오 뱅크", imageUrl: kakaobank },
-  { name: "카카오 게임즈", imageUrl: kakaogames },
-  { name: "페이스북", imageUrl: facebook },
-];
-
 interface Company {
   name: string;
   imageUrl: string;
+  id: number;
 }
 
 export default function Home() {
   const [companies, setCompanies] = useState<Company[]>([])
   
-  useEffect(()=>{
+  const navigate = useNavigate();
+  const [searchKey, setSearchKey] = useState("");
+
+  const handleCompanyClick = (companyId: number) => {
+    navigate(PATH.COMPANYMAIN, {state: companyId});
+  };
+
+  const handleInputChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSearchKey(e.target.value);
+  };
+
+  const handleClickSearch = () => {
     const fetchAllCompanies = async () => {
       try {
         const {content} = await searchCompany();
@@ -48,20 +51,7 @@ export default function Home() {
       }
     }
     fetchAllCompanies();
-  },[]);
-  
-  const navigate = useNavigate();
-  const [searchKey, setSearchKey] = useState("");
-
-  const handleCompanyClick = () => {
-    navigate(PATH.COMPANYMAIN);
-  };
-
-  const handleInputChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSearchKey(e.target.value);
-  };
+  }
 
   return (
     <Containers>
@@ -74,7 +64,7 @@ export default function Home() {
             onChange={handleInputChange}
           />
           <SearchButton>
-            <SearchIcon src={search} />
+            <SearchIcon src={search} onClick={handleClickSearch}/>
           </SearchButton>
         </MainInputContainer>
       </HomeContainer>
@@ -83,7 +73,7 @@ export default function Home() {
           {companies
             .filter((c) => c.name.includes(searchKey))
             .map((company, index) => (
-              <CompanyCard key={index} onClick={handleCompanyClick}>
+              <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id)}>
                 <CompanyImage src={company.imageUrl} alt={company.name} />
                 <CompanyName>{company.name}</CompanyName>
               </CompanyCard>
