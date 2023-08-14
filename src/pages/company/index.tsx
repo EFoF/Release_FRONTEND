@@ -13,6 +13,7 @@ export default function Company() {
   ]
   const [inputValue, setInputValue] = useState("");
 
+  //id 받은거 통해서 comp 정보 불러오기 
   return (
     <Container>
       <CompanyContainer>

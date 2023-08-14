@@ -32,7 +32,7 @@ export default function ProjectCreate() {
 
   const handleClickCreate = () => {
     //com id 가져와야함 이 페이지에 
-    const companyId = 1; //임시방편 
+    const companyId = 9; //임시방편 
     const projectData = {
       description: projectDetail,
       scope: toggleState, 
