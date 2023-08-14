@@ -68,7 +68,7 @@ export default function CategoryCreate() {
                     <EditButton imageUrl={eye} width={24} height={24} onClick={handleClickPreview}/>}
             </PreviewContainer>
             {isPreview ? (
-                <MarkDownPreviewContainer >
+                <MarkDownPreviewContainer>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
                 </MarkDownPreviewContainer>
                 )

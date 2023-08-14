@@ -26,6 +26,7 @@ import Release from "./pages/release";
 import PATH from "./constants/path";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import Category from "./pages/category";
 
 const queryClient = new QueryClient();	//쿼리 인스턴스 생성 (react-query)
 
@@ -56,6 +57,7 @@ function App() {
             <Route path={PATH.PROJECTMANAGE} element={<ProjectManage />} />
             <Route path={PATH.COMPANYMANAGE} element={<CompanyManage />} />
             <Route path={PATH.RELEASE} element={<Release />} />
+            <Route path={PATH.CATEGORY} element={<Category />} />
           </Route>
         </Routes>
       </Router>
