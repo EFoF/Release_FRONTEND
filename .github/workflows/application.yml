@@ -45,7 +45,6 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/release_frontend 
             docker run -d -p 80:80 --name doklib_ws1 ${{ secrets.DOCKER_USERNAME }}/release_frontend:latest
 
-
       - name: executing remote ws2 using password
         uses: appleboy/ssh-action@v0.1.7
         with:
