@@ -93,6 +93,7 @@ const CompanySetting = styled.img`
 
 export default function CompanySide() {
   const companyId = useRecoilValue(companyIdState);
+  console.log("companyId", companyId)
   const [projects, setProjects] = useState([
     {
       name: "Kakao i Acoount",
