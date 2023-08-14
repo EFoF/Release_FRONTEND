@@ -5,26 +5,50 @@ import {useState} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
 import toggleOff from "../../img/ri_toggle-line.png"
 import toggleOn from "../../img/ri_toggle-fill.png"
+import { useNavigate } from "react-router-dom";
+import PATH from "../../constants/path";
+import { createProject } from "../../api/project";
 
 
 export default function ProjectCreate() {
-    const [projectName, setProjectName] = useState("");
-    const [projectDetail, setProjectDetail] = useState("");
-    const [toggleState, setToggleState] = useState(false);
+  const [projectName, setProjectName] = useState("");
+  const [projectDetail, setProjectDetail] = useState("");
+  const [toggleState, setToggleState] = useState(false);
+  const navigate = useNavigate();
 
-    const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setProjectName(e.target.value)
-    }
+  const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      setProjectName(e.target.value)
+  }
 
-    const handleChangeDetail = (e : React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setProjectDetail(e.target.value)
-    }
+  const handleChangeDetail = (e : React.ChangeEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      setProjectDetail(e.target.value)
+  }
 
-    const handleToggleClick = () => {
-        setToggleState((prevState) => !prevState);
+  const handleToggleClick = () => {
+      setToggleState((prevState) => !prevState);
+  }
+
+  const handleClickCreate = () => {
+    //com id 가져와야함 이 페이지에 
+    const companyId = 9; //임시방편 
+    const projectData = {
+      description: projectDetail,
+      scope: toggleState, 
+      title: projectName,
     }
+    const createMyProject = async () => {
+      try {
+        const data = await createProject(companyId, projectData);
+        console.log("create project", data);
+      } catch (error) {
+        console.error("Error creating project:", error);
+      }
+    };
+    createMyProject();
+    navigate(PATH.MYPROJECT);
+  }
 
   return (
     <Container>
@@ -46,7 +70,7 @@ export default function ProjectCreate() {
         </CategoryContainer>
         <ButtonContainer>
           <Button1 title="취소하기"></Button1>
-          <Button title="생성하기" theme="blue"></Button>
+          <Button title="생성하기" theme="blue" onClick={handleClickCreate}></Button>
         </ButtonContainer>
       </MainContainer>
     </Container>

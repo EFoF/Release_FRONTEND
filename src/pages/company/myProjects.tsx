@@ -23,8 +23,8 @@ import NoProject from "./NoProject";
 
 interface Project {
   id: number;
-  name: string;
-  imgURL: string;
+  title: string;
+  imageURL: string;
   companyId: number;
 }
 
@@ -48,7 +48,7 @@ export default function MyProjects() {
         const {
           list: { content },
         } = await getMyProjects();
-        console.log("content", content);
+        console.log("project", content);
         setProjects(content);
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -75,8 +75,8 @@ export default function MyProjects() {
                 {projects !== null &&
                   projects.map((project, index) => (
                     <ProjectCard key={index} onClick={handleCompanyClick}>
-                      <ProjectImage src={project.imgURL} alt={project.name} />
-                      <ProjectName>{project.name}</ProjectName>
+                      <ProjectImage src={project.imageURL} alt={project.title} />
+                      <ProjectName>{project.title}</ProjectName>
                     </ProjectCard>
                   ))}
               </ProjectListContainer>
