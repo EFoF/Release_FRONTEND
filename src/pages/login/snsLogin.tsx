@@ -56,7 +56,7 @@ export default function SNSLogin() {
         </ImgWrapper>
         <ImgWrapper>
           <SNSIMG src="https://cdn.imweb.me/upload/S20210304872ba49a108a8/89a68d1e3674a.png" />
-          <Label>Kakao</Label>
+          <Label>Kakao </Label>
         </ImgWrapper>
       </SNSWrapper>
     </Container>
