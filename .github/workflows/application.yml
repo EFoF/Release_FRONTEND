@@ -16,7 +16,6 @@ jobs:
       - name: .env setting
         run: |
           echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_SERVER_IP }}" >> .env
-          
 
       - name: Install dependencies
         run: npm install
@@ -52,7 +51,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_BASTION_HOST }}
           username: ubuntu
-          key: ${{ secrets.PEM_KEY }}
+          key: ${{ secrets.PEM_KEY }}\
           port: 22
           script: |
             chmod 400 ${{ secrets.PEM_NAME }}
