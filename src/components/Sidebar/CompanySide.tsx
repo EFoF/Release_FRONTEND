@@ -5,6 +5,8 @@ import setting from "../../img/setting1.png"
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
+import { useRecoilValue } from 'recoil';
+import { companyIdState } from '../../states/companyState';
 
 // const Container = styled.div`
 //   display: flex;
@@ -90,6 +92,7 @@ const CompanySetting = styled.img`
 `
 
 export default function CompanySide() {
+  const companyId = useRecoilValue(companyIdState);
   const [projects, setProjects] = useState([
     {
       name: "Kakao i Acoount",
@@ -117,7 +120,7 @@ export default function CompanySide() {
   };
 
   const handleButtonClick = () => {
-    navigate(PATH.PROJECTCREATE)
+    navigate(PATH.PROJECTCREATE, {state: companyId})
   }
 
   const handleReleaseClick = () => {

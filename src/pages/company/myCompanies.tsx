@@ -44,8 +44,8 @@ export default function MyCompanies() {
 
   const navigate = useNavigate();
 
-  const handleCompanyClick = () => {
-    navigate(PATH.COMPANYMAIN);
+  const handleCompanyClick = (companyId: number) => {
+    navigate(PATH.COMPANYMAIN, {state: companyId});
   };
 
   const projectClick = () => {
@@ -69,7 +69,7 @@ export default function MyCompanies() {
               <CompanyListContainer>
                 {companies !== null &&
                   companies.map((company, index) => (
-                    <CompanyCard key={index} onClick={handleCompanyClick}>
+                    <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id)}>
                       <CompanyImage src={company.imageUrl} alt={company.name} />
                       <CompanyName>{company.name}</CompanyName>
                     </CompanyCard>

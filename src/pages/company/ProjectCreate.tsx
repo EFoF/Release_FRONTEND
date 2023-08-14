@@ -1,20 +1,29 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
 import toggleOff from "../../img/ri_toggle-line.png"
 import toggleOn from "../../img/ri_toggle-fill.png"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import { createProject } from "../../api/project";
+import { useRecoilState } from "recoil";
+import { companyIdState } from "../../states/companyState";
 
 
 export default function ProjectCreate() {
   const [projectName, setProjectName] = useState("");
   const [projectDetail, setProjectDetail] = useState("");
   const [toggleState, setToggleState] = useState(false);
+  const [companyId, setCompanyId] = useRecoilState<number>(companyIdState);
+
   const navigate = useNavigate();
+  
+  const {state} = useLocation();
+  useEffect(()=>{
+    setCompanyId(state);
+  }, [setCompanyId, state])
 
   const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
@@ -32,7 +41,6 @@ export default function ProjectCreate() {
 
   const handleClickCreate = () => {
     //com id 가져와야함 이 페이지에 
-    const companyId = 9; //임시방편 
     const projectData = {
       description: projectDetail,
       scope: toggleState, 
