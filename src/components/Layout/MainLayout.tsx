@@ -69,7 +69,7 @@ export default function MainLayout() {
   console.log(location.pathname);
 
   useEffect(() => {
-    setIsCompanyBool(location.pathname.includes("company"));
+    setIsCompanyBool(!location.pathname.includes("mypage"));
   }, [location.pathname]);
   console.log("isCompanyBool", isCompanyBool);
 
