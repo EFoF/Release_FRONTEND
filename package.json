@@ -55,6 +55,5 @@
   },
   "devDependencies": {
     "typescript": "^4"
-  },
-  "proxy": "http://61.109.214.117:80"
+  }
 }
