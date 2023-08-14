@@ -21,6 +21,7 @@ import { searchCompany } from "../../api/company";
 interface Company {
   name: string;
   imageUrl: string;
+  id: number;
 }
 
 export default function Home() {
@@ -42,8 +43,8 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
 
-  const handleCompanyClick = () => {
-    navigate(PATH.COMPANYMAIN);
+  const handleCompanyClick = (companyId: number) => {
+    navigate(PATH.COMPANYMAIN, {state: companyId});
   };
 
   const handleInputChange = (e: {
@@ -72,7 +73,7 @@ export default function Home() {
           {companies
             .filter((c) => c.name.includes(searchKey))
             .map((company, index) => (
-              <CompanyCard key={index} onClick={handleCompanyClick}>
+              <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id)}>
                 <CompanyImage src={company.imageUrl} alt={company.name} />
                 <CompanyName>{company.name}</CompanyName>
               </CompanyCard>
