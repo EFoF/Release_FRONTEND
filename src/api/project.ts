@@ -25,4 +25,23 @@ export const fetchProject = async (
 ) => {
     const {data} = await unAuthorizationClient.get(`${API.COMPANIES}/${companyId}/projects`);
     return data; //data만 해야 회사 image도 불러올 수 있나 
-}; //unauth로 수정해야 
+}; 
+
+export const getProjectMembers = async (projectId: number) => {
+    const {data} = await authorizationClient.get(`${API.PROJECT}/${projectId}/members`);
+    return data;
+};
+
+export const addProjectMembers = async (projectId: number, emailObject: object) => {
+    const {data} = await authorizationClient.post(`${API.PROJECT}/${projectId}/members`, emailObject);
+    return data;
+};
+
+export const deleteProjectMembers = async (projectId: number, email: string) => {
+    const {data} = await authorizationClient.delete(`${API.PROJECT}/${projectId}/members`, {
+        headers: {
+          'email': email
+        }
+    });
+    return data;
+};
