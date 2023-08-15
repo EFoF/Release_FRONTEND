@@ -286,17 +286,32 @@ export default function ProjectEdit() {
         navigate(PATH.RELEASE)
     }
 
-    const handleToggleChange = () => {
-        setProject((prevProject) => {
-            if (prevProject) {
-                return {
-                    ...prevProject,
-                    scope: !prevProject.scope
-                };
+    const handleToggleChange = async () => {        
+        const projectData = {
+            "description": project?.description,
+            "scope": !project?.scope,
+            "title": project?.title,
+        }
+        console.log("!!!", projectId, project);
+
+        const editProjectToggle = async () => {
+            try {
+                const fetchedData = await editProject(projectId, projectData);
+                console.log("editTitleDescription", fetchedData);
+                setProject((prevProject) => {
+                    if (prevProject) {
+                        return {
+                            ...prevProject,
+                            scope: !prevProject.scope
+                        };
+                    }
+                    return prevProject;
+                });
+            } catch(error) {
+                console.error("Error edit project:", error);
             }
-            return prevProject;
-        });
-        console.log("ttproject", project);
+        }
+        editProjectToggle();
     }
     
     const handleConfirmDelete = () => {
