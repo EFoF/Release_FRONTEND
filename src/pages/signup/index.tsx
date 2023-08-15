@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Input from "../../components/Input";
 import PATH from "../../constants/path";
 
 import styled, { keyframes } from "styled-components";
 import COLORS from "../../constants/color";
 import Button from "../../components/Button";
-import {sendMail, verification} from "../../api/auth";
+import {sendMail, signup, verification} from "../../api/auth";
 import {type} from "os";
 
 
@@ -20,7 +20,7 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [name, setName] = useState('');
-
+  const navigate = useNavigate();
 
   type InputProps = {
     label: string;
@@ -49,6 +49,12 @@ export default function Signup() {
     inputCode: string;
   }
 
+  type UserSignupData = {
+    email : string;
+    memberLoginType : string;
+    password : string;
+    username : string;
+  }
 
   const InputList: InputProps[] = [
     {
@@ -133,8 +139,22 @@ export default function Signup() {
     }
   }
 
-  const signup = async () => {
-    const
+  const signUp = async () => {
+    const userSignupData : UserSignupData = {
+      email : email,
+      memberLoginType : "RELEASE_LOGIN",
+      password : password,
+      username : name
+    };
+    try{
+      const response = await signup(userSignupData);
+      // 로그인 화면으로 리다이렉트
+      alert("회원가입에 성공하셨습니다. 로그인해주세요.");
+      navigate(`${PATH.LOGIN}`)
+
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   // useState 관련, 기타 함수들
@@ -191,7 +211,7 @@ export default function Signup() {
     }
 
     // api 요청
-
+    signUp();
   }
 
   return (
