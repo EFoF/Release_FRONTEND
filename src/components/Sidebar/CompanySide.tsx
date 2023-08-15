@@ -150,12 +150,12 @@ export default function CompanySide() {
     if(isDev) {
       navigate(PATH.PROJECTEDIT, {state: projectId}); //해당 프로젝트 클릭 시 그 프로젝트 edit 페이지 - id를 통해 fetching
     } else {
-      navigate(PATH.COMPANYMAIN)
+      navigate(PATH.COMPANYMAIN, {state: projectId})
     }
   };  
 
   const handleCategoryClick = () => {
-    
+
   }
 
   const handleButtonClick = () => {

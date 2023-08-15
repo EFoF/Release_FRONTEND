@@ -6,6 +6,8 @@ import Dialog from "../../components/Dialog";
 import { fetchProject } from "../../api/project";
 import { useLocation } from "react-router-dom";
 import { fetchCategories } from "../../api/category";
+import { companyIdState } from "../../states/companyState";
+import { useRecoilValue } from "recoil";
 
 interface Project {
   id: number;
@@ -26,10 +28,17 @@ export default function Company() {
   const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
-  
-  const { state: {companyId} } = useLocation();
+  // const [companyId, setCompanyId] = useState();
+  const companyId = useRecoilValue(companyIdState);
+  const location = useLocation();
 
-  console.log("companyId", companyId)
+  // useEffect(()=> {
+  //   if(location.state.companyId) {
+  //     const CID = location.state.companyId;
+  //     setCompanyId(CID);
+  //     console.log("companyId", companyId)
+  //   }
+  // }, [companyId, location.state.companyId])
   //이전 클릭 이벤트에서 받은 id 통해서 comp 정보 불러오기 
   //inner에서는 일단 프로젝트들 id 저장 / 프로젝트 title, description로 렌더링
   //프로젝트 id 통해서 모든 카테고리 부름 / title과 description
@@ -61,7 +70,7 @@ export default function Company() {
       }
     };
   
-    fetchData();
+    companyId && fetchData();
   }, [companyId, projectId]);
 
 
