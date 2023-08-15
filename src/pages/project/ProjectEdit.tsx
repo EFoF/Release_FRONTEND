@@ -52,10 +52,11 @@ export default function ProjectEdit() {
     const [index, setIndex] = useState<Number>();
     const [isPlusButtonOn, setIsPlusButtonOn] = useState<boolean>(false);
     const [categoryName, setCategoryName] = useState<string>("");
-    const [projectIntro, setProjectIntro] = useState("");
+    const [projectDescription, setProjectDescription] = useState("");
     const [categoryDescription, setCategoryDescription] = useState<string>("");
     const categoryNameRef = useRef('');
     const categoryDescriptionRef = useRef('');
+    const projectDescriptionRef = useRef('');
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [projectList, setProjectList] = useState<Project[] | null>(null);
@@ -111,9 +112,13 @@ export default function ProjectEdit() {
   }, [companyId, projectId]);
     
 
-    const handleProjectIntroChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+    const handleProjectDescriptionChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
-        setProjectIntro(e.target.value);
+        projectDescriptionRef.current = e.target.value;
+    }
+
+    const handleOnBlurProjectDescriptionChange = () => {
+        setProjectDescription(projectDescriptionRef.current);
     }
 
     const handleCategoryEditClick = (index:number) => {
@@ -236,7 +241,7 @@ export default function ProjectEdit() {
                         }
                     </EditContainer>
                     <CompanyIntro>
-                    {isTitleEdit ? <Input placeholder={project?.description} value={projectIntro} onChange={handleProjectIntroChange} />
+                    {isTitleEdit ? <TextInput defaultValue={project?.description} onChange={handleProjectDescriptionChange} onBlur={handleOnBlurProjectDescriptionChange}/>
                      : project?.description}
                     </CompanyIntro>
                 </CompanyContainer>
@@ -245,7 +250,7 @@ export default function ProjectEdit() {
                         <ScopeText>
                             공개 여부
                         </ScopeText>
-                        {project && (<Toggle isOn={project.scope} handleChange={handleToggleChange}/>)}
+                        {project && (<Toggle isOn={project.scope} handleChange={handleToggleChange} />)}
                     </EditContainer>
                 </ToggleContainer>
             </Scope>
@@ -453,9 +458,9 @@ export const TextInput = styled.textarea`
   color: #808080;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-top: 1.5rem;
   min-height: 20rem;
   outline: none;
-  font-size: 14px;
+  font-size: 1.4rem;
   resize: none;
+  min-width: 50rem;
 `;
