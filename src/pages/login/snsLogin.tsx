@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import {useNavigate} from "react-router-dom";
 import COLORS from "../../constants/color";
-import PATH from "../../constants/path";
+import API from "../../api/config";
 
 const Container = styled.div`
   font-size: 1.4rem;
@@ -22,11 +22,13 @@ const ImgWrapper = styled.div`
   width: 5rem;
   gap: 1.7rem;
   color: ${COLORS.GREY[300]};
+
   a {
     width: 4rem;
     height: 4rem;
     padding: 0;
   }
+
   padding-top: 0.8rem;
   flex-direction: column;
 `;
@@ -43,22 +45,30 @@ const SNSWrapper = styled.div`
 const Label = styled.div`
   font-weight: 300;
   font-size: 1.3rem;
+  cursor: pointer;
 `;
 
 export default function SNSLogin() {
-  return (
-    <Container>
-      SNS로 간편하게 로그인
-      <SNSWrapper>
-        <ImgWrapper>
-          <SNSIMG src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/320px-Google_%22G%22_Logo.svg.png" />
-            <a href="http://10.0.16.169/oauth2/authorization/google"><Label>Google</Label></a>
-        </ImgWrapper>
-        <ImgWrapper>
-          <SNSIMG src="https://cdn.imweb.me/upload/S20210304872ba49a108a8/89a68d1e3674a.png" />
-          <Label>Kakao </Label>
-        </ImgWrapper>
-      </SNSWrapper>
-    </Container>
-  );
+    const navigate = useNavigate();
+
+    const handleGOOGLELoginClick = () => {
+        navigate(API.GOOGLELOGIN);
+    };
+
+    return (
+        <Container>
+            SNS로 간편하게 로그인
+            <SNSWrapper>
+                <ImgWrapper>
+                    <SNSIMG
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/320px-Google_%22G%22_Logo.svg.png"/>
+                    <Label onClick={handleGOOGLELoginClick}>Google</Label>
+                </ImgWrapper>
+                <ImgWrapper>
+                    <SNSIMG src="https://cdn.imweb.me/upload/S20210304872ba49a108a8/89a68d1e3674a.png"/>
+                    <Label>Kakao </Label>
+                </ImgWrapper>
+            </SNSWrapper>
+        </Container>
+    );
 }

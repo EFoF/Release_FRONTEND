@@ -16,11 +16,9 @@ jobs:
       - name: .env setting
         run: |
           echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_SERVER_IP }}" >> .env
-          
 
       - name: Install dependencies
         run: npm install
-
 
       - name: Generate build          # React Build
         run: CI='false' npm run build
@@ -30,7 +28,7 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/release_frontend .
           docker push ${{ secrets.DOCKER_USERNAME }}/release_frontend 
-          
+
       - name: executing remote ws1 using password
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -60,4 +58,3 @@ jobs:
             docker container prune -f
             docker pull ${{ secrets.DOCKER_USERNAME }}/release_frontend 
             docker run -d -p 80:80 --name doklib_ws2 ${{ secrets.DOCKER_USERNAME }}/release_frontend:latest
-            
