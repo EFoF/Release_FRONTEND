@@ -12,7 +12,9 @@ import { Toggle } from "typescript-toggle";
 import ConfirmationModal from "../../components/Modal";
 import Input from "../../components/Input";
 import PATH from "../../constants/path";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import { fetchProject } from "../../api/project";
+import { fetchCategories } from "../../api/category";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -46,40 +48,65 @@ export default function ProjectEdit() {
     const [index, setIndex] = useState<Number>();
     const [isPlusButtonOn, setIsPlusButtonOn] = useState<boolean>(false);
     const [categoryName, setCategoryName] = useState<string>("");
+    const [projectIntro, setProjectIntro] = useState("");
     const [categoryDescription, setCategoryDescription] = useState<string>("");
     const categoryNameRef = useRef('');
     const categoryDescriptionRef = useRef('');
-    const [project, setProject] = useState<Project>(
-        {
-            "description": "카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다.",
-            "scope": true,
-            "title": "Owen-Choi Project"
-        }
-    )
-    const [categories, setCategories] = useState<CategoryData>(
-        {
-            categoryEachDtoList: [
-                {
-                    id: 1,
-                    title: "test category",
-                    description: "test category description"
-                },
-                {
-                    id: 2,
-                    title: "test category",
-                    description: "test category description"
-                },
-                {
-                    id: 3,
-                    title: "test category",
-                    description: "test category description"
-                }
-            ]
-        }
-    )
 
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [projectList, setProjectList] = useState<Project[] | null>(null);
+  const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
+  const [project, setProject] = useState<Project>();
+  
+  const location = useLocation();
+  const companyId = location.state.companyId;
+  if(location.state.projectId) { //첫 화면은 안받아올테니 
+      const PID = location.state.projectId;
+      setProjectId(PID);  
+  }
 
-    const [inputValue, SetInputValue] = useState("");
+  useEffect(()=> {
+      projectList && setProject(projectList[projectId]); //현 pid로 현재의 project 할당 
+    
+      console.log("companyId, projectId", companyId, projectId);
+      console.log("currentProject", project);
+  }, [companyId, project, projectId, projectList])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {projectList: projects} = await fetchProject(companyId);
+        console.log("fetched project", projects);
+        setProjectList(projects);
+        // setProjectId(projects[0].id); //일단 첫 프로젝트 띄울것이기 때문 
+        console.log("projectId", projectId)
+
+        // setProjectId가 완료된 후에 fetchCategories 실행
+        if(projectId) fetchCategoriesAfterSettingProjectId(projectId)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    const fetchCategoriesAfterSettingProjectId = async (projectId: number) => {
+      try {
+        console.log("projectId2", projectId)
+        const { categoryEachDtoList: categories } = await fetchCategories(projectId);
+        console.log("fetched categories", categories);
+        setCategories(categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+  
+    fetchData();
+  }, [companyId, projectId]);
+    
+
+    const handleProjectIntroChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        setProjectIntro(e.target.value);
+    }
 
     const handleCategoryEditClick = (index:number) => {
         const updatedList = [...isEditMode];
@@ -152,12 +179,24 @@ export default function ProjectEdit() {
         navigate(PATH.RELEASE)
     }
 
-    const handleModalConfirm = () => {
+    const handleToggleChange = () => {
+        project && setProject((prevProject) => {
+            if (prevProject) {
+                return {
+                    ...prevProject,
+                    scope: !prevProject.scope
+                };
+            }
+            return prevProject;
+        });
+    }
+    
+    const handleConfirmDelete = () => {
         // TODO: 인덱스에 해당하는 카테고리 지우고 디비에 반영
         // JSON 데이터 수정
-        setCategories((categories) => ({
-            ...categories,
-            categoryEachDtoList : categories.categoryEachDtoList.filter(
+        setCategories((cates) => ({
+            ...cates,
+            categories : categories.filter(
                 (category, categoryIndex) => categoryIndex !== index
             )
         }))
@@ -166,7 +205,7 @@ export default function ProjectEdit() {
     };
 
     useEffect(() => {
-        const newBooleanList = new Array(categories.categoryEachDtoList.length).fill(false);
+        const newBooleanList = new Array(categories?.length).fill(false);
         setIsEditMode(newBooleanList);
     }, [categories])
 
@@ -175,7 +214,7 @@ export default function ProjectEdit() {
             <Scope>
                 <CompanyContainer>
                     <EditContainer>
-                        <CompanyName>{project.title}</CompanyName>
+                        {projectList !== null && <CompanyName>{project?.title}</CompanyName>}
                         {isTitleEdit ?
                             (<EditButtonContainer>
                                 <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleEditClick} />
@@ -185,7 +224,8 @@ export default function ProjectEdit() {
                         }
                     </EditContainer>
                     <CompanyIntro>
-                        {project.description}
+                    {isTitleEdit ? <Input placeholder={project?.description} value={projectIntro} onChange={handleProjectIntroChange} />
+                     : project?.description}
                     </CompanyIntro>
                 </CompanyContainer>
                 <ToggleContainer>
@@ -193,20 +233,18 @@ export default function ProjectEdit() {
                         <ScopeText>
                             공개 여부
                         </ScopeText>
-                        <Toggle isOn={project.scope} handleChange={() => setProject((project) => ({
-                            ...project,
-                            scope: !project.scope
-                        }))}/>
+                        {project && (<Toggle isOn={project.scope} handleChange={handleToggleChange}/>)}
                     </EditContainer>
                 </ToggleContainer>
             </Scope>
             <ButtonContainer>
-                <Button1 title="프로젝트 관리"></Button1>
+                <Button1 title="프로젝트 관리" onClick={()=>navigate(PATH.PROJECTMANAGE)}></Button1>
                 <Button1 title="Release Note" onClick={handleReleaseButton}></Button1>
             </ButtonContainer>
             <DetailContainer>
                 <CategoryContainers>
-                    {categories.categoryEachDtoList.map((category, index)=>(
+                    {categories!==null &&
+                        categories.map((category, index)=>(
                         <CategoryContainer>
                                 {!isEditMode[index] ? (
                                     <EditContainer>
@@ -252,7 +290,7 @@ export default function ProjectEdit() {
                     }
                 </CategoryContainers>
             </DetailContainer>
-            <ConfirmationModal isOpen={isDeleteModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
+            <ConfirmationModal isOpen={isDeleteModalOpen} onCancel={handleModalCancel} onConfirm={handleConfirmDelete}
                                message={"삭제하시겠습니까?"}/>
             <ConfirmationModal isOpen={isAddModalOpen} onCancel={handleCancelAddModal} onConfirm={handleConfirmAddModal}
                                message={"새 카테고리를 추가 하시겠습니까?"}/>
