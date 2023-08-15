@@ -57,4 +57,4 @@ jobs:
             docker kill doklib_ws2
             docker container prune -f
             docker pull ${{ secrets.DOCKER_USERNAME }}/release_frontend 
-            docker run -d -p 80:80 -p --name doklib_ws2 ${{ secrets.DOCKER_USERNAME }}/release_frontend:latest
+            docker run -d -p 80:80 --name doklib_ws2 ${{ secrets.DOCKER_USERNAME }}/release_frontend:latest
