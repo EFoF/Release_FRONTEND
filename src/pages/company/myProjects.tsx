@@ -59,30 +59,25 @@ export default function MyProjects() {
 
   return (
     <Container>
-      {projects !== null &&
-        (projects.length === 0 ? (
-          <NoProject />
-        ) : (
-          <MainContainer>
-            <TabContainer>
-                  <CompanyTitle onClick={companyClick}>
-                    내가 소속된 회사
-                  </CompanyTitle>
-                  <ProjectTitle>내가 소속된 프로젝트</ProjectTitle>
-            </TabContainer>
-            <ProjectContainer>
-              <ProjectListContainer>
-                {projects !== null &&
-                  projects.map((project, index) => (
-                    <ProjectCard key={index} onClick={handleCompanyClick}>
-                      <ProjectImage src={project.imageURL} alt={project.title} />
-                      <ProjectName>{project.title}</ProjectName>
-                    </ProjectCard>
-                  ))}
-              </ProjectListContainer>
-            </ProjectContainer>
-          </MainContainer>
-        ))}
+      <MainContainer>
+        <TabContainer>
+              <CompanyTitle onClick={companyClick}>
+                내가 소속된 회사
+              </CompanyTitle>
+              <ProjectTitle>내가 소속된 프로젝트</ProjectTitle>
+        </TabContainer>
+        <ProjectContainer>
+          <ProjectListContainer>
+            {projects !== null &&
+              projects.map((project, index) => (
+                <ProjectCard key={index} onClick={handleCompanyClick}>
+                  <ProjectImage src={project.imageURL} alt={project.title} />
+                  <ProjectName>{project.title}</ProjectName>
+                </ProjectCard>
+              ))}
+          </ProjectListContainer>
+        </ProjectContainer>
+      </MainContainer>
     </Container>
   );
 }

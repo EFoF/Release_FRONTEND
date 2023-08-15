@@ -150,8 +150,10 @@ export default function CompanySide() {
     }
     if(isDev) {
       navigate(PATH.PROJECTEDIT, {state: projectId}); //해당 프로젝트 클릭 시 그 프로젝트 edit 페이지 - id를 통해 fetching
+      console.log("사이드비 projectId", projectId)
     } else {
       navigate(PATH.COMPANYMAIN, {state: projectId})
+      console.log("사이드비 projectId", projectId)
     }
   };  
 

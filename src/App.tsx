@@ -48,7 +48,7 @@ function App() {
             <Route path={PATH.CATEGORYEDIT} element={<CategoryCreate />} />
             <Route path={PATH.PROJECTEDIT} element={<ProjectEdit />} />
             <Route path={PATH.NOCOMPANY} element={<NoCompany />} />
-            <Route path={PATH.NOPROJECT} element={<NoProject />} />
+            <Route path={PATH.NOPROJECT} element={<NoProject isDev/>} />
             <Route path={PATH.MYCOMPANY} element={<MyCompanies />} />
             <Route path={PATH.MYPROJECT} element={<MyProjects />} />
             <Route path={PATH.MYINFO} element={<Member />} />
