@@ -16,6 +16,7 @@ export default function CompanyCreate() {
     const [companyName, setCompanyName] = useState("");
     const [companyImgFile, setCompanyImgFile] = useState<string | null>(null);
     const navigate = useNavigate();
+    const defaultImgUrl = "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/1b55083b5da94de389197c75704231f6/doklib/company/default.png";
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -27,9 +28,9 @@ export default function CompanyCreate() {
     }
 
     const handleCreate = () => {
-      if(companyImgFile !== null) {
         const formData = new FormData();
-        formData.append('image', companyImgFile);
+        const companyImgFileOptional = companyImgFile === null ? defaultImgUrl : companyImgFile;
+        formData.append('image', companyImgFileOptional);
         formData.append('name', companyName);
         
         createCompany(formData).then((fetchedData)=>{
@@ -38,9 +39,6 @@ export default function CompanyCreate() {
             navigate(PATH.MYCOMPANY);
           }
         })
-      } else {
-        console.log("no img");
-      }
     }
 
   return (
