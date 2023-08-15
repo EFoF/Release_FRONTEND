@@ -17,6 +17,7 @@ import { fetchProject } from "../../api/project";
 import { fetchCategories } from "../../api/category";
 import { useRecoilValue } from "recoil";
 import { companyIdState } from "../../states/companyState";
+import NoProject from "../company/NoProject";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -218,6 +219,10 @@ export default function ProjectEdit() {
 
     return (
         <Container>
+            {projectList === null || projectList?.length === 0 ? (
+        <NoProject isDev={true}/>
+      ) : (
+        <>
             <Scope>
                 <CompanyContainer>
                     <EditContainer>
@@ -303,6 +308,8 @@ export default function ProjectEdit() {
                                message={"새 카테고리를 추가 하시겠습니까?"}/>
             <ConfirmationModal isOpen={isModifyModalOpen} onCancel={handleCancelModifyModal} onConfirm={handleConfirmModifyModal}
                                message={"변경내역을 반영하시겠습니까?"}/>
+            </>
+      )}
         </Container>
     );
 }

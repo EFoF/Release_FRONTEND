@@ -7,13 +7,15 @@ import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 
 
-export default function NoProject() {
+export default function NoProject({ isDev }: { isDev: boolean }) {
     const navigate = useNavigate();
     return (
         <Container>
             <MainContainer>
                 <MainText>프로젝트가 존재하지 않습니다</MainText>
-                <Button theme="blue" title="프로젝트 생성하기" width="14rem" onClick={()=>navigate(PATH.PROJECTCREATE)}></Button>
+                {isDev && (
+                    <Button theme="blue" title="프로젝트 생성하기" width="14rem" onClick={() => navigate(PATH.PROJECTCREATE)} />
+                )}
             </MainContainer>
         </Container>
     )

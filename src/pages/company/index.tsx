@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { fetchCategories } from "../../api/category";
 import { companyIdState } from "../../states/companyState";
 import { useRecoilValue } from "recoil";
+import NoProject from "./NoProject";
 
 interface Project {
   id: number;
@@ -85,23 +86,29 @@ useEffect(()=> {
 
   return (
     <Container>
-      <ProjectContainer>
-        <ProjectName>{project?.title}</ProjectName>
-        <ProjectIntro> 
-          {project?.description}
-        </ProjectIntro>
-      </ProjectContainer>
-      <CategoryContainers>
-        {categories!==null &&
-          categories.map((category, index)=>(
-            <CategoryContainer>
-                <CategoryName>{category.name}</CategoryName>
-                <CategoryIntro>
-                    {category.intro}
-                </CategoryIntro>
-            </CategoryContainer>
-        ))}
-      </CategoryContainers>
+      {projectList === null || projectList?.length === 0 ? (
+        <NoProject isDev={false}/>
+      ) : (
+        <>
+        <ProjectContainer>
+          <ProjectName>{project?.title}</ProjectName>
+          <ProjectIntro> 
+            {project?.description}
+          </ProjectIntro>
+        </ProjectContainer>
+        <CategoryContainers>
+          {categories!==null &&
+            categories.map((category, index)=>(
+              <CategoryContainer>
+                  <CategoryName>{category.name}</CategoryName>
+                  <CategoryIntro>
+                      {category.intro}
+                  </CategoryIntro>
+              </CategoryContainer>
+          ))}
+        </CategoryContainers>
+      </>
+      )}
     </Container>
   );
 }
