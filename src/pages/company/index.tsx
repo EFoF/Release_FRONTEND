@@ -53,7 +53,6 @@ export default function Company() {
     fetchData();
   }, [companyId, projectId]);
 
-  console.log("projectId", projectId)
 
   return (
     <Container>
