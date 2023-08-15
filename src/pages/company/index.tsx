@@ -37,9 +37,10 @@ export default function Company() {
     const fetchData = async () => {
       try {
         const {projectList: projects} = await fetchProject(companyId);
+        // 디펜시브가 빠졌다. 여기서 데이터가 없다면 프로젝트 만들기 화면을 띄워줘야 함.
         console.log("fetched project", projects);
         setProjectList(projects);
-        setProjectId(projects[0].id); //일단 첫 프로젝트 띄울것이기 때문 
+        setProjectId(projects[0].id); //일단 첫 프로젝트 띄울것이기 때문
         console.log("projectId", projectId)
 
         // setProjectId가 완료된 후에 fetchCategories 실행
@@ -67,13 +68,13 @@ export default function Company() {
   return (
     <Container>
       <ProjectContainer>
-        <ProjectName>{projectList !== null && projectList[0].title}</ProjectName>
-        <ProjectIntro> 
-          {projectList !== null && projectList[0].description}
+        <ProjectName>{ (projectList !== null && projectList.length !== 0) && projectList[0].title}</ProjectName>
+        <ProjectIntro>
+          {(projectList !== null && projectList.length !== 0) && projectList[0].description}
         </ProjectIntro>
       </ProjectContainer>
       <CategoryContainers>
-        {categories!==null &&
+        {(projectList !== null && projectList.length !== 0 && categories !== null) &&
           categories.map((category, index)=>(
             <CategoryContainer>
                 <CategoryName>{category.name}</CategoryName>
