@@ -21,7 +21,7 @@ import {
 import { getMyCompanies } from "../../api/company";
 import NoCompany from "./NoCompany";
 import { useRecoilState } from "recoil";
-import { companyIdState } from "../../states/companyState";
+import { companyIdState, companyNameState } from "../../states/companyState";
 
 interface Company {
   id: number;
@@ -32,6 +32,7 @@ interface Company {
 export default function MyCompanies() {
   const [companies, setCompanies] = useState<Company[] | null>(null);
   const [companyID, setCompanyID] = useRecoilState<number>(companyIdState);
+  const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
 
   useEffect(() => {
     const fetchMyCompanies = async () => {
@@ -50,6 +51,7 @@ export default function MyCompanies() {
 
   const handleCompanyClick = (companyId: number, companyName: string) => {
     setCompanyID(companyId);
+    setCompanyName(companyName);
     navigate(PATH.PROJECTEDIT, {state: {companyId, companyName}});
   };
 
