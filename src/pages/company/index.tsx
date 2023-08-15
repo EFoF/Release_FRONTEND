@@ -59,6 +59,7 @@ useEffect(()=> {
     const fetchData = async () => {
       try {
         const {projectList: projects} = await fetchProject(companyId);
+        // 디펜시브가 빠졌다. 여기서 데이터가 없다면 프로젝트 만들기 화면을 띄워줘야 함.
         console.log("fetched project", projects);
         setProjectList(projects);
         console.log("projectId", projectId)

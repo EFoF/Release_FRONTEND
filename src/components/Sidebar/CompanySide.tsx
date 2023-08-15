@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { companyIdState } from '../../states/companyState';
 import { fetchProject } from "../../api/project";
 import { fetchCategories } from "../../api/category";
+import {getReleases} from "../../api/release";
 
 // const Container = styled.div`
 //   display: flex;
@@ -164,8 +165,22 @@ export default function CompanySide() {
     navigate(PATH.PROJECTCREATE, {state: companyId})
   }
 
-  const handleReleaseClick = () => {
-    navigate(PATH.RELEASE)
+  const handleReleaseClick = async (projectId: number, projectTitle: string) => {
+    console.log("project Id", projectId);
+    try {
+      const {projectReleasesDto: releases} = await getReleases(projectId);
+      console.log("release", releases);
+    }
+    catch (error){
+      console.error("Error getting releases:", error);
+    }
+    if(isDev){
+      // TODO: 릴리즈 수정 부분
+      navigate(PATH.RELEASE, {state: {projectId: projectId, projectTitle: projectTitle}})
+    }
+    else {
+      navigate(PATH.RELEASE, {state: {projectId: projectId, projectTitle: projectTitle}})
+    }
   }
 
   return (
@@ -183,7 +198,7 @@ export default function CompanySide() {
                 categories.map((category, subIndex) => (
                 <SubMenuItem key={subIndex} onClick={handleCategoryClick}>{category.title}</SubMenuItem>
               ))}
-              <SubMenuItem onClick={handleReleaseClick}>Release Note</SubMenuItem>
+              <SubMenuItem onClick={() =>handleReleaseClick(project.id, project.title)}>Release Note</SubMenuItem>
             </SubMenuContainer>
           )}
         </SidebarContainer>

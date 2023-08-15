@@ -6,6 +6,9 @@ import Button from "../Button";
 import { useNavigate } from "react-router";
 import PATH from "../../constants/path";
 import { loadMyInfo } from "../../api/auth";
+import {getMyCompanies} from "../../api/company";
+import {useRecoilState} from "recoil";
+import {companyIdState} from "../../states/companyState";
 
 const Container = styled.div`
   display: flex;
@@ -33,11 +36,32 @@ const MyRow = styled.div`
     justify-content: center;
 `
 
+const MyOrganizationRow = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    cursor: pointer;
+`
+
 const MyTitle = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 2rem;
   margin-right: 1.4rem;
+  color: #000;
+    font-family: Inter;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+`;
+
+const MyOrganizations = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+  margin-right: 1.4rem;
+  cursor: pointer;
   color: #000;
     font-family: Inter;
     font-size: 2rem;
@@ -56,6 +80,16 @@ const MySetting = styled.img`
 const MyInfo = styled.div`
 color: #000;
 font-family: Inter;
+font-size: 1.5rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+`;
+
+const OrganizationsContainer = styled.div`
+color: #000;
+font-family: Inter;
+margin-top: 3rem;
 font-size: 1.5rem;
 font-style: normal;
 font-weight: 400;
@@ -92,12 +126,39 @@ const ButtonContainer = styled.div`
 `
 
 export default function MySide() {
+    type Company = {
+        id: number;
+        name: string;
+        imageUrl: string;
+    };
   const navigate = useNavigate();
   const [myName, setMyName] = useState("");
   const [myEmail, setMyEmail] = useState("")
+  const [companies, setCompanies] = useState<Company[] | null>(null);
+  const [companyID, setCompanyID] = useRecoilState<number>(companyIdState);
+
 
   const handleMySettingClick = () => {
     navigate(PATH.MYINFO);
+  }
+
+  const handleMyCompaniesClick = () => {
+      navigate(PATH.MYCOMPANY);
+  }
+
+  const handleMyCompaniesEach = (companyId:number, companyName:string) => {
+      setCompanyID(companyId);
+      navigate(PATH.COMPANYMAIN, {state: {companyId, companyName}});
+  }
+
+  const loadCompanies = async () => {
+      try {
+          const { content } = await getMyCompanies();
+          console.log("content", content);
+          setCompanies(content);
+      } catch (error) {
+          console.error(error);
+      }
   }
 
   useEffect(()=>{
@@ -106,6 +167,7 @@ export default function MySide() {
         const { email, username } = await loadMyInfo();
         setMyName(username);
         setMyEmail(email)
+        loadCompanies();
       } catch (error) {
         console.error('Error fetching info:', error);
       }
@@ -124,6 +186,16 @@ export default function MySide() {
             <MyName>{myName}</MyName>
             <MyEmail>{myEmail}</MyEmail>
         </MyInfo>
+          <OrganizationsContainer>
+              <MyRow>
+                  <MyOrganizations onClick={handleMyCompaniesClick}>내가 소속된 회사</MyOrganizations>
+              </MyRow>
+              {(companies !== null && companies.length !== 0) && companies.map((company : Company, index) => (
+                  <MyOrganizationRow onClick={() => handleMyCompaniesEach(company.id, company.name)}>
+                      {company.name}
+                  </MyOrganizationRow>
+              ))}
+          </OrganizationsContainer>
       </SidebarContainer>
       <ButtonContainer>
         <Button title="회사 생성하기" theme="blue" onClick={()=>{navigate(PATH.COMPANYCREATE)}}/>
