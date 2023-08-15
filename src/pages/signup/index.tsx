@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Link } from "react-router-dom";
 import Input from "../../components/Input";
 import PATH from "../../constants/path";
@@ -6,9 +6,21 @@ import PATH from "../../constants/path";
 import styled, { keyframes } from "styled-components";
 import COLORS from "../../constants/color";
 import Button from "../../components/Button";
+import {sendMail, verification} from "../../api/auth";
+import {type} from "os";
 
 
 export default function Signup() {
+
+  const [email, setEmail] = useState('');
+  const [emailButton, setEmailButton] = useState(false);
+  const [code, setCode] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  const [isAgree, setIsAgree] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [name, setName] = useState('');
+
 
   type InputProps = {
     label: string;
@@ -27,6 +39,16 @@ export default function Signup() {
       onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
     };
   };
+
+  type UserMail = {
+    email : string;
+  }
+
+  type UserMailData = {
+    email: string;
+    inputCode: string;
+  }
+
 
   const InputList: InputProps[] = [
     {
@@ -86,6 +108,92 @@ export default function Signup() {
     },
   ];
 
+  // api 요청하는 함수들
+  const sendEmail = async () => {
+    const userMail: UserMail = {
+      email : email
+    }
+    try {
+      const response = await sendMail(userMail);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const emailCodeVerfify = async () => {
+    const userMailData : UserMailData = {
+      email : email,
+      inputCode : code
+    };
+    try {
+      const response = await verification(userMailData);
+      setIsValid(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const signup = async () => {
+    const
+  }
+
+  // useState 관련, 기타 함수들
+  const handleEmailEdit = (e : React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setEmail(e.target.value);
+  }
+
+  const handleSendEmail = () => {
+    setEmailButton(true);
+    // 이메일 인증 api 전송
+    sendEmail()
+  }
+
+  const handleEmailCodeEdit = (e : React.ChangeEvent<HTMLInputElement>) => {
+    setCode(e.target.value);
+  }
+
+  const handleCertificateEmail = () => {
+    emailCodeVerfify();
+  }
+
+  const handleNameEdit = (e : React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  }
+
+  const handlePasswordEdit = (e : React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setPassword(e.target.value);
+  }
+
+  const handlePasswordValidationEdit = (e : React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setPasswordConfirm(e.target.value);
+  }
+
+  const handleSignUpButton = () => {
+    const passwordRegex = /^\s*$|^(?=.*[a-zA-Z])(?=.*[\W])(?=.*[0-9]).{8,}$/;
+    if(!isValid) {
+      alert("인증 코드가 일치하지 않습니다.");
+      return;
+    }
+    if(!passwordRegex.test(password) || password === '') {
+      alert("비밀번호는 길이 8자 이상, 영문자 1개 이상, 숫자 1개 이상, 특수문자 1개를 포함해야 합니다.");
+      return;
+    }
+    if(password !== passwordConfirm) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if(!isAgree) {
+      alert("약관에 동의 해주세요.");
+      return;
+    }
+
+    // api 요청
+
+  }
+
   return (
     <Wrapper>
       <Container>
@@ -93,38 +201,63 @@ export default function Signup() {
           <SignupTitle>회원가입</SignupTitle>
           <SignupIntro>가입 후 더 많은 기능을 누려보세요!</SignupIntro>
         </SignupTitleContainer>
-        {InputList.map((input) =>
-           (
-            <InputContainer>
-              <Input
-                key={input.label}
-                size={input.size}
-                label={input.label}
-                value={input.value}
-                type={input.type}
-                onChange={input.onChange}
-                message={input.message}
-                placeholder={input.placeholder}
-                readOnly={input.readOnly}
-              />
-              {input.isCertification && (
-                <CertificationStyledButton
-                  title={input.isCertification?.title}
-                  // size="15"
-                  disabled={input.isCertification.disabled}
-                  // theme={input.isCertification?.theme}
-                  onClick={input.isCertification?.onClick}
-                />
-              )}
-            </InputContainer>
-          )
-        )}
+        <InputContainer>
+          <Input key={"email"} size={35.38} value={email} label={"이메일 주소"}
+                 placeholder={"이메일을 입력해주세요."} onChange={handleEmailEdit} readOnly={emailButton}/>
+          <CertificationStyledButton title={emailButton ? "재전송" : "인증"} onClick={handleSendEmail}/>
+        </InputContainer>
+        <InputContainer>
+          <Input key={"code"} size={35.38} value={code} label={"인증번호 입력"}
+                 placeholder={"인증 코드를 입력해주세요."} onChange={handleEmailCodeEdit} readOnly={false}/>
+          <CertificationStyledButton title={"인증완료"} onClick={handleCertificateEmail}/>
+        </InputContainer>
+        {emailButton && !isValid ? (
+            <Warn>인증 번호가 다릅니다.</Warn>
+        ) : isValid ? <Pass>인증되었습니다.</Pass> : <></>}
+        <InputContainer>
+          <Input key={"name"} size={46.5} value={name} label={"이름"}
+                 placeholder={"이름을 입력해주세요."} onChange={handleNameEdit} readOnly={false}/>
+        </InputContainer>
+        <InputContainer>
+          <Input key={"password"} size={46.5} value={password} label={"비밀번호"} type={"password"}
+                 placeholder={"비밀번호를 입력해주세요."} onChange={handlePasswordEdit} readOnly={false}/>
+        </InputContainer>
+        <InputContainer>
+          <Input key={"password"} size={46.5} value={passwordConfirm} label={"비밀번호 확인"} type={"password"}
+                 placeholder={"비밀번호를 한번 더 입력해주세요."} onChange={handlePasswordValidationEdit} readOnly={false}/>
+        </InputContainer>
+        {/*{InputList.map((input) =>*/}
+        {/*   (*/}
+        {/*    <InputContainer>*/}
+        {/*      <Input*/}
+        {/*        key={input.label}*/}
+        {/*        size={input.size}*/}
+        {/*        label={input.label}*/}
+        {/*        value={input.value}*/}
+        {/*        type={input.type}*/}
+        {/*        onChange={input.onChange}*/}
+        {/*        message={input.message}*/}
+        {/*        placeholder={input.placeholder}*/}
+        {/*        readOnly={input.readOnly}*/}
+        {/*      />*/}
+        {/*      {input.isCertification && (*/}
+        {/*        <CertificationStyledButton*/}
+        {/*          title={input.isCertification?.title}*/}
+        {/*          // size="15"*/}
+        {/*          disabled={input.isCertification.disabled}*/}
+        {/*          // theme={input.isCertification?.theme}*/}
+        {/*          onClick={input.isCertification?.onClick}*/}
+        {/*        />*/}
+        {/*      )}*/}
+        {/*    </InputContainer>*/}
+        {/*  )*/}
+        {/*)}*/}
         <PersonalDiv>
           <StyledCheckBox
             type="checkbox"
             value=""
             size={1.3}
-            // onChange={handleCheckboxChange}
+            onChange={() => setIsAgree(!isAgree)}
           />
           DOKLIB 개인정보 수집 및 동의 (필수)
           <PersonalInfo>자세히</PersonalInfo>
@@ -136,8 +269,8 @@ export default function Signup() {
           </SignupButton>
           <SignUpStyledButton
             title="계정 만들기"
-            width="13.5rem"          
-            // disabled={}
+            width="13.5rem"
+            onClick={handleSignUpButton}
           />
         </Buttons>
       </Container>
@@ -290,7 +423,14 @@ const SignupButton = styled.button`
 
 const Warn = styled.p`
   font-size: 1.1rem;
-  padding-top: 1rem;
+  color: ${COLORS.RED};
+  margin-left: 0.5rem;
+`;
+
+const Pass = styled.p`
+  font-size: 1.1rem;
+  color: ${COLORS.BLUE};
+  margin-left: 0.5rem;
 `;
 
 const SignupTitleContainer = styled.div`
