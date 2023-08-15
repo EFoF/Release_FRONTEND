@@ -7,6 +7,7 @@ import { isLoginState } from "../../states/isLogin";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react"
 import { loadMyInfo } from "../../api/auth";
+import { searchCompany } from "../../api/company";
 
 export const Container = styled.div`
   width: 100%;
@@ -105,7 +106,10 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
   const navigate = useNavigate();
   // const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [myName, setMyName] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"))
+  const {state} = useLocation();
+  console.log("state", state)
 
   useEffect(()=>{
     if(isLogin) {
@@ -140,7 +144,7 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
       <LogoBox>
         {isCompany ? "" : <LogoImg src={eagle} />}
         {isCompany ? (
-          <div onClick={handleCompanyTitleClick}>카카오 엔터프라이즈</div>
+          <div onClick={handleCompanyTitleClick}>{state.companyName}</div>
         ) : (
           <div onClick={handleLogoClick}>DOKLIB</div>
         )}

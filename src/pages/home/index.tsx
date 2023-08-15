@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import "../../styles/font.css";
 import { searchCompany } from "../../api/company";
+import { useRecoilState } from "recoil";
+import { companyIdState } from "../../states/companyState";
 
 interface Company {
   name: string;
@@ -26,12 +28,14 @@ interface Company {
 
 export default function Home() {
   const [companies, setCompanies] = useState<Company[]>([])
-  
+  const [companyID, setCompanyID] = useRecoilState<number>(companyIdState);
+
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
 
-  const handleCompanyClick = (companyId: number) => {
-    navigate(PATH.COMPANYMAIN, {state: companyId});
+  const handleCompanyClick = (companyId: number, companyName: string) => {
+    setCompanyID(companyId);
+    navigate(PATH.COMPANYMAIN, {state: {companyId, companyName}});
   };
 
   const handleInputChange = (e: {
@@ -73,7 +77,7 @@ export default function Home() {
           {companies
             .filter((c) => c.name.includes(searchKey))
             .map((company, index) => (
-              <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id)}>
+              <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id, company.name)}>
                 <CompanyImage src={company.imageUrl} alt={company.name} />
                 <CompanyName>{company.name}</CompanyName>
               </CompanyCard>

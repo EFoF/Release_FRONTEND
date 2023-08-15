@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "../../styles/font.css";
 import setting from "../../img/setting1.png"
@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import { useRecoilValue } from 'recoil';
 import { companyIdState } from '../../states/companyState';
+import { fetchProject } from "../../api/project";
+import { fetchCategories } from "../../api/category";
 
 // const Container = styled.div`
 //   display: flex;
@@ -91,34 +93,56 @@ const CompanySetting = styled.img`
     margin-bottom: 0.65rem;
 `
 
+interface Project {
+  id: number;
+  title: string;
+  scope: boolean;
+  description: string;
+}
+
+interface Category {
+  id: number;
+  title: string;
+  description: string;
+}
+
 export default function CompanySide() {
   const companyId = useRecoilValue(companyIdState);
   console.log("companyId", companyId)
-  const [projects, setProjects] = useState([
-    {
-      name: "Kakao i Acoount",
-      subMenu: ["개발 프로세스", "API", "부록"],
-    },
-    {
-      name: "Kakao i Agent",
-      subMenu: ["카테고리4", "카테고리5"],
-    },
-    {
-      name: "Kakao i Connect Li",
-      subMenu: ["카테고리4", "카테고리5"],
-    },
-    {
-      name: "Kakao i Acoount2",
-      subMenu: ["카테고리1", "카테고리2", "카테고리3"],
-    },
-  ]);
+  const [projects, setProjects] = useState<Project[] | null>(null);
+  const [projectId, setProjectId] = useState();
+  const [categories, setCategories] = useState<Category[] | null>(null);
+
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const {projectList} = await fetchProject(companyId); 
+        console.log("fetched project", projectList);
+        setProjects(projectList); 
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [companyId])
 
   const navigate = useNavigate();
   const [activeProject, setActiveProject] = useState(null);
 
-  const handleProjectClick = (index: any) => {
+  const handleProjectClick = async (index: any, projectId: number) => {
     setActiveProject(activeProject === index ? null : index);
-  };
+    
+    if (activeProject !== index) {
+      try {
+        const { categoryEachDtoList: categories } = await fetchCategories(projectId);
+        console.log("fetched categories", categories); 
+        setCategories(categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    }
+  };  
 
   const handleButtonClick = () => {
     navigate(PATH.PROJECTCREATE, {state: companyId})
@@ -130,16 +154,18 @@ export default function CompanySide() {
 
   return (
     <Container>
-      {projects.map((project, index) => (
+      {projects !== null &&
+        projects.map((project, index) => (
         <SidebarContainer key={index}>
-          <SidebarItem onClick={() => handleProjectClick(index)}>
-            {project.name}
+          <SidebarItem onClick={() => handleProjectClick(index, project.id)}>
+            {project.title}
             <SidebarArrow>{activeProject === index ? "-" : "+"}</SidebarArrow>
           </SidebarItem>
           {activeProject === index && (
             <SubMenuContainer>
-              {project.subMenu.map((item, subIndex) => (
-                <SubMenuItem key={subIndex}>{item}</SubMenuItem>
+              {categories !== null &&
+                categories.map((category, subIndex) => (
+                <SubMenuItem key={subIndex}>{category.title}</SubMenuItem>
               ))}
               <SubMenuItem onClick={handleReleaseClick}>Release Note</SubMenuItem>
             </SubMenuContainer>
@@ -147,7 +173,7 @@ export default function CompanySide() {
         </SidebarContainer>
       ))}
       <BottomContainer>
-        <CompanySetting src={setting}/>
+        <CompanySetting src={setting} onClick={()=>navigate(PATH.COMPANYMANAGE)}/>
         <Button title="프로젝트 생성하기" theme="blue" width="12.68rem" onClick={handleButtonClick}/>
       </BottomContainer>
     </Container>
