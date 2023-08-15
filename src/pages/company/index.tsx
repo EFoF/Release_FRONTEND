@@ -7,6 +7,13 @@ import { fetchProject } from "../../api/project";
 import { useLocation } from "react-router-dom";
 import { fetchCategories } from "../../api/category";
 
+interface Project {
+  id: number;
+  title: string;
+  scope: boolean;
+  description: string;
+}
+
 export default function Company() {
   //이쪽 페이지에서 헤더와 사이드바에서 getcompany해서 이름과 id 알아내야함 
   const [categories, setCategories] = useState([
@@ -15,7 +22,8 @@ export default function Company() {
     {name: "부록", intro: "카카오 i 계정 서비스를 좀 더 편리하게 사용할 수 있도록 관리자 서비스 페이지를 제공합니다.        "},
   ]);
 
-  const [projectId, setProjectId] = useState();
+  const [projectList, setProjectList] = useState<Project[] | null>(null);
+  const [projectId, setProjectId] = useState(); //디폴트 화면 띄우기 위해 0번째
   
   const { state: companyId } = useLocation();
 
@@ -27,9 +35,10 @@ export default function Company() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {projectList} = await fetchProject(companyId);
-        console.log("fetched project", projectList);
-        setProjectId(projectList[0].id); //일단 첫 프로젝트 띄울것이기 때문 
+        const {projectList: projects} = await fetchProject(companyId);
+        console.log("fetched project", projects);
+        setProjectList(projects);
+        setProjectId(projects[0].id); //일단 첫 프로젝트 띄울것이기 때문 
         console.log("projectId", projectId)
 
         // setProjectId가 완료된 후에 fetchCategories 실행
@@ -57,9 +66,9 @@ export default function Company() {
   return (
     <Container>
       <ProjectContainer>
-        <ProjectName>Kakao i Account</ProjectName>
+        <ProjectName>{projectList !== null && projectList[0].title}</ProjectName>
         <ProjectIntro> 
-            카카오 i 서비스 시스템(Kakao i Service System)은 카카오 i 서비스의 백엔드 체계를 나타내며, 카카오 i 계정, 카카오워크, 카카오 i 클라우드 등의 여러 ‘카카오 i 서비스’들과 이들의 계정을 상호 연동해주는 ‘Adapter 서버’로 구성됩니다.
+          {projectList !== null && projectList[0].description}
         </ProjectIntro>
       </ProjectContainer>
       <CategoryContainers>
