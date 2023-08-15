@@ -81,7 +81,7 @@ export default function DevLayout() {
 
   return (
     <Full>
-      <Header isDev={false} isCompany={isCompanyBool} />
+      <Header isCompany={isCompanyBool} />
       <Inner>
         <MySide />
         <OutletWithFooter>

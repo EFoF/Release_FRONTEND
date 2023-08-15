@@ -79,7 +79,7 @@ export default function MainLayout() {
 
   return (
     <Full>
-      <Header isDev={false} isCompany={isCompanyBool} />
+      <Header isCompany={isCompanyBool} />
       <Inner>
         {isCompanyBool ? <CompanySide /> : <MySide />}
         <OutletWithFooter>

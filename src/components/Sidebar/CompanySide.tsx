@@ -147,8 +147,16 @@ export default function CompanySide() {
         console.error("Error fetching categories:", error);
       }
     }
-    navigate(PATH.PROJECTEDIT, {state: projectId}); //해당 프로젝트 클릭 시 그 프로젝트 edit 페이지 - id를 통해 fetching
+    if(isDev) {
+      navigate(PATH.PROJECTEDIT, {state: projectId}); //해당 프로젝트 클릭 시 그 프로젝트 edit 페이지 - id를 통해 fetching
+    } else {
+      navigate(PATH.COMPANYMAIN)
+    }
   };  
+
+  const handleCategoryClick = () => {
+    
+  }
 
   const handleButtonClick = () => {
     navigate(PATH.PROJECTCREATE, {state: companyId})
@@ -171,7 +179,7 @@ export default function CompanySide() {
             <SubMenuContainer>
               {categories !== null &&
                 categories.map((category, subIndex) => (
-                <SubMenuItem key={subIndex}>{category.title}</SubMenuItem>
+                <SubMenuItem key={subIndex} onClick={handleCategoryClick}>{category.title}</SubMenuItem>
               ))}
               <SubMenuItem onClick={handleReleaseClick}>Release Note</SubMenuItem>
             </SubMenuContainer>

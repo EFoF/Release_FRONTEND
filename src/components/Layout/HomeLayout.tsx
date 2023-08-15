@@ -68,7 +68,7 @@ export default function HomeLayout() {
 
   return (
     <Full>
-      <Header isDev={false}/>
+      <Header/>
       <Inner>
         <OutletWithFooter>
           <OutletContainer>
