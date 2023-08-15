@@ -13,7 +13,7 @@ import ConfirmationModal from "../../components/Modal";
 import Input from "../../components/Input";
 import PATH from "../../constants/path";
 import {useLocation, useNavigate} from "react-router-dom";
-import { fetchProject } from "../../api/project";
+import { editProject, fetchProject } from "../../api/project";
 import { fetchCategories } from "../../api/category";
 import { useRecoilValue } from "recoil";
 import { companyIdState } from "../../states/companyState";
@@ -119,6 +119,35 @@ export default function ProjectEdit() {
 
     const handleOnBlurProjectDescriptionChange = () => {
         setProjectDescription(projectDescriptionRef.current);
+    }
+
+    const handleTitleCheckClick = () => {
+        setIsTitleEdit(!isTitleEdit);
+        const projectData = {
+            "description": projectDescription,
+            "scope": project?.scope,
+            "title": project?.title,
+        }
+        console.log("!!!", projectId, project);
+
+        const editTitleDescription = async () => {
+            try {
+                const fetchedData = await editProject(projectId, projectData);
+                console.log("editTitleDescription", fetchedData);
+                setProject((prevProject) => {
+                    if (prevProject) {
+                        return {
+                            ...prevProject,
+                            description: projectDescriptionRef.current,
+                        };
+                    }
+                    return prevProject;
+                });
+            } catch(error) {
+                console.error("Error edit project:", error);
+            }
+        }
+        editTitleDescription();
     }
 
     const handleCategoryEditClick = (index:number) => {
@@ -234,7 +263,7 @@ export default function ProjectEdit() {
                         {projectList !== null && <CompanyName>{project?.title}</CompanyName>}
                         {isTitleEdit ?
                             (<EditButtonContainer>
-                                <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleEditClick} />
+                                <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleCheckClick} />
                                 <EditButton imageUrl={clear} width={24} height={24} onClick={handleTitleEditClick} />
                             </EditButtonContainer>) :
                             <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick}></EditButton>
