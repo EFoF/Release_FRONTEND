@@ -18,7 +18,7 @@ import PATH from "../../constants/path";
 import "../../styles/font.css";
 import { searchCompany } from "../../api/company";
 import { useRecoilState } from "recoil";
-import { companyIdState } from "../../states/companyState";
+import { companyIdState, companyNameState } from "../../states/companyState";
 
 interface Company {
   name: string;
@@ -29,12 +29,14 @@ interface Company {
 export default function Home() {
   const [companies, setCompanies] = useState<Company[]>([])
   const [companyID, setCompanyID] = useRecoilState<number>(companyIdState);
+  const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
 
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
 
   const handleCompanyClick = (companyId: number, companyName: string) => {
     setCompanyID(companyId);
+    setCompanyName(companyName);
     navigate(PATH.COMPANYMAIN, {state: {companyId, companyName}});
   };
 

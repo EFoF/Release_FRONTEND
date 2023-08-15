@@ -4,10 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
 import { isLoginState } from "../../states/isLogin";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useState, useEffect } from "react"
 import { loadMyInfo } from "../../api/auth";
 import { searchCompany } from "../../api/company";
+import { companyIdState, companyNameState } from "../../states/companyState";
 
 export const Container = styled.div`
   width: 100%;
@@ -106,10 +107,16 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
   const navigate = useNavigate();
   // const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [myName, setMyName] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"))
-  const {state} = useLocation();
-  console.log("state", state)
+  const [companyTitle, setcompanyTitle] = useState("");
+  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"));
+  const companyName = useRecoilValue(companyNameState);
+  const location = useLocation();
+  
+  useEffect(()=>{
+    if(isCompany) {
+      setcompanyTitle(companyName)
+    } 
+  },[companyName, isCompany])
 
   useEffect(()=>{
     if(isLogin) {
@@ -144,7 +151,7 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
       <LogoBox>
         {isCompany ? "" : <LogoImg src={eagle} />}
         {isCompany ? (
-          <div onClick={handleCompanyTitleClick}>{state.companyName}</div>
+          <div onClick={handleCompanyTitleClick}>{companyTitle}</div>
         ) : (
           <div onClick={handleLogoClick}>DOKLIB</div>
         )}

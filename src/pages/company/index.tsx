@@ -26,7 +26,7 @@ export default function Company() {
   const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [projectId, setProjectId] = useState(); //디폴트 화면 띄우기 위해 0번째
   
-  const { state: companyId } = useLocation();
+  const { state: {companyId} } = useLocation();
 
   console.log("companyId", companyId)
   //이전 클릭 이벤트에서 받은 id 통해서 comp 정보 불러오기 
