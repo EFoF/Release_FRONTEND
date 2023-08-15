@@ -3,7 +3,7 @@ import styled from "styled-components";
 import "../../styles/font.css";
 import setting from "../../img/setting1.png"
 import Button from "../Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import { useRecoilValue } from 'recoil';
 import { companyIdState } from '../../states/companyState';
@@ -112,7 +112,15 @@ export default function CompanySide() {
   const [projects, setProjects] = useState<Project[] | null>(null);
   const [projectId, setProjectId] = useState();
   const [categories, setCategories] = useState<Category[] | null>(null);
-
+  const navigate = useNavigate();
+  const [activeProject, setActiveProject] = useState(null);
+  const [isDev, setIsDev] = useState(false);
+  const location = useLocation();
+  
+  useEffect(() => {
+    setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
+  }, [location.pathname]);
+  console.log("isDev", isDev)
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -127,9 +135,6 @@ export default function CompanySide() {
     fetchData();
   }, [companyId])
 
-  const navigate = useNavigate();
-  const [activeProject, setActiveProject] = useState(null);
-
   const handleProjectClick = async (index: any, projectId: number) => {
     setActiveProject(activeProject === index ? null : index);
     
@@ -142,6 +147,7 @@ export default function CompanySide() {
         console.error("Error fetching categories:", error);
       }
     }
+    navigate(PATH.PROJECTEDIT, {state: projectId}); //해당 프로젝트 클릭 시 그 프로젝트 edit 페이지 - id를 통해 fetching
   };  
 
   const handleButtonClick = () => {
@@ -172,10 +178,10 @@ export default function CompanySide() {
           )}
         </SidebarContainer>
       ))}
-      <BottomContainer>
+      {isDev && <BottomContainer> 
         <CompanySetting src={setting} onClick={()=>navigate(PATH.COMPANYMANAGE)}/>
         <Button title="프로젝트 생성하기" theme="blue" width="12.68rem" onClick={handleButtonClick}/>
-      </BottomContainer>
+      </BottomContainer>}
     </Container>
   );
 }
