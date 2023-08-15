@@ -33,9 +33,9 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
 
-  const handleCompanyClick = (companyId: number) => {
+  const handleCompanyClick = (companyId: number, companyName: string) => {
     setCompanyID(companyId);
-    navigate(PATH.COMPANYMAIN, {state: companyId});
+    navigate(PATH.COMPANYMAIN, {state: {companyId, companyName}});
   };
 
   const handleInputChange = (e: {
@@ -77,7 +77,7 @@ export default function Home() {
           {companies
             .filter((c) => c.name.includes(searchKey))
             .map((company, index) => (
-              <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id)}>
+              <CompanyCard key={index} onClick={()=>handleCompanyClick(company.id, company.name)}>
                 <CompanyImage src={company.imageUrl} alt={company.name} />
                 <CompanyName>{company.name}</CompanyName>
               </CompanyCard>
