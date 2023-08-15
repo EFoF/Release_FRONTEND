@@ -1,18 +1,7 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import backImg from "../../img/Rectangle 36.png";
-import eagle from "../../img/icon-park-outline_eagle.png";
-import kakaoenter from "../../img/kakao-enter.jpg";
-import kakaopay from "../../img/kakao-pay.jpg";
-import kakaotaxi from "../../img/kakao-taxi.jpg";
-import facebook from "../../img/facebook.png";
-import kakaonavi from "../../img/kakao-navi.jpg";
-import kakaobank from "../../img/kakao-brain.png";
-import kakaogames from "../../img/kakao-games.jpg";
-import kakaobrain from "../../img/kakao-brain.png";
-import COLORS from "../../constants/color";
 import search from "../../img/material-symbols_search.png";
-import naver from "../../img/naver.png";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
 import "../../styles/font.css";

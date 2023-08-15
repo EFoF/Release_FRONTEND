@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { isLoginState } from "../../states/isLogin";
 import { useRecoilState } from 'recoil';
 import SNSLogin from "./snsLogin";
+import axios from "axios";
 
 
 const Containers = styled.div`
@@ -139,15 +140,24 @@ export default function Login() {
       email: userEmail,
       password: userPassword,
     }
-    login(userLoginData).then((fetchedData)=>{
-      if(fetchedData) {
-        console.log("login", fetchedData.headers.authorization)
+
+    const userLogin = async () => {
+      try {
+        const fetchedData = await login(userLoginData);
+        console.log(fetchedData);
         localStorage.setItem("accessToken", fetchedData.headers.authorization);
         setIsLogin(true);
-        navigate(PATH.MYCOMPANY) //mycomp로 변환 
+        navigate(PATH.MYCOMPANY) 
+      } catch(error) {
+        console.error("Error fetching companies:", error);
+        //메시지 창
+        if (axios.isAxiosError(error)) {
+          // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+          alert(error.response?.data); // 에러 응답 데이터 출력
+        }
       }
-    })
-    
+    }
+    userLogin();
     // console.log(userLoginData)
     // mutateLogin.mutate(userLoginData);
     // console.log("mutateLogin", mutateLogin)

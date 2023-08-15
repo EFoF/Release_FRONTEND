@@ -15,6 +15,8 @@ import PATH from "../../constants/path";
 import {useLocation, useNavigate} from "react-router-dom";
 import { fetchProject } from "../../api/project";
 import { fetchCategories } from "../../api/category";
+import { useRecoilValue } from "recoil";
+import { companyIdState } from "../../states/companyState";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -57,9 +59,10 @@ export default function ProjectEdit() {
     const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
   const [project, setProject] = useState<Project>();
+  const companyId = useRecoilValue(companyIdState);
   
   const location = useLocation();
-  const companyId = location.state.companyId;
+//   const companyId = location.state.companyId;
   if(location.state.projectId) { //첫 화면은 안받아올테니 
       const PID = location.state.projectId;
       setProjectId(PID);  
