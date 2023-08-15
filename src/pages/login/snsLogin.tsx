@@ -52,7 +52,7 @@ export default function SNSLogin() {
     const navigate = useNavigate();
 
     const handleGOOGLELoginClick = () => {
-        navigate(API.GOOGLELOGIN);
+        navigate("/oauth2/authorization/google");
     };
 
     return (

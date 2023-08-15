@@ -9,7 +9,7 @@ const UPDATE_PW = "/update/password";
 const MEMBER_INFO = "/member/info";
 const COMPANIES = "/companies";
 const PROJECT = "/companies/projects";
-const GOOGLELOGIN = "/api/oauth2/authorization/google"
+const GOOGLELOGIN = "/oauth2/authorization/google"
 
 
 // const CHECK_EMAIL = "email/exists/";
