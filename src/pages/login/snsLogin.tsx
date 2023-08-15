@@ -45,6 +45,7 @@ const SNSWrapper = styled.div`
 const Label = styled.div`
   font-weight: 300;
   font-size: 1.3rem;
+  cursor: pointer;
 `;
 
 export default function SNSLogin() {
