@@ -38,6 +38,7 @@ interface Project {
     title: string;
     description: string;
     scope: boolean;
+    id: number;
 }
 
 export default function ProjectEdit() {
@@ -63,17 +64,20 @@ export default function ProjectEdit() {
   
   const location = useLocation();
 //   const companyId = location.state.companyId;
-  if(location.state.projectId) { //첫 화면은 안받아올테니 
-      const PID = location.state.projectId;
+   useEffect(()=> {
+    console.log("location.state", location.state)
+    if (typeof location.state !== 'object' && location.state !== null) {
+      const PID = location.state;
       setProjectId(PID);  
-  }
-
-  useEffect(()=> {
-      projectList && setProject(projectList[projectId]); //현 pid로 현재의 project 할당 
-    
-      console.log("companyId, projectId", companyId, projectId);
-      console.log("currentProject", project);
-  }, [companyId, project, projectId, projectList])
+      console.log("1234projectId", projectId)
+    } 
+    console.log("projectList", projectList)
+    projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
+    projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
+  
+    console.log("companyId, projectId", companyId, projectId);
+    console.log("currentProject", project);
+  }, [companyId, location.state, project, projectId, projectList])
 
   useEffect(() => {
     const fetchData = async () => {

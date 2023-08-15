@@ -30,15 +30,26 @@ export default function Company() {
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
   // const [companyId, setCompanyId] = useState();
   const companyId = useRecoilValue(companyIdState);
+  const [project, setProject] = useState<Project>();
   const location = useLocation();
 
-  // useEffect(()=> {
-  //   if(location.state.companyId) {
-  //     const CID = location.state.companyId;
-  //     setCompanyId(CID);
-  //     console.log("companyId", companyId)
-  //   }
-  // }, [companyId, location.state.companyId])
+  
+
+useEffect(()=> {
+  console.log("location.state", location.state)
+  if (typeof location.state !== 'object' && location.state !== null) {
+    const PID = location.state;
+    setProjectId(PID);  
+    console.log("1234projectId", projectId)
+  } 
+  console.log("projectList", projectList)
+  projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
+  projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
+
+  console.log("companyId, projectId", companyId, projectId);
+  console.log("currentProject", project);
+}, [companyId, location.state, project, projectId, projectList])
+
   //이전 클릭 이벤트에서 받은 id 통해서 comp 정보 불러오기 
   //inner에서는 일단 프로젝트들 id 저장 / 프로젝트 title, description로 렌더링
   //프로젝트 id 통해서 모든 카테고리 부름 / title과 description
@@ -49,7 +60,6 @@ export default function Company() {
         const {projectList: projects} = await fetchProject(companyId);
         console.log("fetched project", projects);
         setProjectList(projects);
-        setProjectId(projects[0].id); //일단 첫 프로젝트 띄울것이기 때문 
         console.log("projectId", projectId)
 
         // setProjectId가 완료된 후에 fetchCategories 실행
@@ -70,16 +80,15 @@ export default function Company() {
       }
     };
   
-    companyId && fetchData();
+    fetchData();
   }, [companyId, projectId]);
-
 
   return (
     <Container>
       <ProjectContainer>
-        <ProjectName>{projectList !== null && projectList[0].title}</ProjectName>
+        <ProjectName>{project?.title}</ProjectName>
         <ProjectIntro> 
-          {projectList !== null && projectList[0].description}
+          {project?.description}
         </ProjectIntro>
       </ProjectContainer>
       <CategoryContainers>

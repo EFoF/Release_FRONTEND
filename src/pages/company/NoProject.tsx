@@ -3,14 +3,17 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import {useState} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../constants/path";
 
 
 export default function NoProject() {
+    const navigate = useNavigate();
     return (
         <Container>
             <MainContainer>
                 <MainText>프로젝트가 존재하지 않습니다</MainText>
-                <Button theme="blue" title="프로젝트 생성하기" width="14rem"></Button>
+                <Button theme="blue" title="프로젝트 생성하기" width="14rem" onClick={()=>navigate(PATH.PROJECTCREATE)}></Button>
             </MainContainer>
         </Container>
     )
