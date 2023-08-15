@@ -14,7 +14,7 @@ import Input from "../../components/Input";
 import PATH from "../../constants/path";
 import {useLocation, useNavigate} from "react-router-dom";
 import { editProject, fetchProject } from "../../api/project";
-import { addCategory, fetchCategories } from "../../api/category";
+import { addCategory, deleteCategory, fetchCategories, updateCategory } from "../../api/category";
 import { useRecoilValue } from "recoil";
 import { companyIdState } from "../../states/companyState";
 import NoProject from "../company/NoProject";
@@ -26,6 +26,7 @@ interface EditButtonProps {
 }
 
 interface Category {
+    id?: number;
     detail : string;
     title: string;
     description: string;
@@ -49,15 +50,18 @@ export default function ProjectEdit() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
     const [isModifyModalOpen, setIsModifyModalOpen] = useState<boolean>(false);
-    const [index, setIndex] = useState<Number>();
+    const [index, setIndex] = useState<number>();
     const [isPlusButtonOn, setIsPlusButtonOn] = useState<boolean>(false);
     const [categoryName, setCategoryName] = useState<string>("");
     const [projectDescription, setProjectDescription] = useState("");
     const [categoryDescription, setCategoryDescription] = useState<string>("");
-    const categoryNameRef = useRef('');
     const categoryDescriptionRef = useRef('');
     const projectDescriptionRef = useRef('');
+    const categoryTitleRef = useRef('');
+    const [categoryTitle, setCategoryTitle] = useState("");
 
+    
+    const [categoryId, setCategoryId] = useState(0);
     const [categories, setCategories] = useState<Category[]>([]);
     const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
@@ -87,7 +91,6 @@ export default function ProjectEdit() {
         const {projectList: projects} = await fetchProject(companyId);
         console.log("fetched project", projects);
         setProjectList(projects);
-        // setProjectId(projects[0].id); //일단 첫 프로젝트 띄울것이기 때문 
         console.log("projectId", projectId)
 
         // setProjectId가 완료된 후에 fetchCategories 실행
@@ -119,6 +122,17 @@ export default function ProjectEdit() {
 
     const handleOnBlurProjectDescriptionChange = () => {
         setProjectDescription(projectDescriptionRef.current);
+    }
+
+    const handleCategoryTitleChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+        categoryTitleRef.current = e.target.value;
+        // setCategoryTitle(e.target.value)
+    }
+
+    const handleOnBlurCategoryTitle = () => {
+        setCategoryTitle(categoryTitleRef.current)
+        // setCategoryTitle(categoryTitle)
     }
 
     const handleTitleCheckClick = () => {
@@ -164,10 +178,11 @@ export default function ProjectEdit() {
         setIsTitleEdit(!isTitleEdit);
     }
 
-    const handleRemoveButton = (index:number) => {
+    const handleRemoveButton = (index:number, categoryID: number | undefined) => {
         setIsDeleteModalOpen(true);
         // 몇번째 인덱스의 리스트를 지울지 따로 저장해줘야 함
         setIndex(index);
+        categoryID && setCategoryId(categoryID);
     }
 
     const handleModalCancel = () => {
@@ -190,11 +205,14 @@ export default function ProjectEdit() {
         try {
             const data = await addCategory(projectId, newCategoryData);
             console.log("addCategory", data)
-            setCategories((prevCategories) => [...prevCategories, newCategoryData]);
+            setCategories((prevCategories) => [...prevCategories, newCategoryData]); 
             setIsAddModalOpen(false); // 모달 닫기
+
             setIsPlusButtonOn(!isPlusButtonOn);
+
+            setCategoryName("");
         } catch(error) {
-            console.error("Error adding new category:", error);
+            console.error("Error add category:", error);
         }
     };
 
@@ -220,7 +238,9 @@ export default function ProjectEdit() {
         setCategoryDescription(categoryDescriptionRef.current);
     }
 
-    const handleEditConfirmButton = (index:number) => {
+    const handleEditConfirmButton = (index:number, categoryID: number | undefined) => {
+        categoryID && setCategoryId(categoryID); //확정은 아니지만 현재 action을 취하고 있는 category 잡고 있음 
+        setIndex(index); //현재 index 기억해두기 
         setIsModifyModalOpen(true);
     }
 
@@ -228,7 +248,37 @@ export default function ProjectEdit() {
         setIsModifyModalOpen(false);
     }
 
-    const handleConfirmModifyModal = () => {
+    const handleConfirmModifyModal = async () => {
+        const newCategoryData = {
+            "description": categoryDescription,
+            "detail": "",
+            "title": categoryTitle,
+        };
+
+        try {
+            const data = await updateCategory(projectId, categoryId, newCategoryData);
+            console.log("newCategoryData", newCategoryData);
+            console.log("updateCategory", data);
+            
+            //수정한 원소 반영 
+            setCategories((prevCategories) => {
+                const updatedCategories = [...prevCategories];
+                if (typeof index === 'number') updatedCategories[index] = newCategoryData;
+                return updatedCategories;
+            });
+
+             //isEdit 모드 해제 
+             const updatedList = [...isEditMode];
+             if (typeof index === 'number') {
+                 updatedList[index] = !updatedList[index];
+             }
+             setIsEditMode(updatedList);
+
+             setIsAddModalOpen(false); // 모달 닫기
+             setCategoryName("");
+        } catch(error) {
+            console.error("Error adding new category:", error);
+        }
         setIsModifyModalOpen(false);
     }
 
@@ -237,7 +287,7 @@ export default function ProjectEdit() {
     }
 
     const handleToggleChange = () => {
-        project && setProject((prevProject) => {
+        setProject((prevProject) => {
             if (prevProject) {
                 return {
                     ...prevProject,
@@ -246,18 +296,22 @@ export default function ProjectEdit() {
             }
             return prevProject;
         });
+        console.log("ttproject", project);
     }
     
     const handleConfirmDelete = () => {
         // TODO: 인덱스에 해당하는 카테고리 지우고 디비에 반영
-        // JSON 데이터 수정
-        setCategories((cates) => ({
-            ...cates,
-            categories : categories.filter(
-                (category, categoryIndex) => categoryIndex !== index
-            )
-        }))
-        // 모달 닫기
+        setCategories((prevCategories) =>
+            prevCategories.filter((_, categoryIndex) => categoryIndex !== index)
+        );
+
+        try{
+            const data = deleteCategory(projectId, categoryId);
+            console.log("deleteCategory", data);
+        } catch(error) {
+            console.error("Error delete category:", error);
+        }
+        
         setIsDeleteModalOpen(false);
     };
 
@@ -312,14 +366,14 @@ export default function ProjectEdit() {
                                         <CategoryName>{category.title}</CategoryName>
                                         <EditButtonContainer>
                                             <EditButton imageUrl={pencil} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
-                                            <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleRemoveButton(index)}/>
+                                            <EditButton imageUrl={minus} width={24} height={24} onClick={()=>handleRemoveButton(index, category.id)}/>
                                         </EditButtonContainer>
                                     </EditContainer>
                                 ) : (
                                     <EditContainer>
-                                        <Input placeholder={"제목을 입력해주세요"} value={category.title}/>
+                                        <TextInput defaultValue={category.title} onChange={handleCategoryTitleChange} onBlur={handleOnBlurCategoryTitle} />
                                         <EditButtonContainer>
-                                            <EditButton imageUrl={check} width={24} height={24} onClick={()=>handleEditConfirmButton(index)} />
+                                            <EditButton imageUrl={check} width={24} height={24} onClick={()=>handleEditConfirmButton(index, category.id)} />
                                             <EditButton imageUrl={clear} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
                                         </EditButtonContainer>
                                     </EditContainer>
