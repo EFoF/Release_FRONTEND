@@ -98,11 +98,10 @@ export const Logout = styled.div`
 `;
 
 interface HeaderProps {
-  isDev: boolean;
   isCompany?: boolean;
 }
 
-export default function Header({ isDev, isCompany }: HeaderProps) {
+export default function Header({ isCompany }: HeaderProps) {
   //isDev 추가하기
   const navigate = useNavigate();
   // const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -111,6 +110,12 @@ export default function Header({ isDev, isCompany }: HeaderProps) {
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"));
   const companyName = useRecoilValue(companyNameState);
   const location = useLocation();
+  const [isDev, setIsDev] = useState(false);
+
+  useEffect(() => {
+    setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
+  }, [location.pathname]);
+  console.log("isDev", isDev)
   
   useEffect(()=>{
     if(isCompany) {

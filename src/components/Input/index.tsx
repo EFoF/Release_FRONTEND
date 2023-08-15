@@ -45,7 +45,7 @@ type InputProps = {
   /** input type : ex> text,password,checkbox etc. */
   type?: string;
   /** 자리표시자 */
-  placeholder?: string | number;
+  placeholder?: string | number | null;
   /** label 숨길지 여부 */
   labelHidden?: boolean;
   /** label 내용 */
@@ -81,7 +81,7 @@ export default function Input({
         value={value}
         onChange={onChange}
         type={type}
-        placeholder={placeholder.toString()}
+        placeholder={placeholder?.toString()}
         size={size}
         required={required}
         readOnly={readOnly}

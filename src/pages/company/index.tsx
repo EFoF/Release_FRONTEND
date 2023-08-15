@@ -24,7 +24,8 @@ export default function Company() {
   const [categories, setCategories] = useState<Category[] | null>(null);
 
   const [projectList, setProjectList] = useState<Project[] | null>(null);
-  const [projectId, setProjectId] = useState(); //디폴트 화면 띄우기 위해 0번째
+  const [currentProject, setCurrentProject] = useState<Project | null>(null);
+  const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
   
   const { state: {companyId} } = useLocation();
 
