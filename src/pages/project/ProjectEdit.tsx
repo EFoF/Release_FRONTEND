@@ -14,7 +14,7 @@ import Input from "../../components/Input";
 import PATH from "../../constants/path";
 import {useLocation, useNavigate} from "react-router-dom";
 import { editProject, fetchProject } from "../../api/project";
-import { fetchCategories } from "../../api/category";
+import { addCategory, fetchCategories } from "../../api/category";
 import { useRecoilValue } from "recoil";
 import { companyIdState } from "../../states/companyState";
 import NoProject from "../company/NoProject";
@@ -26,7 +26,7 @@ interface EditButtonProps {
 }
 
 interface Category {
-    id : number;
+    detail : string;
     title: string;
     description: string;
 }
@@ -179,9 +179,24 @@ export default function ProjectEdit() {
         setIsPlusButtonOn(!isPlusButtonOn);
     }
 
-    const handleConfirmAddModal = () => {
+    const handleConfirmAddModal = async () => {
+        // 새 카테고리를 서버로 보내는 API 요청을 수행
+        const newCategoryData = {
+            "description": categoryDescription,
+            "detail": "",
+            "title": categoryName,
+        };
 
-    }
+        try {
+            const data = await addCategory(projectId, newCategoryData);
+            console.log("addCategory", data)
+            setCategories((prevCategories) => [...prevCategories, newCategoryData]);
+            setIsAddModalOpen(false); // 모달 닫기
+            setIsPlusButtonOn(!isPlusButtonOn);
+        } catch(error) {
+            console.error("Error adding new category:", error);
+        }
+    };
 
     const handleCancelAddModal = () => {
         setIsAddModalOpen(false);
