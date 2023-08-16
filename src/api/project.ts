@@ -34,7 +34,7 @@ export const fetchMyProject = async (
     pageSize?: number,
     paged?: boolean,
 ) => {
-    const {data} = await unAuthorizationClient.get(`${API.COMPANIES}/${companyId}/myProjects`);
+    const {data} = await authorizationClient.get(`${API.COMPANIES}/${companyId}/myProjects`);
     return data;
 };
 

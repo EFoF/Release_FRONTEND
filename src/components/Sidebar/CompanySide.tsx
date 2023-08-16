@@ -105,10 +105,37 @@ export default function CompanySide() {
     const navigate = useNavigate();
     const [activeProject, setActiveProject] = useState(null);
     const [isDev, setIsDev] = useState(false);
+    const [isDevChanged, setIsDevChanged] = useState(false);
     const location = useLocation();
 
     useEffect(() => {
         setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
+        // setIsDevChanged(true);
+        if(location.pathname.includes("dev")){
+            console.error("개발자임");
+            const fetchData = async () => {
+                try {
+                    const {projectList} = await fetchMyProject(companyId);
+                    console.log("fetched project 개발자", projectList);
+                    setProjects(projectList);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+            fetchData();
+        } else {
+            console.error("개발자 아님");
+            const fetchData = async () => {
+                try {
+                    const {projectList} = await fetchProject(companyId);
+                    console.log("fetched project 일반인", projectList);
+                    setProjects(projectList);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+            fetchData();
+        }
     }, [location.pathname]);
     console.log("isDev", isDev)
 
@@ -125,31 +152,34 @@ export default function CompanySide() {
     //     fetchData();
     // }, [companyId])
 
-    useEffect(() => {
-        if(!isDev) {
-            const fetchData = async () => {
-                try {
-                    const {projectList} = await fetchProject(companyId);
-                    console.log("fetched project", projectList);
-                    setProjects(projectList);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-            };
-            fetchData();
-        } else {
-            const fetchData = async () => {
-                try {
-                    const {projectList} = await fetchMyProject(companyId);
-                    console.log("fetched project", projectList);
-                    setProjects(projectList);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-            };
-            fetchData();
-        }
-    }, [isDev])
+    // useEffect(() => {
+    //     // useState 특유의 깜빡임 방지
+    //     if(isDev){
+    //         console.error("개발자임");
+    //         const fetchData = async () => {
+    //             try {
+    //                 const {projectList} = await fetchMyProject(companyId);
+    //                 console.log("fetched project 개발자", projectList);
+    //                 setProjects(projectList);
+    //             } catch (error) {
+    //                 console.error("Error fetching data:", error);
+    //             }
+    //         };
+    //         fetchData();
+    //     } else if(!isDev) {
+    //         console.error("개발자 아님");
+    //         const fetchData = async () => {
+    //             try {
+    //                 const {projectList} = await fetchProject(companyId);
+    //                 console.log("fetched project 일반인", projectList);
+    //                 setProjects(projectList);
+    //             } catch (error) {
+    //                 console.error("Error fetching data:", error);
+    //             }
+    //         };
+    //         fetchData();
+    //     }
+    // }, [companyId, isDev])
 
     const handleProjectClick = async (index: any, projectId: number) => {
         setActiveProject(activeProject === index ? null : index);
