@@ -9,7 +9,7 @@ import check from "../../img/check.png";
 import ConfirmationModal from "../../components/Modal";
 import Tooltip from "./Tooltip";
 import {useLocation} from "react-router-dom";
-import {addRelease, getReleases, getReleasesByCategory} from "../../api/release";
+import {addRelease, getReleases} from "../../api/release";
 import {loadMyInfo} from "../../api/auth";
 
 type Release = {
@@ -190,6 +190,8 @@ export default function ReleaseCreate() {
 
         // 모달 닫기
         setIsModalOpen2(false);
+
+        // input값 초기화
         setReleaseVersion("");
         setReleaseDate("");
         setReleaseTag("");
@@ -197,9 +199,8 @@ export default function ReleaseCreate() {
         setOptionTagColor("transparent");
     };
 
-    const handleMinusBtn = (index: number) => {
+    const handleMinusBtn = () => {
         setIsModalOpen(true);
-        // TODO: 값 설정
     };
 
     const handleModalCancel = () => {
@@ -269,8 +270,11 @@ export default function ReleaseCreate() {
                                     >
                                         {release.lastModifierName}
                                     </TableCell1>
-                                    <TableCellIcon><TableImg1 src={minus} onClick={() => handleMinusBtn(index)}/></TableCellIcon>
+                                    <TableCellIcon><TableImg1 src={minus} onClick={() => handleMinusBtn()}/></TableCellIcon>
+                                    <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
+                                                       message={"삭제하시겠습니까?"}/>
                                 </ReleaseRow>
+
                                 )}
                             {addIndex === index && (
                                 <ReleaseRow>
@@ -343,8 +347,6 @@ export default function ReleaseCreate() {
                     )
                 }
             </MainContainer>
-            <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
-                               message={"삭제하시겠습니까?"}/>
         </Container>
     );
 }

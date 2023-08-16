@@ -11,11 +11,6 @@ export const addRelease = async (projectId: number, categoryId: number, releaseD
     return data;
 };
 
-export const getReleasesByCategory = async (categoryId: number) => {
-    const {data} = await authorizationClient.get(`${API.PROJECT}/categories/${categoryId}/releases`);
-    return data;
-}
-
 export const deleteRelease = async (projectId: number, categoryId: number, releaseId: number) => {
     const {data} = await authorizationClient.delete(`${API.PROJECT}/${projectId}/categories/${categoryId}/releases/${releaseId}`)
     return data;
