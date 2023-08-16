@@ -53,3 +53,22 @@ export const deleteCompany = async (companyId: number) => {
   const {data} = await authorizationClient.delete(`${API.COMPANIES}/${companyId}`);
   return data;
 };
+
+export const getCompanyMembers = async (companyId: number) => {
+  const {data} = await authorizationClient.get(`${API.COMPANIES}/${companyId}/members`);
+  return data;
+};
+
+export const addCompanyMembers = async (companyId: number, emailObject: object) => {
+  const {data} = await authorizationClient.post(`${API.COMPANIES}/${companyId}/members`, emailObject);
+  return data;
+};
+
+export const deleteCompanyMembers = async (companyId: number, email: string) => {
+  const {data} = await authorizationClient.delete(`${API.COMPANIES}/${companyId}/members` ,{
+    headers: {
+      'email': email,
+    }
+  });
+  return data;
+};

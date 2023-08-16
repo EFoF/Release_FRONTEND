@@ -9,8 +9,14 @@ interface Member {
     email: string;
 }
 
+interface Person {
+    id: number,
+    name: string,
+    email: string,
+}
+
 interface MemberTableProps {
-    members: Member[];
+    members: Person[] | null;
 }
 
 const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
@@ -28,7 +34,7 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
     };
 
     const handleModalConfirm = () => {
-        if (indexToDelete >= 0 && indexToDelete < data.length) {
+        if (data && indexToDelete >= 0 && indexToDelete < data.length) {
             const updatedData = data.slice();
             updatedData.splice(indexToDelete, 1);
             setData(updatedData);
@@ -53,7 +59,8 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map((member, index) => (
+                {data &&
+                    data.map((member, index) => (
                     <TableRow key={index}>
                         <TableCell1 width="30%">{member.name}</TableCell1>
                         <TableCell2 width="60%">{member.email}</TableCell2>

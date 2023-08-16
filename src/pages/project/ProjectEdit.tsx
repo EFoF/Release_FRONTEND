@@ -368,7 +368,14 @@ export default function ProjectEdit() {
                 </ToggleContainer>
             </Scope>
             <ButtonContainer>
-                <Button1 title="프로젝트 관리" onClick={()=>navigate(PATH.PROJECTMANAGE)}></Button1>
+                <Button1
+                    title="프로젝트 관리"
+                    onClick={() =>
+                        navigate(PATH.PROJECTMANAGE, {
+                        state: { projectId: projectId, projectObject: project }
+                        })
+                    }
+                />
                 <Button1 title="Release Note" onClick={handleReleaseButton}></Button1>
             </ButtonContainer>
             <DetailContainer>
@@ -386,7 +393,7 @@ export default function ProjectEdit() {
                                     </EditContainer>
                                 ) : (
                                     <EditContainer>
-                                        <TextInput defaultValue={category.title} onChange={handleCategoryTitleChange} onBlur={handleOnBlurCategoryTitle} />
+                                        <TextInput2 defaultValue={category.title} onChange={handleCategoryTitleChange} onBlur={handleOnBlurCategoryTitle} />
                                         <EditButtonContainer>
                                             <EditButton imageUrl={check} width={24} height={24} onClick={()=>handleEditConfirmButton(index, category.id)} />
                                             <EditButton imageUrl={clear} width={24} height={24} onClick={()=>handleCategoryEditClick(index)} />
@@ -535,7 +542,7 @@ export const ButtonContainer = styled.div`
 export const Button1 = styled(Button)`
     margin-right: 1.88rem;
   width: 13rem;
-  height: 7rem;
+  height: 5rem;
 `
 
 export const Scope = styled.div`
@@ -576,4 +583,16 @@ export const TextInput = styled.textarea`
   font-size: 1.4rem;
   resize: none;
   min-width: 50rem;
+`;
+
+export const TextInput2 = styled.textarea`
+  padding: 10px;
+  color: #808080;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1.4rem;
+  resize: none;
+  min-width: 30rem;
+  height: 4rem;
 `;

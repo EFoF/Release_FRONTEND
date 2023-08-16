@@ -9,9 +9,9 @@ const PATH = {
     LOGIN: "/login",
     SIGNUP: "/signup",
 
-    COMPANYMAIN: `${PATHHEADER.COMPANY}/:companyId`, //회사 메인은 자동으로 가장 먼저있는 프로젝트 화면 보여줌 
+    COMPANYMAIN: `${PATHHEADER.COMPANY}`, //회사 메인은 자동으로 가장 먼저있는 프로젝트 화면 보여줌 
     RELEASE: `${PATHHEADER.COMPANY}/release`,
-    CATEGORY: `${PATHHEADER.COMPANY}/:companyId/:projectId/:categoryId`,
+    CATEGORY: `${PATHHEADER.COMPANY}/category`,
 
     PROJECTCREATE: `${PATHHEADER.DEV}/project-create`,
     NOPROJECT: `${PATHHEADER.DEV}/noproject`,
