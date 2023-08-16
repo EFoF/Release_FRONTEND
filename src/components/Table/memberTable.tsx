@@ -43,12 +43,18 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
 
     const handleModalConfirm = () => {
         const email = data && data[indexToDelete].email;
+        console.log("email", email)
 
         const delPerson = async() => {
             try{
                 if(email!==null) {
                     const data = await deleteCompanyMembers(companyId, email)
                     console.log("delete person ", data);
+                    if (data && indexToDelete >= 0 && indexToDelete < data.length) {
+                        const updatedData = data.slice();
+                        updatedData.splice(indexToDelete, 1);
+                        setData(updatedData);
+                    }
                 }
             }catch(error){
                 if (axios.isAxiosError(error)) {
@@ -59,12 +65,6 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
             }
         }
         delPerson();
-
-        if (data && indexToDelete >= 0 && indexToDelete < data.length) {
-            const updatedData = data.slice();
-            updatedData.splice(indexToDelete, 1);
-            setData(updatedData);
-        }
 
         setIsModalOpen(false);
     };
