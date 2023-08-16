@@ -7,7 +7,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import {useRecoilValue} from 'recoil';
 import {companyIdState} from '../../states/companyState';
-import {fetchProject} from "../../api/project";
+import {fetchMyProject, fetchProject} from "../../api/project";
 import {fetchCategories} from "../../api/category";
 import {getReleases} from "../../api/release";
 
@@ -112,18 +112,44 @@ export default function CompanySide() {
     }, [location.pathname]);
     console.log("isDev", isDev)
 
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const {projectList} = await fetchProject(companyId);
+    //             console.log("fetched project", projectList);
+    //             setProjects(projectList);
+    //         } catch (error) {
+    //             console.error("Error fetching data:", error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, [companyId])
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const {projectList} = await fetchProject(companyId);
-                console.log("fetched project", projectList);
-                setProjects(projectList);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, [companyId])
+        if(isDev) {
+            const fetchData = async () => {
+                try {
+                    const {projectList} = await fetchProject(companyId);
+                    console.log("fetched project", projectList);
+                    setProjects(projectList);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+            fetchData();
+        } else {
+            const fetchData = async () => {
+                try {
+                    const {projectList} = await fetchMyProject(companyId);
+                    console.log("fetched project", projectList);
+                    setProjects(projectList);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+            fetchData();
+        }
+    }, [isDev])
 
     const handleProjectClick = async (index: any, projectId: number) => {
         setActiveProject(activeProject === index ? null : index);
