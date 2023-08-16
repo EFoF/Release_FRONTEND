@@ -339,6 +339,12 @@ export default function ProjectEdit() {
         setIsDeleteModalOpen(false);
     };
 
+    const handleProjectManageClick = () => {
+            navigate(PATH.PROJECTMANAGE, {
+                state: { projectId: project?.id, projectObject: project }
+            })
+    }
+
     useEffect(() => {
         const newBooleanList = new Array(categories?.length).fill(false);
         setIsEditMode(newBooleanList);
@@ -377,7 +383,7 @@ export default function ProjectEdit() {
                 </ToggleContainer>
             </Scope>
             <ButtonContainer>
-                <Button1 title="프로젝트 관리" onClick={()=>navigate(PATH.PROJECTMANAGE, {state: {projectId : project?.id}})}></Button1>
+                <Button1 title="프로젝트 관리" onClick={handleProjectManageClick}></Button1>
                 <Button1 title="Release Note" onClick={() => handleReleaseButton(project?.id, project?.title)}></Button1>
             </ButtonContainer>
             <DetailContainer>
