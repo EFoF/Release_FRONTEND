@@ -9,7 +9,7 @@ import check from "../../img/check.png";
 import ConfirmationModal from "../../components/Modal";
 import Tooltip from "./Tooltip";
 import {useLocation} from "react-router-dom";
-import {addRelease, getReleases} from "../../api/release";
+import {addRelease, deleteRelease, getReleases} from "../../api/release";
 import {loadMyInfo} from "../../api/auth";
 
 type Release = {
@@ -43,6 +43,18 @@ function updateCategoryReleases(categories: CategoryItem[], categoryId: number, 
             return {
                 ...categoryItem,
                 releaseDtoList: [...categoryItem.releaseDtoList, newRelease]
+            };
+        }
+        return categoryItem;
+    });
+}
+
+function removeReleaseFromCategory(categories: CategoryItem[], categoryId: number, releaseId: number): CategoryItem[] {
+    return categories.map((categoryItem) => {
+        if (categoryItem.categoryResponseDto.id === categoryId) {
+            return {
+                ...categoryItem,
+                releaseDtoList: categoryItem.releaseDtoList.filter(release => release.id !== releaseId),
             };
         }
         return categoryItem;
@@ -208,8 +220,18 @@ export default function ReleaseCreate() {
         setIsModalOpen(false);
     };
 
-    const handleModalConfirm = () => {
+    const handleModalConfirm = async (categoryId: number, releaseId: number) => {
         // TODO: db 반영
+
+        try {
+            console.log("deleted release Id", releaseId)
+            console.log("categoryId", categoryId)
+            const data = await deleteRelease(projectId, categoryId, releaseId);
+            console.log("deleteReleaseResult", data);
+            setCategories((prevCategories) => removeReleaseFromCategory(prevCategories, categoryId, releaseId));
+        } catch(error) {
+            console.error("Error and Release", error);
+        }
 
         // 모달 닫기
         setIsModalOpen(false);
@@ -271,7 +293,7 @@ export default function ReleaseCreate() {
                                         {release.lastModifierName}
                                     </TableCell1>
                                     <TableCellIcon><TableImg1 src={minus} onClick={() => handleMinusBtn()}/></TableCellIcon>
-                                    <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
+                                    <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={() => handleModalConfirm(category.categoryResponseDto.id, release.id)}
                                                        message={"삭제하시겠습니까?"}/>
                                 </ReleaseRow>
 
