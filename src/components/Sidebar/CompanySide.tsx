@@ -203,7 +203,7 @@ export default function CompanySide() {
     };
 
     const handleCategoryClick = () => {
-
+        navigate(PATH.CATEGORY)
     }
 
     const handleButtonClick = () => {
