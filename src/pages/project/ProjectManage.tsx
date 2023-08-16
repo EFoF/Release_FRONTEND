@@ -1,40 +1,30 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
 import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
 import ConfirmationModal from "../../components/Modal";
 import PATH from "../../constants/path";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { companyIdState, companyNameState } from "../../states/companyState";
+import axios from "axios";
+import { addProjectMembers, editProject, getProjectMembers } from "../../api/project";
 
-const initMembersDTOS = {
-    "memberListDTOS": [
-        {
-            "id": 1,
-            "name": "user111",
-            "email": "user111@test.com"
-        },
-        {
-            "id": 3,
-            "name": "user333",
-            "email": "user333@test.com"
-        },
-        {
-            "id": 4,
-            "name": "user444",
-            "email": "user444@test.com"
-        },
-        {
-            "id": 2,
-            "name": "user222",
-            "email": "user222@test.com"
-        }
-    ]
+interface Person {
+    id: number,
+    name: string,
+    email: string,
 }
 
-const initMembers = initMembersDTOS.memberListDTOS;
+interface Project {
+    title: string;
+    description: string;
+    scope: boolean;
+    id?: number;
+}
 
 export default function CompanyManage() {
     const [projectName, setProjectName] = useState("");
@@ -42,7 +32,22 @@ export default function CompanyManage() {
     const [isModalOpen1, setIsModalOpen1] = useState(false);
     const [isModalOpen2, setIsModalOpen2] = useState(false);
     const [isModalOpen3, setIsModalOpen3] = useState(false);
-    const [members, setMembers] = useState(initMembers);
+    const companyId = useRecoilValue(companyIdState);
+    const companyName = useRecoilValue(companyNameState);
+    const [compName, setCompName] = useState(companyName);
+    const [members, setMembers] = useState<Person[] | null>(null);
+    const [project, setProject] = useState<Project>();
+    const location = useLocation();
+    const projectId = location.state.projectId;
+    const projectObject: Project = location.state.projectObject;
+    
+    useEffect(()=>{
+        setProject(projectObject);
+        project && setProjectName(project.title);
+        console.log("project", project);
+    }, [project, projectId, projectObject])
+    
+
     const navigate = useNavigate();
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -76,16 +81,32 @@ export default function CompanyManage() {
     const handleInviteModalConfirm = () => {
         // 입력한 이메일을 배열에 추가
         // 여기서 받은 responseDto 에서 name과 email 추가하기!
-        if (memberEmail.trim() !== "") {
-            const newMember = {
-                id: members.length+1,
-                name: `이름 ${members.length+1}`,
-                email: memberEmail};
-            setMembers([...members, newMember]);
-
-            setMemberEmail(""); // 초대 입력창 비우기
+        const addCompanyMember = async () => {
+            try {
+                const data = await addProjectMembers(projectId, {email:memberEmail});
+                console.log("add member! ", data);
+                if (memberEmail.trim() !== "") {
+                    const newMember = {
+                        id: members ? members.length + 1 : 1, // members가 null인 경우 id를 1로 초기화
+                        name: `이름${members ? members.length + 1 : 1}`, // members가 null인 경우 이름을 "이름1"로 초기화
+                        email: memberEmail,
+                    };
+            
+                    setMembers(members ? [...members, newMember] : [newMember]);
+            
+                    setMemberEmail(""); // 초대 입력창 비우기
+                }
+            } catch(error) {
+                if (axios.isAxiosError(error)) {
+                    // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                    alert(error.response?.data); // 에러 응답 데이터 출력
+                }
+                console.error("Error add members:", error);
+            }
         }
-        setIsModalOpen2(false);
+        setMemberEmail("");
+        addCompanyMember();     
+        setIsModalOpen2(false);  
     };
 
     const handleInviteModal = () => {
@@ -108,11 +129,49 @@ export default function CompanyManage() {
     };
 
     const handleModalConfirm3 = () => {
+        const handleCreate = () => {
+                        
+            const modifyCompany = async() => {
+                try{
+                    const newProjectObject = {
+                        "description": project?.description,
+                        "scope": project?.scope,
+                        "title": projectName,
+                    }
+                    const data = editProject(projectId, newProjectObject)
+                    console.log("updata company ", data);
+                    // navigate(PATH.MYCOMPANY);                        
+                }catch(error){
+                    if (axios.isAxiosError(error)) {
+                        // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                        alert(error.response?.data); // 에러 응답 데이터 출력
+                    }
+                    console.error("Error fetching company:", error);
+                }
+            }
+            modifyCompany();
+            
+        }
+        handleCreate();
         setIsModalOpen3(false);
         navigate(PATH.COMPANYMAIN);
     };
 
     // ===================================
+    
+    //기존 멤버 받아오기 
+    useEffect(()=>{
+        const fetchCompanyMembers = async () => {
+            try {
+                const {memberListDTOS} = await getProjectMembers(projectId); //받아와야.. 
+                setMembers(memberListDTOS);
+                console.log("projectMembers", memberListDTOS)
+            } catch(error) {
+                console.error("Error fetching members:", error);
+            }
+        }
+        fetchCompanyMembers();        
+    }, [projectId])
 
     return (
         <Container>
@@ -120,11 +179,11 @@ export default function CompanyManage() {
                 <ProjectManageTitle>프로젝트 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트명</CategoryTitle1>
-                    <Input value={projectName} onChange={handleChangeName} placeholder={"Kakao i Account"}></Input>
+                    <Input value={projectName} onChange={handleChangeName} placeholder={project?.title}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트 오너</CategoryTitle1>
-                    <ProjectOwner1>최철웅 (oldstyle@gmail.com)</ProjectOwner1>
+                    <ProjectOwner1>{members && `${members[0].name} (${members[0].email})`}</ProjectOwner1>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>초대원 이메일</CategoryTitle1>

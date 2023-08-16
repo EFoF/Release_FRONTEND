@@ -368,7 +368,14 @@ export default function ProjectEdit() {
                 </ToggleContainer>
             </Scope>
             <ButtonContainer>
-                <Button1 title="프로젝트 관리" onClick={()=>navigate(PATH.PROJECTMANAGE)}></Button1>
+                <Button1
+                    title="프로젝트 관리"
+                    onClick={() =>
+                        navigate(PATH.PROJECTMANAGE, {
+                        state: { projectId: projectId, projectObject: project }
+                        })
+                    }
+                />
                 <Button1 title="Release Note" onClick={handleReleaseButton}></Button1>
             </ButtonContainer>
             <DetailContainer>
