@@ -27,7 +27,6 @@ interface Project {
 }
 
 export default function ProjectManage() {
-    const [projectName, setProjectName] = useState("");
     const [memberEmail, setMemberEmail] = useState("");     // 초대원 이메일
     const [isModalOpen1, setIsModalOpen1] = useState(false);
     const [isModalOpen2, setIsModalOpen2] = useState(false);
@@ -40,11 +39,14 @@ export default function ProjectManage() {
     const location = useLocation();
     const projectId = Number(location.state.projectId);
     const projectObject: Project = location.state.projectObject;
+    const pName = project?.title;
+    const [projectName, setProjectName] = useState("");
+
+    console.log("!!", location.state);
 
     useEffect(() => {
         setProject(projectObject);
         project && setProjectName(project.title);
-        console.log("project", project);
     }, [project, projectId, projectObject])
 
 
@@ -192,7 +194,7 @@ export default function ProjectManage() {
                 <ProjectManageTitle>프로젝트 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트명</CategoryTitle1>
-                    <Input value={projectName} onChange={handleChangeName} placeholder={project?.title}></Input>
+                    <Input value={projectName} onChange={handleChangeName} placeholder={projectName}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>프로젝트 오너</CategoryTitle1>
