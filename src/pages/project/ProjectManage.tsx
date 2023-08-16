@@ -2,16 +2,16 @@ import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import React, {useState, useEffect} from "react"
-import { CategoryTitle, Title1 } from "../../components/Text/Title";
+import {CategoryTitle, Title1} from "../../components/Text/Title";
 import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
 import ConfirmationModal from "../../components/Modal";
 import PATH from "../../constants/path";
 import {useLocation, useNavigate} from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { companyIdState, companyNameState } from "../../states/companyState";
+import {useRecoilValue} from "recoil";
+import {companyIdState, companyNameState} from "../../states/companyState";
 import axios from "axios";
-import { addProjectMembers, editProject, getProjectMembers } from "../../api/project";
+import {addProjectMembers, editProject, getProjectMembers} from "../../api/project";
 
 interface Person {
     id: number,
@@ -26,7 +26,7 @@ interface Project {
     id?: number;
 }
 
-export default function CompanyManage() {
+export default function ProjectManage() {
     const [projectName, setProjectName] = useState("");
     const [memberEmail, setMemberEmail] = useState("");     // 초대원 이메일
     const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -40,22 +40,22 @@ export default function CompanyManage() {
     const location = useLocation();
     const projectId = location.state.projectId;
     const projectObject: Project = location.state.projectObject;
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setProject(projectObject);
         project && setProjectName(project.title);
         console.log("project", project);
     }, [project, projectId, projectObject])
-    
+
 
     const navigate = useNavigate();
 
-    const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setProjectName(e.target.value)
     }
 
-    const handleChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setMemberEmail(e.target.value)
     }
@@ -83,7 +83,7 @@ export default function CompanyManage() {
         // 여기서 받은 responseDto 에서 name과 email 추가하기!
         const addCompanyMember = async () => {
             try {
-                const data = await addProjectMembers(projectId, {email:memberEmail});
+                const data = await addProjectMembers(projectId, {email: memberEmail});
                 console.log("add member! ", data);
                 if (memberEmail.trim() !== "") {
                     const newMember = {
@@ -91,12 +91,12 @@ export default function CompanyManage() {
                         name: `이름${members ? members.length + 1 : 1}`, // members가 null인 경우 이름을 "이름1"로 초기화
                         email: memberEmail,
                     };
-            
+
                     setMembers(members ? [...members, newMember] : [newMember]);
-            
+
                     setMemberEmail(""); // 초대 입력창 비우기
                 }
-            } catch(error) {
+            } catch (error) {
                 if (axios.isAxiosError(error)) {
                     // AxiosError 타입이라면 Axios에서 정의한 에러 객체
                     alert(error.response?.data); // 에러 응답 데이터 출력
@@ -105,8 +105,8 @@ export default function CompanyManage() {
             }
         }
         setMemberEmail("");
-        addCompanyMember();     
-        setIsModalOpen2(false);  
+        addCompanyMember();
+        setIsModalOpen2(false);
     };
 
     const handleInviteModal = () => {
@@ -130,9 +130,9 @@ export default function CompanyManage() {
 
     const handleModalConfirm3 = () => {
         const handleCreate = () => {
-                        
-            const modifyCompany = async() => {
-                try{
+
+            const modifyCompany = async () => {
+                try {
                     const newProjectObject = {
                         "description": project?.description,
                         "scope": project?.scope,
@@ -141,7 +141,7 @@ export default function CompanyManage() {
                     const data = editProject(projectId, newProjectObject)
                     console.log("updata company ", data);
                     // navigate(PATH.MYCOMPANY);                        
-                }catch(error){
+                } catch (error) {
                     if (axios.isAxiosError(error)) {
                         // AxiosError 타입이라면 Axios에서 정의한 에러 객체
                         alert(error.response?.data); // 에러 응답 데이터 출력
@@ -150,7 +150,7 @@ export default function CompanyManage() {
                 }
             }
             modifyCompany();
-            
+
         }
         handleCreate();
         setIsModalOpen3(false);
@@ -158,19 +158,19 @@ export default function CompanyManage() {
     };
 
     // ===================================
-    
+
     //기존 멤버 받아오기 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchCompanyMembers = async () => {
             try {
                 const {memberListDTOS} = await getProjectMembers(projectId); //받아와야.. 
                 setMembers(memberListDTOS);
                 console.log("projectMembers", memberListDTOS)
-            } catch(error) {
+            } catch (error) {
                 console.error("Error fetching members:", error);
             }
         }
-        fetchCompanyMembers();        
+        fetchCompanyMembers();
     }, [projectId])
 
     return (
@@ -193,7 +193,7 @@ export default function CompanyManage() {
                 <CategoryContainer>
                     <CategoryTitle2>프로젝트 멤버</CategoryTitle2>
                     <TableContainer>
-                        <MemberTable members={members} />
+                        <MemberTable members={members}/>
                     </TableContainer>
                 </CategoryContainer>
                 <ButtonContainer>
@@ -208,7 +208,7 @@ export default function CompanyManage() {
                 <ConfirmationModal isOpen={isModalOpen2}
                                    onCancel={handleInviteModalCancel}
                                    onConfirm={handleInviteModalConfirm}
-                                   message={memberEmail+"님을 초대하시겠습니까?"}/>
+                                   message={memberEmail + "님을 초대하시겠습니까?"}/>
 
                 <ConfirmationModal isOpen={isModalOpen3}
                                    onCancel={handleModalCancel3}
@@ -253,7 +253,7 @@ export const LogoContainer = styled.div`
   min-width: 35rem;
 `;
 
-export const ProjectManageTitle= styled(Title1)`
+export const ProjectManageTitle = styled(Title1)`
   margin-bottom: 4.69rem;
 `;
 
