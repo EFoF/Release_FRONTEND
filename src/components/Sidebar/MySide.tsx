@@ -149,7 +149,8 @@ export default function MySide() {
     const handleMyCompaniesEach = (companyId: number, companyName: string) => {
         setCompanyID(companyId);
         setCompanyName(companyName);
-        navigate(PATH.COMPANYMAIN, {state: {companyId, companyName}});
+        // navigate(PATH.COMPANYMAIN, {state: {companyId, companyName}});
+        navigate(PATH.PROJECTEDIT, {state: {companyId, companyName}});
     }
 
     const loadCompanies = async () => {
