@@ -43,7 +43,7 @@ export default function Release() {
     useEffect(() => {
         async function fetchReleases() {
             try {
-                const releases = await getReleases(projectId);
+                const releases = await getReleases(projectId, false);
                 console.log("Release data: ", releases);
                 setCategories(releases.projectReleasesDto);
             } catch (error) {

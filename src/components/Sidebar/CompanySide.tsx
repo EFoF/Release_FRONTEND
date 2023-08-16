@@ -157,8 +157,12 @@ export default function CompanySide() {
     const handleReleaseClick = async (projectId: number, projectTitle: string) => {
         console.log("project Id", projectId);
         try {
-            const {projectReleasesDto: releases} = await getReleases(projectId);
-            console.log("release", releases);
+            if (isDev) {
+                const {projectReleaseDto: releases} = await getReleases(projectId, true);
+            }
+            else {
+                const {projectReleasesDto: releases} = await getReleases(projectId, false);
+            }
         } catch (error) {
             console.error("Error getting releases:", error);
         }

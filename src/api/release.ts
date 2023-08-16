@@ -1,10 +1,23 @@
 import { authorizationClient, unAuthorizationClient } from ".";
 import API from "./config";
 
-export const getReleases = async (projectId: number | undefined) => {
-    const {data} = await unAuthorizationClient.get(`${API.PROJECT}/${projectId}/categories/releases`);
+// export const getReleases = async (projectId: number | undefined) => {
+//     const {data} = await unAuthorizationClient.get(`${API.PROJECT}/${projectId}/categories/releases`);
+//     return data;
+// };
+
+export const getReleases = async (projectId: number | undefined, isDeveloper: boolean) => {
+    const { data } = await unAuthorizationClient.get(
+        `${API.PROJECT}/${projectId}/categories/releases`,
+        {
+            params: {
+                developer: isDeveloper,
+            },
+        }
+    );
     return data;
 };
+
 
 export const addRelease = async (projectId: number, categoryId: number, releaseData: object) => {
     const {data} = await authorizationClient.post(`${API.PROJECT}/${projectId}/categories/${categoryId}/releases`, releaseData);
