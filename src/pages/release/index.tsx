@@ -34,6 +34,7 @@ type CategoryItem = {
 
 export default function Release() {
     const location = useLocation();
+    // TODO: 수정
     const projectId = location.state.projectId
     const projectTitle = location.state.projectTitle;
 

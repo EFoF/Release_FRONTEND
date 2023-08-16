@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {CategoryTitle, Title1} from "../../components/Text/Title";
 import {Table1, HeaderCell, TableRow, TableCell, TableImg} from "../../components/Table";
 import {Container1} from "../../components/Container";
@@ -8,6 +8,9 @@ import plus from "../../img/plus.png";
 import check from "../../img/check.png";
 import ConfirmationModal from "../../components/Modal";
 import Tooltip from "./Tooltip";
+import {useLocation} from "react-router-dom";
+import {getReleases} from "../../api/release";
+import {loadMyInfo} from "../../api/auth";
 
 type Release = {
     id: number
@@ -30,101 +33,46 @@ type Category = {
 }
 
 type CategoryItem = {
-    category: Category
-    release: Release[]
+    categoryResponseDto: Category
+    releaseDtoList: Release[]
 }
 
 export default function ReleaseCreate() {
-    const [user, setUser] = useState("수정자");
-    const [project, setProject] = useState("첫회사 첫 프로젝트");
-    const [categories, setCategories] = useState<CategoryItem[]>([
-        {
-            category: {
-                "id": 4,
-                "detail": "null",
-                "title": "2번째 프로젝트 1번째 카테고리",
-                "description": "아ㅣㄹ넝ㄹㄴ",
-                "lastModifierName": "null",
-                "lastModifiedTime": "null"
-            },
-            release:  [
-                {
-                    "lastModifiedTime": "2023-08-07T00:12:04.482328",
-                    "releaseDate": "2023-08-07T00:12:36.225951",
-                    "lastModifierEmail": "jeongyeon@gmail.com",
-                    "lastModifierName": "정연이",
-                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
-                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
-                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
-                    "version": "v1.1.0",
-                    "tag": "NEW",
-                    "id": 4
-                },
-                {
-                    "lastModifiedTime": "2023-08-07T00:12:19.109047",
-                    "releaseDate": "2023-08-07T00:12:36.225951",
-                    "lastModifierEmail": "jeongyeon@gmail.com",
-                    "lastModifierName": "박정연이",
-                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
-                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
-                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
-                    "version": "v1.4.0",
-                    "tag": "UPDATED",
-                    "id": 5
-                },
-                {
-                    "lastModifiedTime": "2023-08-07T00:12:27.798027",
-                    "releaseDate": "2023-08-07T00:12:36.225951",
-                    "lastModifierEmail": "jeongyeon@gmail.com",
-                    "lastModifierName": "박정연이",
-                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
-                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
-                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
-                    "version": "v1.9.0",
-                    "tag": "DEPRECATED",
-                    "id": 6
-                },
-                {
-                    "lastModifiedTime": "2023-08-07T00:12:36.225951",
-                    "releaseDate": "2023-08-07T00:12:36.225951",
-                    "lastModifierEmail": "jeongyeon@gmail.com",
-                    "lastModifierName": "정연이",
-                    "content": "sdflsdsdflksjdflskdjfsldkfjsklfjsdklfjsflksjdflskdjfsldkfjsklfjsdklfjsksjdflskdjfsldkfjsklfjsdklfjs" +
-                        "sdklfjssdflksjdflskdjfsldkfjsklfjsdklfjsksdflksjdflskdjfsldkfjsklfjsdklfjsldfjsdlkf" +
-                        "sldfsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskjsldfkj" +
-                        "sdlsdflksjdflskdjfsldkfjsklfjsdklfjssdflksjdflskdjfsldkfjsklfjsdklfjskfjs",
-                    "version": "v1.9.3",
-                    "tag": "FIXED",
-                    "id": 7
+    const location = useLocation();
+    // TODO: 수정
+    const projectId = location.state.projectId
+    const projectTitle = location.state.projectTitle;
+    const isLogin = useState(!!localStorage.getItem("accessToken"));
+
+    const [userName, setUserName] = useState("");
+    const [categories, setCategories] = useState<CategoryItem[]>([]);
+
+    useEffect(()=>{
+        if(isLogin) {
+            const fetchMyInfo = async () => {
+                try {
+                    const { username } = await loadMyInfo();
+                    setUserName(username);
+                } catch (error) {
+                    console.error('Error fetching info:', error);
                 }
-            ]
-        },
-        {
-            category: {
-                "id": 5,
-                "detail": "null",
-                "title": "2번째 프로젝트 2번째 카테고리",
-                "description": "아ㅣㄹ넝ㄹㄴ",
-                "lastModifierName": "null",
-                "lastModifiedTime": "null"
-            },
-            release: []
-        },
-        {
-            category: {
-                id: 6,
-                detail: "null",
-                title: "2번째 프로젝트 3번째 카테고리",
-                description: "아ㅣㄹ넝ㄹㄴ",
-                lastModifierName: "null",
-                lastModifiedTime: "null"
-            },
-            release: []
+            }
+            fetchMyInfo();
         }
-    ]);
+    }, [isLogin])
+
+    useEffect(() => {
+        async function fetchReleases() {
+            try {
+                const releases = await getReleases(projectId);
+                console.log("Release data: ", releases);
+                setCategories(releases.projectReleasesDto);
+            } catch (error) {
+                console.error("Error fetching releases:", error);
+            }
+        }
+        fetchReleases();
+    }, [projectId]);
 
     const [releaseVersion, setReleaseVersion] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
@@ -233,10 +181,10 @@ export default function ReleaseCreate() {
     return (
         <Container>
             <MainContainer>
-                <ReleaseCreateTitle>{project}</ReleaseCreateTitle>
+                <ReleaseCreateTitle>{projectTitle}</ReleaseCreateTitle>
                 {categories.map((category: CategoryItem, index: number) =>
                     <ReleaseContainer>
-                        <CategoryTitle1 key={index}>{category.category.title}</CategoryTitle1>
+                        <CategoryTitle1 key={index}>{category.categoryResponseDto.title}</CategoryTitle1>
                         <ReleaseTable>
                             <thead>
                             <tr>
@@ -249,7 +197,7 @@ export default function ReleaseCreate() {
                             </tr>
                             </thead>
                             <tbody>
-                            {category.release.map((release: Release, rindex: number) =>
+                            {category.releaseDtoList.map((release: Release, rindex: number) =>
                                 <ReleaseRow key={rindex}>
                                     <TableCell1>{release.version}</TableCell1>
                                     <TableCell1>{new Date(release.releaseDate).toISOString().split('T')[0]}</TableCell1>
@@ -307,7 +255,7 @@ export default function ReleaseCreate() {
                                             onChange={handleChangeDetail}
                                         />
                                     </TableCellLong>
-                                    <TableCell1>{user}</TableCell1>
+                                    <TableCell1>{userName}</TableCell1>
                                     <TableCell1><TableImg1 src={check}
                                                            onClick={() => handleCheckBtn(index)}/></TableCell1>
                                 </ReleaseRow>
