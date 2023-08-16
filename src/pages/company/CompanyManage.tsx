@@ -11,7 +11,7 @@ import PATH from "../../constants/path";
 import {useNavigate} from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { companyIdState, companyNameState } from "../../states/companyState";
-import { addCompanyMembers, getCompanyMembers, getMyCompanies, updateCompany } from "../../api/company";
+import { addCompanyMembers, deleteCompany, getCompanyMembers, getMyCompanies, updateCompany } from "../../api/company";
 import axios from "axios";
 
 interface Person {
@@ -48,8 +48,21 @@ export default function CompanyManage() {
 
     // 회사 삭제 모달
     const handleModalConfirm = () => {
+        const delCompany = async() => {
+            try{
+                const data = deleteCompany(companyId)
+                console.log("delete company ", data);
+                navigate(PATH.MYCOMPANY);                       
+            }catch(error){
+                if (axios.isAxiosError(error)) {
+                    // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                    alert(error.response?.data); // 에러 응답 데이터 출력
+                }
+                console.error("Error delete company:", error);
+            }
+        }
+        delCompany();
         setIsModalOpen(false);
-        navigate(PATH.MYCOMPANY);
     };
 
     const handleModalCancel = () => {
@@ -131,7 +144,6 @@ export default function CompanyManage() {
                 }
             }
             modifyCompany();
-            
         }
         handleCreate();
         setIsModalOpen3(false);

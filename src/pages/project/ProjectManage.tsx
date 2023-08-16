@@ -11,7 +11,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {companyIdState, companyNameState} from "../../states/companyState";
 import axios from "axios";
-import {addProjectMembers, editProject, getProjectMembers} from "../../api/project";
+import {addProjectMembers, deleteProject, editProject, getProjectMembers} from "../../api/project";
 
 interface Person {
     id: number,
@@ -63,8 +63,21 @@ export default function ProjectManage() {
     // ===================================
     // 프로젝트 삭제 모달
     const handleModalConfirm = () => {
+        const delProject = async() => {
+            try{
+                const data = deleteProject(companyId, projectId)
+                console.log("delete project ", data);
+                navigate(PATH.MYPROJECT);                       
+            }catch(error){
+                if (axios.isAxiosError(error)) {
+                    // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                    alert(error.response?.data); // 에러 응답 데이터 출력
+                }
+                console.error("Error delete project:", error);
+            }
+        }
+        delProject();
         setIsModalOpen1(false);
-        navigate(PATH.COMPANYMAIN);
     };
 
     const handleModalCancel = () => {
