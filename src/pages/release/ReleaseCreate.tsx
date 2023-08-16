@@ -79,7 +79,7 @@ export default function ReleaseCreate() {
     const [releaseVersion, setReleaseVersion] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
     const [releaseTag, setReleaseTag] = useState("");
-    const [releaseDetail, setReleaseDetail] = useState("");
+    const [releaseContent, setReleaseDetail] = useState("");
 
     const [optionTagColor, setOptionTagColor] = useState("transparent");
 
@@ -144,7 +144,7 @@ export default function ReleaseCreate() {
         setReleaseVersion(releaseVersion);
         setReleaseDate(releaseDate);
         setReleaseTag(releaseTag);
-        setReleaseDetail(releaseDetail);
+        setReleaseDetail(releaseContent);
         setIsModalOpen2(true);
     }
 
@@ -161,7 +161,7 @@ export default function ReleaseCreate() {
             "tag": releaseTag.toUpperCase(),
             "releaseDate": formattedReleaseDate,
             "version": releaseVersion,
-            "message": releaseDetail
+            "message": releaseContent
         };
         console.log("addRelease", newReleaseData);
         try {
@@ -285,7 +285,7 @@ export default function ReleaseCreate() {
                                     </TableCell1>
                                     <TableCellLong>
                                         <StyledText
-                                            value={releaseDetail}
+                                            value={releaseContent}
                                             onChange={handleChangeDetail}
                                         />
                                     </TableCellLong>
@@ -411,7 +411,7 @@ export const TableCellLong = styled(TableCell)`
   width: 63rem;
   min-width: 50rem;
   padding: 10px 50px;
-  white-space: normal;
+  white-space: pre-wrap;
   word-break: break-all;
 `
 

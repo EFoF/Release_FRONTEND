@@ -197,6 +197,6 @@ export const TableCellLong = styled(TableCell)`
   width: 63rem;
   min-width: 50rem;
   padding: 10px 50px;
-  white-space: normal;
+  white-space: pre-wrap;
   word-break: break-all;
 `
