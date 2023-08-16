@@ -41,6 +41,10 @@ export default function CompanyCreate() {
         })
     }
 
+    const handleBack = () => {
+      navigate(-1);
+    }
+
   return (
     <Container>
       <MainContainer>
@@ -54,7 +58,7 @@ export default function CompanyCreate() {
             <AddFile onImageUpload={handleAddFile}/>
         </CategoryContainer>
         <ButtonContainer>
-          <Button1 title="취소하기"></Button1>
+          <Button1 title="취소하기" onClick={handleBack}></Button1>
           <Button title="생성하기" theme="blue" onClick={handleCreate}></Button>
         </ButtonContainer>
       </MainContainer>

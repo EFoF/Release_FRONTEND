@@ -72,15 +72,16 @@ export default function ProjectEdit() {
     console.log("projectId First", projectId);
   
   const location = useLocation();
-//   const companyId = location.state.companyId;
+
    useEffect(()=> {
     console.log("location.state", location.state)
-    if (typeof location.state !== 'object' && location.state !== null) {
+    if (typeof location.state !== 'object' && location.state !== null) { //아마 사이드바에서 누를 경우 
       const PID = location.state;
       setProjectId(PID);  
       console.log("1234projectId", projectId)
     } 
-    console.log("projectList", projectList)
+    if(typeof location.state === 'object') setProjectId(location.state.id);
+    console.log("projectId", projectId)
     projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
     projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
   

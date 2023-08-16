@@ -40,6 +40,10 @@ export default function ProjectCreate() {
       setToggleState((prevState) => !prevState);
   }
 
+  const handleBack = () => {
+    navigate(-1);
+  }
+
   const handleClickCreate = () => {
     //com id 가져와야함 이 페이지에 
     const projectData = {
@@ -78,7 +82,7 @@ export default function ProjectCreate() {
             </ToggleContainer>
         </CategoryContainer>
         <ButtonContainer>
-          <Button1 title="취소하기"></Button1>
+          <Button1 title="취소하기" onClick={handleBack}></Button1>
           <Button title="생성하기" theme="blue" onClick={handleClickCreate}></Button>
         </ButtonContainer>
       </MainContainer>

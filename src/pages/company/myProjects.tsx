@@ -33,8 +33,9 @@ export default function MyProjects() {
 
   const navigate = useNavigate();
 
-  const handleCompanyClick = () => {
-    navigate(PATH.COMPANYMAIN);
+  const handleProjectClick = (project: Project) => {
+    console.log(project)
+    navigate(PATH.PROJECTEDIT, {state: project});
   };
 
   const companyClick = () => {
@@ -70,7 +71,7 @@ export default function MyProjects() {
           <ProjectListContainer>
             {projects !== null &&
               projects.map((project, index) => (
-                <ProjectCard key={index} onClick={handleCompanyClick}>
+                <ProjectCard key={index} onClick={()=>handleProjectClick(project)}>
                   <ProjectImage src={project.imageURL} alt={project.title} />
                   <ProjectName>{project.title}</ProjectName>
                 </ProjectCard>
