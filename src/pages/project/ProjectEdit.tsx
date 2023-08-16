@@ -287,7 +287,7 @@ export default function ProjectEdit() {
 
     const handleReleaseButton = async (projectId?: number, projectTitle?: string) => {
         try {
-            const {projectReleasesDto: releases} = await getReleases(projectId);
+            const {projectReleasesDto: releases} = await getReleases(projectId, true);
         }
         catch (error){
             console.error("Error getting releases:", error);

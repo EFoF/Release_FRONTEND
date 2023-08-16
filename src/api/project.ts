@@ -24,8 +24,19 @@ export const fetchProject = async (
     paged?: boolean,
 ) => {
     const {data} = await unAuthorizationClient.get(`${API.COMPANIES}/${companyId}/projects`);
-    return data; //data만 해야 회사 image도 불러올 수 있나 
-}; 
+    return data;
+};
+
+export const fetchMyProject = async (
+    companyId: number,
+    offset?: number,
+    pageNumber?: number,
+    pageSize?: number,
+    paged?: boolean,
+) => {
+    const {data} = await unAuthorizationClient.get(`${API.COMPANIES}/${companyId}/myProjects`);
+    return data;
+};
 
 export const getProjectMembers = async (projectId: number) => {
     const {data} = await authorizationClient.get(`${API.PROJECT}/${projectId}/members`);
