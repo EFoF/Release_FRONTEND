@@ -8,7 +8,7 @@ import PATH from "../../constants/path";
 import { loadMyInfo } from "../../api/auth";
 import {getMyCompanies} from "../../api/company";
 import {useRecoilState} from "recoil";
-import {companyIdState} from "../../states/companyState";
+import {companyIdState, companyNameState} from "../../states/companyState";
 
 const Container = styled.div`
   display: flex;
@@ -136,7 +136,7 @@ export default function MySide() {
   const [myEmail, setMyEmail] = useState("")
   const [companies, setCompanies] = useState<Company[] | null>(null);
   const [companyID, setCompanyID] = useRecoilState<number>(companyIdState);
-
+  const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
 
   const handleMySettingClick = () => {
     navigate(PATH.MYINFO);
@@ -148,6 +148,7 @@ export default function MySide() {
 
   const handleMyCompaniesEach = (companyId:number, companyName:string) => {
       setCompanyID(companyId);
+      setCompanyName(companyName);
       navigate(PATH.COMPANYMAIN, {state: {companyId, companyName}});
   }
 
