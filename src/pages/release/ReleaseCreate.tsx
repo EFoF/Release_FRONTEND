@@ -44,6 +44,8 @@ export default function ReleaseCreate() {
     const projectTitle = location.state.projectTitle;
     const isLogin = useState(!!localStorage.getItem("accessToken"));
 
+    console.log("Get Project Id", projectId);
+
     const [userName, setUserName] = useState("");
     const [categories, setCategories] = useState<CategoryItem[]>([]);
 
