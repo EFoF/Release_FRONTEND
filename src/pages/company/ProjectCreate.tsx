@@ -19,11 +19,12 @@ export default function ProjectCreate() {
   const [companyId, setCompanyId] = useRecoilState<number>(companyIdState);
 
   const navigate = useNavigate();
-  
-  const {state} = useLocation();
-  useEffect(()=>{
-    setCompanyId(state);
-  }, [setCompanyId, state])
+
+  // 여기 코드 떄문에 companyId가 이상해진 것 같음 (추측)
+  // const {state} = useLocation();
+  // useEffect(()=>{
+  //   setCompanyId(state);
+  // }, [setCompanyId, state])
 
   const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
