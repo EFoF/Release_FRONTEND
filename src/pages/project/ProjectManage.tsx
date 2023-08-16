@@ -38,7 +38,7 @@ export default function ProjectManage() {
     const [members, setMembers] = useState<Person[] | null>(null);
     const [project, setProject] = useState<Project>();
     const location = useLocation();
-    const projectId = location.state.projectId;
+    const projectId = Number(location.state.projectId);
     const projectObject: Project = location.state.projectObject;
 
     useEffect(() => {
@@ -206,7 +206,7 @@ export default function ProjectManage() {
                 <CategoryContainer>
                     <CategoryTitle2>프로젝트 멤버</CategoryTitle2>
                     <TableContainer>
-                        <MemberTable members={members}/>
+                        <MemberTable members={members} projectId={projectId}/>
                     </TableContainer>
                 </CategoryContainer>
                 <ButtonContainer>

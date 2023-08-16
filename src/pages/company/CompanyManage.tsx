@@ -217,7 +217,7 @@ export default function CompanyManage() {
                 <CategoryContainer>
                     <CategoryTitle2>회사 멤버</CategoryTitle2>
                     <TableContainer>
-                        <MemberTable members={members} />
+                        <MemberTable members={members} projectId={1}/>
                     </TableContainer>
                 </CategoryContainer>
                 <ButtonContainer>

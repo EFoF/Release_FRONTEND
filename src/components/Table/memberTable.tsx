@@ -6,9 +6,10 @@ import ConfirmationModal from "../Modal";
 import { useRecoilValue } from 'recoil';
 import { companyIdState } from '../../states/companyState';
 import { deleteCompanyMembers } from '../../api/company';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PATH from '../../constants/path';
 import axios from 'axios';
+import { deleteProject, deleteProjectMembers } from '../../api/project';
 
 interface Member {
     name: string;
@@ -23,14 +24,17 @@ interface Person {
 
 interface MemberTableProps {
     members: Person[] | null;
+    projectId: number;
 }
 
-const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
+const MemberTable: React.FC<MemberTableProps> = ({ members, projectId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [data, setData] = useState(members);
     const [indexToDelete, setIndexToDelete] = useState(-1); // 기본값 -1로 설정
     const companyId = useRecoilValue(companyIdState);
     const navigate = useNavigate();
+    const location = useLocation();
+    const isCompanyManage = location.pathname.includes('/company-manage');
 
     // data가 변경될 때마다 members도 업데이트
     useEffect(() => {
@@ -45,26 +49,50 @@ const MemberTable: React.FC<MemberTableProps> = ({ members }) => {
         const email = data && data[indexToDelete].email;
         console.log("email", email)
 
-        const delPerson = async() => {
-            try{
-                if(email!==null) {
-                    const data = await deleteCompanyMembers(companyId, email)
-                    console.log("delete person ", data);
-                    if (data && indexToDelete >= 0 && indexToDelete < data.length) {
-                        const updatedData = data.slice();
-                        updatedData.splice(indexToDelete, 1);
-                        setData(updatedData);
+        if(isCompanyManage) {
+            const delCompanyPerson = async() => {
+                try{
+                    if(email!==null) {
+                        console.log("email, companyId", email, companyId)
+                        const response = await deleteCompanyMembers(companyId, email)
+                        console.log("delete person ", response);
+                        if (data && indexToDelete >= 0 && indexToDelete < data.length) {
+                            const updatedData = data.slice();
+                            updatedData.splice(indexToDelete, 1);
+                            setData(updatedData);
+                        }
                     }
+                }catch(error){
+                    if (axios.isAxiosError(error)) {
+                        // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                        alert(error.response?.data); // 에러 응답 데이터 출력
+                    }
+                    console.error("Error delete person:", error);
                 }
-            }catch(error){
-                if (axios.isAxiosError(error)) {
-                    // AxiosError 타입이라면 Axios에서 정의한 에러 객체
-                    alert(error.response?.data); // 에러 응답 데이터 출력
-                }
-                console.error("Error delete person:", error);
             }
+            delCompanyPerson();            
+        } else {
+            const delProjectPerson = async() => {
+                try{
+                    if(email!==null) {
+                        const response = await deleteProjectMembers(projectId, email)
+                        console.log("delete person ", response);
+                        if (data && indexToDelete >= 0 && indexToDelete < data.length) {
+                            const updatedData = data.slice();
+                            updatedData.splice(indexToDelete, 1);
+                            setData(updatedData);
+                        }
+                    }
+                }catch(error){
+                    if (axios.isAxiosError(error)) {
+                        // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                        alert(error.response?.data); // 에러 응답 데이터 출력
+                    }
+                    console.error("Error delete person:", error);
+                }
+            }
+            delProjectPerson(); 
         }
-        delPerson();
 
         setIsModalOpen(false);
     };
