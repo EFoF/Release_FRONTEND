@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import COLORS from "../../constants/color";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ConfirmationModal from "../../components/Modal";
 
 const LogoContainer = styled.div`
@@ -36,19 +36,23 @@ const DeleteButton = styled.button`
 
 interface AddfileProps {
   onImageUpload?: (imageFile: string) => void;
+  imageUrl?: string;
 }
 
-export default function AddFile({ onImageUpload }: AddfileProps) {
+export default function AddFile({ imageUrl, onImageUpload }: AddfileProps) {
   const [imageSrc, setImageSrc]: any = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(()=>{
+    if(imageUrl) setImageSrc(imageUrl);
+  }, [imageUrl])
+  
   const onUpload = (e: any) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
       if(onImageUpload) {
-        // const imageUrl = URL.createObjectURL(file) //로컬에서의 이미지 url - 수정의 여지 
         onImageUpload(file) //부모에 file 넘김 
       }
 
