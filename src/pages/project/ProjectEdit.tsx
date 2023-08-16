@@ -18,6 +18,7 @@ import { addCategory, deleteCategory, fetchCategories, updateCategory } from "..
 import { useRecoilValue } from "recoil";
 import { companyIdState } from "../../states/companyState";
 import NoProject from "../company/NoProject";
+import {getReleases} from "../../api/release";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -67,6 +68,8 @@ export default function ProjectEdit() {
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
   const [project, setProject] = useState<Project>();
   const companyId = useRecoilValue(companyIdState);
+
+    console.log("projectId First", projectId);
   
   const location = useLocation();
 //   const companyId = location.state.companyId;
@@ -282,8 +285,14 @@ export default function ProjectEdit() {
         setIsModifyModalOpen(false);
     }
 
-    const handleReleaseButton = () => {
-        navigate(PATH.RELEASE)
+    const handleReleaseButton = async (projectId?: number, projectTitle?: string) => {
+        try {
+            const {projectReleasesDto: releases} = await getReleases(projectId);
+        }
+        catch (error){
+            console.error("Error getting releases:", error);
+        }
+        navigate(PATH.RELEASECREATE, {state: {projectId: projectId, projectTitle: projectTitle, categoryId: categoryId}})
     }
 
     const handleToggleChange = async () => {        
@@ -369,7 +378,7 @@ export default function ProjectEdit() {
             </Scope>
             <ButtonContainer>
                 <Button1 title="프로젝트 관리" onClick={()=>navigate(PATH.PROJECTMANAGE)}></Button1>
-                <Button1 title="Release Note" onClick={handleReleaseButton}></Button1>
+                <Button1 title="Release Note" onClick={() => handleReleaseButton(project?.id, project?.title)}></Button1>
             </ButtonContainer>
             <DetailContainer>
                 <CategoryContainers>
