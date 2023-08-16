@@ -9,7 +9,7 @@ import check from "../../img/check.png";
 import ConfirmationModal from "../../components/Modal";
 import Tooltip from "./Tooltip";
 import {useLocation} from "react-router-dom";
-import {addRelease, getReleases} from "../../api/release";
+import {addRelease, getReleases, getReleasesByCategory} from "../../api/release";
 import {loadMyInfo} from "../../api/auth";
 
 type Release = {
@@ -35,6 +35,18 @@ type Category = {
 type CategoryItem = {
     categoryResponseDto: Category
     releaseDtoList: Release[]
+}
+
+function updateCategoryReleases(categories: CategoryItem[], categoryId: number, newRelease: Release): CategoryItem[] {
+    return categories.map((categoryItem) => {
+        if(categoryItem.categoryResponseDto.id === categoryId) {
+            return {
+                ...categoryItem,
+                releaseDtoList: [...categoryItem.releaseDtoList, newRelease]
+            };
+        }
+        return categoryItem;
+    });
 }
 
 export default function ReleaseCreate() {
@@ -79,7 +91,7 @@ export default function ReleaseCreate() {
     const [releaseVersion, setReleaseVersion] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
     const [releaseTag, setReleaseTag] = useState("");
-    const [releaseDetail, setReleaseDetail] = useState("");
+    const [releaseContent, setReleaseDetail] = useState("");
 
     const [optionTagColor, setOptionTagColor] = useState("transparent");
 
@@ -104,6 +116,7 @@ export default function ReleaseCreate() {
     };
 
     const tagColors: TagColors = {
+        default: "transparent",
         new: "rgba(157, 233, 131, 0.46)",
         updated: "rgba(234, 237, 98, 0.71)",
         deprecated: "rgba(255, 34, 34, 0.47)",
@@ -126,6 +139,7 @@ export default function ReleaseCreate() {
         setReleaseDate("");
         setReleaseTag("");
         setReleaseDetail("");
+        setOptionTagColor("transparent");
         setAddIndex(index);
     };
 
@@ -144,7 +158,7 @@ export default function ReleaseCreate() {
         setReleaseVersion(releaseVersion);
         setReleaseDate(releaseDate);
         setReleaseTag(releaseTag);
-        setReleaseDetail(releaseDetail);
+        setReleaseDetail(releaseContent);
         setIsModalOpen2(true);
     }
 
@@ -161,20 +175,26 @@ export default function ReleaseCreate() {
             "tag": releaseTag.toUpperCase(),
             "releaseDate": formattedReleaseDate,
             "version": releaseVersion,
-            "message": releaseDetail
+            "message": releaseContent
         };
         console.log("addRelease", newReleaseData);
         try {
             console.log("categoryId", categoryId);
             const data = await addRelease(projectId, categoryId, newReleaseData);
+            const newRelease: Release = { id: data, ...data };
             console.log("addReleaseId", data);
-
+            setCategories((prevCategories) => updateCategoryReleases(prevCategories, categoryId, newRelease));
         } catch(error) {
             console.error("Error and Release", error);
         }
 
         // 모달 닫기
         setIsModalOpen2(false);
+        setReleaseVersion("");
+        setReleaseDate("");
+        setReleaseTag("");
+        setReleaseDetail("");
+        setOptionTagColor("transparent");
     };
 
     const handleMinusBtn = (index: number) => {
@@ -210,7 +230,6 @@ export default function ReleaseCreate() {
     };
 
 
-    // TODO: 최근 수정자, 수정날짜 추가
     return (
         <Container>
             <MainContainer>
@@ -285,7 +304,7 @@ export default function ReleaseCreate() {
                                     </TableCell1>
                                     <TableCellLong>
                                         <StyledText
-                                            value={releaseDetail}
+                                            value={releaseContent}
                                             onChange={handleChangeDetail}
                                         />
                                     </TableCellLong>
@@ -305,6 +324,7 @@ export default function ReleaseCreate() {
                         </ReleaseTable>
                         </ReleaseContainer>
                 )}
+                {/*TODO: Tooltip 수정 필요*/}
                 {
                     hovered && hoveredRelease && (
                         <Tooltip
@@ -411,7 +431,7 @@ export const TableCellLong = styled(TableCell)`
   width: 63rem;
   min-width: 50rem;
   padding: 10px 50px;
-  white-space: normal;
+  white-space: pre-wrap;
   word-break: break-all;
 `
 

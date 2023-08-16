@@ -76,7 +76,6 @@ export default function Release() {
         fixed: "rgba(105, 156, 255, 0.56)"
     };
 
-    // TODO: 최근 수정자, 수정날짜 추가
     return (
         <Container>
             <MainContainer>
@@ -197,6 +196,6 @@ export const TableCellLong = styled(TableCell)`
   width: 63rem;
   min-width: 50rem;
   padding: 10px 50px;
-  white-space: normal;
+  white-space: pre-wrap;
   word-break: break-all;
 `

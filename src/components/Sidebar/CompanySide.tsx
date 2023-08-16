@@ -163,7 +163,6 @@ export default function CompanySide() {
             console.error("Error getting releases:", error);
         }
         if (isDev) {
-            // TODO: 릴리즈 수정 부분
             navigate(PATH.RELEASECREATE, {state: {projectId: projectId, projectTitle: projectTitle}})
         } else {
             navigate(PATH.RELEASE, {state: {projectId: projectId, projectTitle: projectTitle}})
