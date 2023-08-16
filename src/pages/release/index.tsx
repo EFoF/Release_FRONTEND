@@ -76,6 +76,17 @@ export default function Release() {
         fixed: "rgba(105, 156, 255, 0.56)"
     };
 
+    const convertToKoreanTime = (dateString: string): string => {
+        const date: Date = new Date(dateString);
+        date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + 9 * 60); // 한국 시간으로 변환
+
+        const year: number = date.getFullYear();
+        const month: string = String(date.getMonth() + 1).padStart(2, '0');
+        const day: string = String(date.getDate()).padStart(2, '0');
+
+        return `${year}-${month}-${day}`;
+    };
+
     return (
         <Container>
             <MainContainer>
@@ -96,7 +107,7 @@ export default function Release() {
                             {category.releaseDtoList.map((release: Release, rindex: number) =>
                                 <ReleaseRow key={rindex}>
                                     <TableCell1>{release.version}</TableCell1>
-                                    <TableCell1>{new Date(release.releaseDate).toISOString().split('T')[0]}</TableCell1>
+                                    <TableCell>{convertToKoreanTime(release.releaseDate)}</TableCell>
                                     <TableCell1>
                                         <TableCellTag optionTagColor={tagColors[release.tag.toLowerCase()]}>
                                             {release.tag}
