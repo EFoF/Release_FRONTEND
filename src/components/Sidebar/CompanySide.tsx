@@ -126,7 +126,7 @@ export default function CompanySide() {
     // }, [companyId])
 
     useEffect(() => {
-        if(isDev) {
+        if(!isDev) {
             const fetchData = async () => {
                 try {
                     const {projectList} = await fetchProject(companyId);
