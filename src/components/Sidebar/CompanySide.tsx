@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import "../../styles/font.css";
 import setting from "../../img/setting1.png"
 import Button from "../Button";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
-import { useRecoilValue } from 'recoil';
-import { companyIdState } from '../../states/companyState';
-import { fetchProject } from "../../api/project";
-import { fetchCategories } from "../../api/category";
+import {useRecoilValue} from 'recoil';
+import {companyIdState} from '../../states/companyState';
+import {fetchProject} from "../../api/project";
+import {fetchCategories} from "../../api/category";
 import {getReleases} from "../../api/release";
-
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   background-color: white;
-//   // height: calc(100vh); //58.44rem
-//   width: 30rem; //20.75rem;
-//   position: sticky; //fixed;
-//   top: 5.56rem;;
-//   border-right: 0.0625rem solid rgba(0, 0, 0, 0.2);
-// `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: white;
-  height: 65rem; //일단 맞춤 
+  //height: 65rem; //일단 맞춤 
   // min-height: calc(100vh - 5.56rem);
   width: 30rem; //20.75rem;
   position: sticky;
@@ -87,126 +76,126 @@ const BottomContainer = styled.div`
 `
 
 const CompanySetting = styled.img`
-    width: 3.8rem;
-    height: 3.8rem;
-    margin-top: 0.5rem;
-    cursor: pointer;
-    margin-bottom: 0.65rem;
+  width: 3.8rem;
+  height: 3.8rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 0.65rem;
 `
 
 interface Project {
-  id: number;
-  title: string;
-  scope: boolean;
-  description: string;
+    id: number;
+    title: string;
+    scope: boolean;
+    description: string;
 }
 
 interface Category {
-  id: number;
-  title: string;
-  description: string;
+    id: number;
+    title: string;
+    description: string;
 }
 
 export default function CompanySide() {
-  const companyId = useRecoilValue(companyIdState);
-  console.log("companyId", companyId)
-  const [projects, setProjects] = useState<Project[] | null>(null);
-  const [projectId, setProjectId] = useState();
-  const [categories, setCategories] = useState<Category[] | null>(null);
-  const navigate = useNavigate();
-  const [activeProject, setActiveProject] = useState(null);
-  const [isDev, setIsDev] = useState(false);
-  const location = useLocation();
-  
-  useEffect(() => {
-    setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
-  }, [location.pathname]);
-  console.log("isDev", isDev)
+    const companyId = useRecoilValue(companyIdState);
+    console.log("companyId", companyId)
+    const [projects, setProjects] = useState<Project[] | null>(null);
+    const [projectId, setProjectId] = useState();
+    const [categories, setCategories] = useState<Category[] | null>(null);
+    const navigate = useNavigate();
+    const [activeProject, setActiveProject] = useState(null);
+    const [isDev, setIsDev] = useState(false);
+    const location = useLocation();
 
-  useEffect(()=>{
-    const fetchData = async () => {
-      try {
-        const {projectList} = await fetchProject(companyId); 
-        console.log("fetched project", projectList);
-        setProjects(projectList); 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    useEffect(() => {
+        setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
+    }, [location.pathname]);
+    console.log("isDev", isDev)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const {projectList} = await fetchProject(companyId);
+                console.log("fetched project", projectList);
+                setProjects(projectList);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, [companyId])
+
+    const handleProjectClick = async (index: any, projectId: number) => {
+        setActiveProject(activeProject === index ? null : index);
+
+        if (activeProject !== index) {
+            try {
+                const {categoryEachDtoList: categories} = await fetchCategories(projectId);
+                console.log("fetched categories", categories);
+                setCategories(categories);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        }
+        if (isDev) {
+            navigate(PATH.PROJECTEDIT, {state: projectId}); //해당 프로젝트 클릭 시 그 프로젝트 edit 페이지 - id를 통해 fetching
+            console.log("사이드비 projectId", projectId)
+        } else {
+            navigate(PATH.COMPANYMAIN, {state: projectId})
+            console.log("사이드비 projectId", projectId)
+        }
     };
-    fetchData();
-  }, [companyId])
 
-  const handleProjectClick = async (index: any, projectId: number) => {
-    setActiveProject(activeProject === index ? null : index);
-    
-    if (activeProject !== index) {
-      try {
-        const { categoryEachDtoList: categories } = await fetchCategories(projectId);
-        console.log("fetched categories", categories); 
-        setCategories(categories);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    }
-    if(isDev) {
-      navigate(PATH.PROJECTEDIT, {state: projectId}); //해당 프로젝트 클릭 시 그 프로젝트 edit 페이지 - id를 통해 fetching
-      console.log("사이드비 projectId", projectId)
-    } else {
-      navigate(PATH.COMPANYMAIN, {state: projectId})
-      console.log("사이드비 projectId", projectId)
-    }
-  };  
+    const handleCategoryClick = () => {
 
-  const handleCategoryClick = () => {
-
-  }
-
-  const handleButtonClick = () => {
-    navigate(PATH.PROJECTCREATE, {state: companyId})
-  }
-
-  const handleReleaseClick = async (projectId: number, projectTitle: string) => {
-    console.log("project Id", projectId);
-    try {
-      const {projectReleasesDto: releases} = await getReleases(projectId);
-      console.log("release", releases);
     }
-    catch (error){
-      console.error("Error getting releases:", error);
-    }
-    if(isDev){
-      // TODO: 릴리즈 수정 부분
-      navigate(PATH.RELEASECREATE, {state: {projectId: projectId, projectTitle: projectTitle}})
-    }
-    else {
-      navigate(PATH.RELEASE, {state: {projectId: projectId, projectTitle: projectTitle}})
-    }
-  }
 
-  return (
-    <Container>
-      {projects !== null &&
-        projects.map((project, index) => (
-        <SidebarContainer key={index}>
-          <SidebarItem onClick={() => handleProjectClick(index, project.id)}>
-            {project.title}
-            <SidebarArrow>{activeProject === index ? "-" : "+"}</SidebarArrow>
-          </SidebarItem>
-          {activeProject === index && (
-            <SubMenuContainer>
-              {categories !== null &&
-                categories.map((category, subIndex) => (
-                <SubMenuItem key={subIndex} onClick={handleCategoryClick}>{category.title}</SubMenuItem>
-              ))}
-              <SubMenuItem onClick={() =>handleReleaseClick(project.id, project.title)}>Release Note</SubMenuItem>
-            </SubMenuContainer>
-          )}
-        </SidebarContainer>
-      ))}
-      {isDev && <BottomContainer> 
-        <CompanySetting src={setting} onClick={()=>navigate(PATH.COMPANYMANAGE)}/>
-        <Button title="프로젝트 생성하기" theme="blue" width="12.68rem" onClick={handleButtonClick}/>
-      </BottomContainer>}
-    </Container>
-  );
+    const handleButtonClick = () => {
+        navigate(PATH.PROJECTCREATE, {state: companyId})
+    }
+
+    const handleReleaseClick = async (projectId: number, projectTitle: string) => {
+        console.log("project Id", projectId);
+        try {
+            const {projectReleasesDto: releases} = await getReleases(projectId);
+            console.log("release", releases);
+        } catch (error) {
+            console.error("Error getting releases:", error);
+        }
+        if (isDev) {
+            // TODO: 릴리즈 수정 부분
+            navigate(PATH.RELEASECREATE, {state: {projectId: projectId, projectTitle: projectTitle}})
+        } else {
+            navigate(PATH.RELEASE, {state: {projectId: projectId, projectTitle: projectTitle}})
+        }
+    }
+
+    return (
+        <Container>
+            {projects !== null &&
+                projects.map((project, index) => (
+                    <SidebarContainer key={index}>
+                        <SidebarItem onClick={() => handleProjectClick(index, project.id)}>
+                            {project.title}
+                            <SidebarArrow>{activeProject === index ? "-" : "+"}</SidebarArrow>
+                        </SidebarItem>
+                        {activeProject === index && (
+                            <SubMenuContainer>
+                                {categories !== null &&
+                                    categories.map((category, subIndex) => (
+                                        <SubMenuItem key={subIndex}
+                                                     onClick={handleCategoryClick}>{category.title}</SubMenuItem>
+                                    ))}
+                                <SubMenuItem onClick={() => handleReleaseClick(project.id, project.title)}>Release
+                                    Note</SubMenuItem>
+                            </SubMenuContainer>
+                        )}
+                    </SidebarContainer>
+                ))}
+            {isDev && <BottomContainer>
+                <CompanySetting src={setting} onClick={() => navigate(PATH.COMPANYMANAGE)}/>
+                <Button title="프로젝트 생성하기" theme="blue" width="12.68rem" onClick={handleButtonClick}/>
+            </BottomContainer>}
+        </Container>
+    );
 }

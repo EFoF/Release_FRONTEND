@@ -1,14 +1,12 @@
 import eagle from "../../img/icon-park-outline_eagle.png";
 import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
-import { isLoginState } from "../../states/isLogin";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { useState, useEffect } from "react"
-import { loadMyInfo } from "../../api/auth";
-import { searchCompany } from "../../api/company";
-import { companyIdState, companyNameState } from "../../states/companyState";
+import {useRecoilValue} from "recoil";
+import {useState, useEffect} from "react"
+import {loadMyInfo} from "../../api/auth";
+import {companyNameState} from "../../states/companyState";
 
 export const Container = styled.div`
   width: 100%;
@@ -28,6 +26,7 @@ export const LogoBox = styled.div`
   cursor: pointer;
   align-items: center;
   margin-left: 2rem;
+
   div {
     color: #000;
     font-family: Inter;
@@ -45,7 +44,7 @@ export const LogoImg = styled.img`
   margin-top: 0.4rem;
 `;
 
-export const ForDev = styled.div`
+export const ForDev = styled.span`
   margin-left: 1rem;
   margin-top: 0.8rem;
   color: #000;
@@ -98,83 +97,97 @@ export const Logout = styled.div`
 `;
 
 interface HeaderProps {
-  isCompany?: boolean;
+    isCompany?: boolean;
 }
 
-export default function Header({ isCompany }: HeaderProps) {
-  //isDev 추가하기
-  const navigate = useNavigate();
-  // const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const [myName, setMyName] = useState("");
-  const [companyTitle, setcompanyTitle] = useState("");
-  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"));
-  const companyName = useRecoilValue(companyNameState);
-  const location = useLocation();
-  const [isDev, setIsDev] = useState(false);
+export default function Header({isCompany}: HeaderProps) {
+    //isDev 추가하기
+    const navigate = useNavigate();
+    // const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+    const [myName, setMyName] = useState("");
+    const [companyTitle, setcompanyTitle] = useState("");
+    const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"));
+    const companyName = useRecoilValue(companyNameState);
+    const location = useLocation();
+    const [isDev, setIsDev] = useState(false);
 
-  useEffect(() => {
-    setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
-  }, [location.pathname]);
-  console.log("isDev", isDev)
-  
-  useEffect(()=>{
-    if(isCompany) {
-      setcompanyTitle(companyName)
-    } 
-  },[companyName, isCompany])
+    useEffect(() => {
+        setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
+    }, [location.pathname]);
+    console.log("isDev", isDev)
 
-  useEffect(()=>{
-    if(isLogin) {
-      const fetchMyInfo = async () => {
-        try {
-          const { username } = await loadMyInfo();
-          setMyName(username);
-        } catch (error) {
-          console.error('Error fetching info:', error);
+    useEffect(() => {
+        if (isCompany) {
+            setcompanyTitle(companyName)
         }
-      }
-      fetchMyInfo();
-    }
-  }, [isLogin])
+    }, [companyName, isCompany])
 
-  const handleLogoClick = () => {
-    navigate(PATH.HOME);
-  }; 
+    useEffect(() => {
+        if (isLogin) {
+            const fetchMyInfo = async () => {
+                try {
+                    const {username} = await loadMyInfo();
+                    setMyName(username);
+                } catch (error) {
+                    console.error('Error fetching info:', error);
+                }
+            }
+            fetchMyInfo();
+        }
+    }, [isLogin])
 
-  const handleCompanyTitleClick = () => {
-    navigate(PATH.COMPANYMAIN);
-  }; //회사면 첫 디폴트 카테고리로, dev면 다르게? 
+    const handleLogoClick = () => {
+        navigate(PATH.HOME);
+    };
 
-  const handleLogout = () => {
-    setIsLogin(false);
-    localStorage.clear();
-    navigate(PATH.HOME);
-  };
+    const handleDevLogoClick = () => {
+        navigate(PATH.MYCOMPANY);
+    };
 
-  return (
-    <Container>
-      <LogoBox>
-        {isCompany ? "" : <LogoImg src={eagle} />}
-        {isCompany ? (
-          <div onClick={handleCompanyTitleClick}>{companyTitle}</div>
-        ) : (
-          <div onClick={handleLogoClick}>DOKLIB</div>
-        )}
-      </LogoBox>
-      {isDev ? <ForDev>for Developers</ForDev> : ""}
-      {isLogin ? (
-        <RightBox2>
-          <ProfileBox onClick={()=>{navigate(PATH.MYINFO)}}>
-            <ProfileImg src={profile} alt="Person" />
-            <ProfileName>{myName}</ProfileName>
-          </ProfileBox>
-          <Logout onClick={handleLogout}>로그아웃</Logout>
-        </RightBox2>
-      ) : (
-        <RightBox1 onClick={() => navigate(PATH.LOGIN)}>
-          개발자이신가요?
-        </RightBox1>
-      )}
-    </Container>
-  );
+    const handleCompanyTitleClick = () => {
+        navigate(PATH.COMPANYMAIN);
+    }; //회사면 첫 디폴트 카테고리로, dev면 다르게?
+
+    const handleLogout = () => {
+        setIsLogin(false);
+        localStorage.clear();
+        navigate(PATH.HOME);
+    };
+
+    return (
+        <Container>
+            <LogoBox>
+                {isCompany ? "" : <LogoImg src={eagle}/>}
+                {
+                    isCompany ? (
+                        <div onClick={handleCompanyTitleClick}>{companyTitle}</div>
+                    ) : (
+                        isDev ? (
+                            <div onClick={handleDevLogoClick}>
+                                DOKLIB
+                                <ForDev>for Developers</ForDev>
+                            </div>
+                        ) : (
+                            <div onClick={handleLogoClick}>DOKLIB</div>
+                        )
+                    )
+                }
+            </LogoBox>
+            {isLogin ? (
+                <RightBox2>
+                    <ProfileBox onClick={() => {
+                        navigate(PATH.MYINFO)
+                    }}>
+                        <ProfileImg src={profile} alt="Person"/>
+                        <ProfileName>{myName}</ProfileName>
+                    </ProfileBox>
+                    <Logout onClick={handleLogout}>로그아웃</Logout>
+                </RightBox2>
+            ) : (
+                <RightBox1 onClick={() => navigate(PATH.LOGIN)}>
+                    개발자이신가요?
+                </RightBox1>
+            )}
+        </Container>
+    );
 }
