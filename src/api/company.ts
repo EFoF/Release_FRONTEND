@@ -67,7 +67,7 @@ export const addCompanyMembers = async (companyId: number, emailObject: object) 
 export const deleteCompanyMembers = async (companyId: number, email: string) => {
   const {data} = await authorizationClient.delete(`${API.COMPANIES}/${companyId}/members` ,{
     headers: {
-      'email': email
+      'email': email,
     }
   });
   return data;

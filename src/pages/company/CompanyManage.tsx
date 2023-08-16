@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import { CategoryTitle, Title1 } from "../../components/Text/Title";
 import {OwnerName} from "../../components/Text/Owner";
 import MemberTable from "../../components/Table/memberTable";
@@ -9,29 +9,16 @@ import AddFile from "../../components/AddFile";
 import ConfirmationModal from "../../components/Modal";
 import PATH from "../../constants/path";
 import {useNavigate} from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { companyIdState, companyNameState } from "../../states/companyState";
+import { addCompanyMembers, getCompanyMembers, getMyCompanies, updateCompany } from "../../api/company";
+import axios from "axios";
 
-const initMembers = [
-    {
-        "id": 1,
-        "name": "user111",
-        "email": "user111@test.com"
-    },
-    {
-        "id": 2,
-        "name": "user222",
-        "email": "user222@test.com"
-    },
-    {
-        "id": 3,
-        "name": "user333",
-        "email": "user333@test.com"
-    },
-    {
-        "id": 4,
-        "name": "user444",
-        "email": "user444@test.com"
-    }
-]
+interface Person {
+    id: number,
+    name: string,
+    email: string,
+}
 
 export default function CompanyManage() {
     const [projectName, setProjectName] = useState("");
@@ -39,12 +26,17 @@ export default function CompanyManage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpen2, setIsModalOpen2] = useState(false);
     const [isModalOpen3, setIsModalOpen3] = useState(false);
-    const [members, setMembers] = useState(initMembers);
+    const [members, setMembers] = useState<Person[] | null>(null);
     const navigate = useNavigate();
-
+    const companyId = useRecoilValue(companyIdState);
+    const companyName = useRecoilValue(companyNameState);
+    const [compName, setCompName] = useState(companyName);
+    const [companyImgFile, setCompanyImgFile] = useState<string | null>(null);
+    const [companyImgSrc, setCompanyImgSrc] = useState<string>("https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/1b55083b5da94de389197c75704231f6/doklib/company/default.png");
+    const defaultImgUrl = "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/1b55083b5da94de389197c75704231f6/doklib/company/default.png";
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
-        setProjectName(e.target.value)
+        setCompName(e.target.value)
     }
 
     const handleChangeEmail = (e : React.ChangeEvent<HTMLInputElement>) => {
@@ -78,16 +70,33 @@ export default function CompanyManage() {
     const handleInviteModalConfirm = () => {
         // 입력한 이메일을 배열에 추가
         // 여기서 받은 responseDto 에서 name과 email 추가하기!
-        if (memberEmail.trim() !== "") {
-            const newMember = {
-                id: members.length+1,
-                name: `이름${members.length + 1}`,
-                email: memberEmail };
 
-            setMembers([...members, newMember]);
-
-            setMemberEmail(""); // 초대 입력창 비우기
+        const addCompanyMember = async () => {
+            try {
+                const data = await addCompanyMembers(companyId, {email:memberEmail});
+                console.log("add member! ", data);
+                if (memberEmail.trim() !== "") {
+                    const newMember = {
+                        id: members ? members.length + 1 : 1, // members가 null인 경우 id를 1로 초기화
+                        name: `이름${members ? members.length + 1 : 1}`, // members가 null인 경우 이름을 "이름1"로 초기화
+                        email: memberEmail,
+                    };
+            
+                    setMembers(members ? [...members, newMember] : [newMember]);
+            
+                    setMemberEmail(""); // 초대 입력창 비우기
+                }
+            } catch(error) {
+                if (axios.isAxiosError(error)) {
+                    // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                    alert(error.response?.data); // 에러 응답 데이터 출력
+                }
+                console.error("Error add members:", error);
+            }
         }
+        addCompanyMember();       
+
+        setMemberEmail("");
         setIsModalOpen2(false);
     };
 
@@ -101,7 +110,30 @@ export default function CompanyManage() {
     const handleConfirm = () => {
         setIsModalOpen3(true);
     }
-    const handleModalConfirm3 = () => {
+    const handleModalConfirm3 = () => { //모든거 완료 시 회사명과 로고만 올라감 
+        const handleCreate = () => {
+            const formData = new FormData();
+            const companyImgFileOptional = companyImgFile === null ? defaultImgUrl : companyImgFile;
+            formData.append('image', companyImgFileOptional);
+            formData.append('name', compName);
+            
+            const modifyCompany = async() => {
+                try{
+                    const data = updateCompany(companyId, formData)
+                    console.log("updata company ", data);
+                    // navigate(PATH.MYCOMPANY);                        
+                }catch(error){
+                    if (axios.isAxiosError(error)) {
+                        // AxiosError 타입이라면 Axios에서 정의한 에러 객체
+                        alert(error.response?.data); // 에러 응답 데이터 출력
+                    }
+                    console.error("Error fetching company:", error);
+                }
+            }
+            modifyCompany();
+            
+        }
+        handleCreate();
         setIsModalOpen3(false);
         navigate(PATH.COMPANYMAIN);
     };
@@ -110,6 +142,44 @@ export default function CompanyManage() {
     };
 
     // ===================================
+    const handleAddFile = (img: string) => { //AddFile에서 imgfile 형식으로 받아옴
+        setCompanyImgFile(img)
+    }
+
+    useEffect(() => {
+        const fetchCompany = async () => {
+            try {
+                const { content } = await getMyCompanies();
+                const company = content.find((item: { id: number; }) => item.id === companyId);
+                
+                if (company) {
+                    setCompanyImgSrc(company.imageUrl);
+                    console.log("Company imageUrl:", company.imageUrl);
+                } else {
+                    console.log("Company not found for companyId:", companyId);
+                }
+            } catch (error) {
+                console.error("Error fetching company:", error);
+            }
+        };
+        fetchCompany();
+    }, [companyId]);
+    
+    
+    useEffect(()=>{
+        const fetchCompanyMembers = async () => {
+            try {
+                const companyMembers = await getCompanyMembers(companyId);
+                setMembers(companyMembers);
+                console.log("companyMembers", companyMembers)
+            } catch(error) {
+                console.error("Error fetching members:", error);
+            }
+        }
+        fetchCompanyMembers();        
+    }, [companyId])
+
+    console.log("compName", compName)
 
     return (
         <Container>
@@ -117,15 +187,15 @@ export default function CompanyManage() {
                 <ProjectManageTitle>회사 관리</ProjectManageTitle>
                 <CategoryContainer>
                     <CategoryTitle1>회사명</CategoryTitle1>
-                    <Input value={projectName} onChange={handleChangeName} placeholder={"카카오 엔터프라이즈"}></Input>
+                    <Input value={compName} onChange={handleChangeName} placeholder={companyName}></Input>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>회사 오너</CategoryTitle1>
-                    <ProjectOwner1>최철웅 (oldstyle@gmail.com)</ProjectOwner1>
+                    <ProjectOwner1>{members && `${members[0].name} (${members[0].email})`}</ProjectOwner1>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>회사 로고</CategoryTitle1>
-                    <AddFile></AddFile>
+                    <AddFile imageUrl={companyImgSrc} onImageUpload={handleAddFile}/>
                 </CategoryContainer>
                 <CategoryContainer>
                     <CategoryTitle1>초대원 이메일</CategoryTitle1>

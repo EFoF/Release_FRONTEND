@@ -4,7 +4,7 @@ import React from 'react';
 
 interface TitleProps {
     color?: string;
-    children: string;
+    children: string | React.ReactNode;
 }
 
 const OwnerName = styled.h1<TitleProps>`
