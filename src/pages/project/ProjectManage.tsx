@@ -161,16 +161,16 @@ export default function ProjectManage() {
 
     //기존 멤버 받아오기 
     useEffect(() => {
-        const fetchCompanyMembers = async () => {
-            try {
-                const {memberListDTOS} = await getProjectMembers(projectId); //받아와야.. 
-                setMembers(memberListDTOS);
-                console.log("projectMembers", memberListDTOS)
-            } catch (error) {
-                console.error("Error fetching members:", error);
+            const fetchCompanyMembers = async () => {
+                try {
+                    const {memberListDTOS} = await getProjectMembers(projectId); //받아와야..
+                    setMembers(memberListDTOS);
+                    console.log("projectMembers", memberListDTOS)
+                } catch (error) {
+                    console.error("Error fetching members:", error);
+                }
             }
-        }
-        fetchCompanyMembers();
+            fetchCompanyMembers();
     }, [projectId])
 
     return (
