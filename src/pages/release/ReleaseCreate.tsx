@@ -9,7 +9,7 @@ import check from "../../img/check.png";
 import ConfirmationModal from "../../components/Modal";
 import Tooltip from "./Tooltip";
 import {useLocation} from "react-router-dom";
-import {getReleases} from "../../api/release";
+import {addRelease, getReleases} from "../../api/release";
 import {loadMyInfo} from "../../api/auth";
 
 type Release = {
@@ -129,9 +129,23 @@ export default function ReleaseCreate() {
         setAddIndex(index);
     };
 
-    const handleCheckBtn = (index: number) => {
+    const formatLocalDateTime = (date: Date): string => {
+        const yyyy = date.getFullYear();
+        const MM = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        const hh = '00';
+        const mm = '00';
+        const ss = '00';
+
+        return `${yyyy}-${MM}-${dd}T${hh}:${mm}:${ss}`;
+    };
+
+    const handleCheckBtn = () => {
+        setReleaseVersion(releaseVersion);
+        setReleaseDate(releaseDate);
+        setReleaseTag(releaseTag);
+        setReleaseDetail(releaseDetail);
         setIsModalOpen2(true);
-        // TODO: db 반영
     }
 
     const handleModalCancel2 = () => {
@@ -139,8 +153,25 @@ export default function ReleaseCreate() {
         setIsModalOpen2(false);
     };
 
-    const handleModalConfirm2 = () => {
-        // TODO: db 반영
+    const handleModalConfirm2 = async (categoryId: number) => {
+        const jsDate = new Date(releaseDate);
+        const formattedReleaseDate = formatLocalDateTime(jsDate);
+
+        const newReleaseData = {
+            "tag": releaseTag.toUpperCase(),
+            "releaseDate": formattedReleaseDate,
+            "version": releaseVersion,
+            "message": releaseDetail
+        };
+        console.log("addRelease", newReleaseData);
+        try {
+            console.log("categoryId", categoryId);
+            const data = await addRelease(projectId, categoryId, newReleaseData);
+            console.log("addReleaseId", data);
+
+        } catch(error) {
+            console.error("Error and Release", error);
+        }
 
         // 모달 닫기
         setIsModalOpen2(false);
@@ -148,7 +179,7 @@ export default function ReleaseCreate() {
 
     const handleMinusBtn = (index: number) => {
         setIsModalOpen(true);
-        // TODO: db 반영
+        // TODO: 값 설정
     };
 
     const handleModalCancel = () => {
@@ -236,6 +267,7 @@ export default function ReleaseCreate() {
                                             type="text"
                                             value={releaseDate}
                                             onChange={handleChangeDate}
+                                            placeholder="YYYY-MM-DD"
                                         />
                                     </TableCell1>
                                     <TableCell1>
@@ -259,7 +291,9 @@ export default function ReleaseCreate() {
                                     </TableCellLong>
                                     <TableCell1>{userName}</TableCell1>
                                     <TableCell1><TableImg1 src={check}
-                                                           onClick={() => handleCheckBtn(index)}/></TableCell1>
+                                                           onClick={() => handleCheckBtn()}/></TableCell1>
+                                    <ConfirmationModal isOpen={isModalOpen2} onCancel={handleModalCancel2} onConfirm={() => handleModalConfirm2(category.categoryResponseDto.id)}
+                                                       message={"저장하시겠습니까?"}/>
                                 </ReleaseRow>
                             )}
                             <ReleaseRow>
@@ -291,8 +325,6 @@ export default function ReleaseCreate() {
             </MainContainer>
             <ConfirmationModal isOpen={isModalOpen} onCancel={handleModalCancel} onConfirm={handleModalConfirm}
                                message={"삭제하시겠습니까?"}/>
-            <ConfirmationModal isOpen={isModalOpen2} onCancel={handleModalCancel2} onConfirm={handleModalConfirm2}
-                               message={"저장하시겠습니까?"}/>
         </Container>
     );
 }
