@@ -160,7 +160,7 @@ export default function Header({isCompany}: HeaderProps) {
                 {isCompany ? "" : <LogoImg src={eagle}/>}
                 {
                     isCompany ? (
-                        <div onClick={handleCompanyTitleClick}>{companyTitle}</div>
+                        <div onClick={handleCompanyTitleClick}>{companyTitle}<ForDev>for Developers</ForDev> </div>
                     ) : (
                         isDev ? (
                             <div onClick={handleDevLogoClick}>
