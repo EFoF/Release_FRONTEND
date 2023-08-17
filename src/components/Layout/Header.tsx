@@ -206,7 +206,7 @@ export default function Header({isCompany}: HeaderProps) {
     };
 
     const handleDevLogoClick = () => {
-        navigate(PATH.MYCOMPANY);
+        navigate(PATH.HOME);
     };
 
     const handleCompanyTitleClick = () => {
@@ -243,6 +243,10 @@ export default function Header({isCompany}: HeaderProps) {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const handleClickMyProfile = () => {
+        navigate(PATH.MYCOMPANY);
     }
 
     return (
@@ -288,7 +292,7 @@ export default function Header({isCompany}: HeaderProps) {
                             </>
                         }
                     </ProfileBox>
-                    <ProfileBox onClick={handleDevLogoClick}>
+                    <ProfileBox onClick={handleClickMyProfile}>
                         <ProfileImg src={profile} alt="Person"/>
                         <ProfileName>{myName}</ProfileName>
                     </ProfileBox>

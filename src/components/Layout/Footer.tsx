@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router";
 import eagle from "../../img/icon-park-outline_eagle.png";
 import styled from "styled-components";
+import PATH from "../../constants/path";
 
 export const Container = styled.div`
   width: 100%;
@@ -43,18 +45,21 @@ export const LogoImg = styled.img`
   height: 3.12rem;
   margin-left: 1.3rem;
   // margin: auto;
+  cursor: pointer;
 `
 
 export default function Footer() { 
+  const navigate = useNavigate();
+
   return (
     <Container>
       <LogoContainer>
-        <LogoImg src={eagle}/>
+        <LogoImg src={eagle} onClick={()=>navigate(PATH.HOME)}/>
       </LogoContainer>
       <LeftBox>
           <div>개인정보처리방침 | </div>
           <div>서비스 이용약관</div>
-      </LeftBox>
+      </LeftBox> 
     </Container>
   )
 }
