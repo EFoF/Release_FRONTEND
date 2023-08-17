@@ -6,6 +6,8 @@ import markdown from "../company/markdown";
 import { useEffect, useRef, useState } from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
+import { useLocation, useNavigate } from "react-router-dom";
+import { fetchOneCategory } from "../../api/category";
 
 const CustomList = ({ children }: any) => (
   <>
@@ -42,19 +44,46 @@ const markdownExample = `
   3. 계정 기반 연동(OAuth 등), 보안규격 통신(TLS인증서), 네트워크 트러블 슈팅(VPN/전용선 등) 경험이 있으신 분
 `
 
+interface Category {
+  id: number;
+  title: string;
+  detail: string;
+  description: string;
+}
+
 export default function Category() {
   const [markdown, setMarkdown] = useState("");
+  const [category, setCategory] = useState<Category>();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const {categoryId, projectId} = location.state;
 
   const components = {
     li: CustomList,
   };
 
+  useEffect(()=>{
+    const fetchCategory = async() => {
+      try{
+        const data = await fetchOneCategory(categoryId);
+        setCategory(data);
+        console.log("fetchedCate", data);
+        setMarkdown(data.detail)
+      }catch(error){
+        console.error("fetch one category fail", error)
+      }
+    }
+    fetchCategory();
+  }, [categoryId])
+
   return (
     <Container>
       <CategoryContainer>
-        <CategoryName>카카오페이</CategoryName>
+        <CategoryName>{category?.title}</CategoryName>
         <CategoryIntro>
-          카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다.
+          {category?.description}
         </CategoryIntro>
       </CategoryContainer>
       <MarkDownPreviewContainer>
