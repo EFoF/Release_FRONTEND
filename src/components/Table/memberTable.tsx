@@ -47,14 +47,14 @@ const MemberTable: React.FC<MemberTableProps> = ({ members, projectId }) => {
 
     const handleModalConfirm = () => {
         const email = data && data[indexToDelete].email;
-        console.log("email", email)
+        console.log("email, projectId", email, projectId)
 
         if(isCompanyManage) {
             const delCompanyPerson = async() => {
                 try{
                     if(email!==null) {
                         console.log("email, companyId", email, companyId)
-                        const response = await deleteCompanyMembers(companyId, email)
+                        const response = await deleteCompanyMembers(companyId, {email: email})
                         console.log("delete person ", response);
                         if (data && indexToDelete >= 0 && indexToDelete < data.length) {
                             const updatedData = data.slice();
@@ -75,7 +75,8 @@ const MemberTable: React.FC<MemberTableProps> = ({ members, projectId }) => {
             const delProjectPerson = async() => {
                 try{
                     if(email!==null) {
-                        const response = await deleteProjectMembers(projectId, email)
+                        console.log("!!!email", email)
+                        const response = await deleteProjectMembers(projectId, {email: email})
                         console.log("delete person ", response);
                         if (data && indexToDelete >= 0 && indexToDelete < data.length) {
                             const updatedData = data.slice();
