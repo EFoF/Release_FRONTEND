@@ -123,12 +123,13 @@ export default function CategoryCreate() {
           setCategory(data);
           console.log("fetchedCate", data);
           setCategoryMarkdown(data.detail);
-          navigate(PATH.PROJECTEDIT);
         }catch(error){
           console.error("fetch one category fail", error)
         }
       }
       updateCategoryMarkdown();
+      navigate(PATH.CATEGORYEDIT, {state: {categoryId, projectId}});
+        setIsModalOpen2(false);
     }
 
     const handleDelete = () => {
