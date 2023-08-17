@@ -4,15 +4,16 @@ import pencil from "../../img/pencil.png";
 import eye from "../../img/eye.png";
 import check from "../../img/check.png";
 import clear from "../../img/clear.png";
+import upload from "../../img/upload.png";
 import {Title1, Title2} from "../../components/Text/Title";
 import {Container1} from "../../components/Container";
-import markdown from "../company/markdown";
 import {useEffect, useRef, useState} from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import { useLocation, useNavigate } from "react-router-dom";
 import { deleteCategory, fetchOneCategory, updateCategory } from "../../api/category";
 import PATH from "../../constants/path";
+import UploadModal from "../../components/Modal/UploadModal";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -36,6 +37,7 @@ export default function CategoryCreate() {
   const [category, setCategory] = useState<Category>();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {categoryId, projectId} = location.state;
   console.log("categoryId, projectId", categoryId, projectId)
@@ -106,6 +108,14 @@ export default function CategoryCreate() {
       deleteOneCategory();
     }
 
+    const handleImageUpload = () => {
+      setIsModalOpen(true);
+    }
+
+    const handleModalCancel = () => {
+        setIsModalOpen(false);
+    }
+
   return (
     <Container>
           <CompanyContainer>
@@ -127,6 +137,7 @@ export default function CategoryCreate() {
                 <GuideText>
                     상세 페이지
                 </GuideText>
+                <UploadButton imageUrl={upload} width={30} height={30} margin-left="auto" onClick={handleImageUpload} />
                 {isPreview ?
                     <EditButton imageUrl={pencil} width={24} height={24} onClick={handleClickPreview}/> :
                     <EditButton imageUrl={eye} width={24} height={24} onClick={handleClickPreview}/>}
@@ -145,6 +156,8 @@ export default function CategoryCreate() {
                     <Button title="삭제하기" theme="red" onClick={handleDelete}></Button>
                 </ButtonContainer>
             </PreviewContainer>
+            <UploadModal isOpen={isModalOpen}
+                         onCancel={handleModalCancel} />
         </MarkdownContainer>
     </Container>
   );
@@ -245,6 +258,21 @@ export const EditButton = styled.div<EditButtonProps>`
     opacity: 0.5;
     cursor: pointer;
   }
+`;
+
+export const UploadButton = styled.div<EditButtonProps>`
+  margin-left: auto;
+  background-image: url(${props => props.imageUrl});
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
 `;
 
 export const ButtonContainer = styled.div`
