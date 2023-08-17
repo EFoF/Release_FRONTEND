@@ -10,6 +10,7 @@ const MEMBER_INFO = "/member/info";
 const COMPANIES = "/companies";
 const PROJECT = "/companies/projects";
 const GOOGLELOGIN = "/oauth2/authorization/google"
+const CATEGORY = "/categories"
 
 
 // const CHECK_EMAIL = "email/exists/";
@@ -31,7 +32,7 @@ const API = {
   SEND_EMAIL: `${AUTH}/mail/sending`,
   VERIFY: `${AUTH}/mail/verification`,
 
-
+  CATEGORY: `${CATEGORY}`,
   COMPANIES: `${COMPANIES}`,
   PROJECT: `${PROJECT}`,
   GOOGLELOGIN: `${GOOGLELOGIN}`,

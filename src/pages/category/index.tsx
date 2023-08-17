@@ -13,14 +13,13 @@ const CustomList = ({ children }: any) => (
   </>
 );
 
-export default function Category() {
-  const [markdown, setMarkdown] = useState(`
+const markdownExample = `
   # 카카오페이 기술지원 담당자
   &nbsp;
 
   카카오페이는 ***모든 사람을 이롭게 하는 금융 서비스***를 제공한다건 건 다들 아시죠? 카카오페이 기술지원 담당자들은 금융 서비스의 시작부터 끝까지 IT 전문가로서 기술적인 모든 이슈를 해결하는 만능 엔터테이너예요. 😎
   카카오페이에서는 만능 엔터테이너인 기술지원 담당자들을 이렇게 정의하고 있어요.
-  
+
   &nbsp;
   \nYou can also create [카카오페이 개발자 센터](https://tech.kakaopay.com/post/tam-introduction).
 
@@ -28,7 +27,7 @@ export default function Category() {
   ## Lists
 
   &nbsp;
-  
+
   카카오페이 기술지원 담당자의 주요 업무와 역할:
   - 파트너사 관리
   - 시스템 연동 관리
@@ -40,7 +39,10 @@ export default function Category() {
   1. 금융서비스나 핀테크 서비스에 대한 업무 경험이 있으신 분
   2. 서버 개발 또는 클라이언트 개발(앱이나 웹) 경험이 있으신 분
   3. 계정 기반 연동(OAuth 등), 보안규격 통신(TLS인증서), 네트워크 트러블 슈팅(VPN/전용선 등) 경험이 있으신 분
-  `);
+`
+
+export default function Category() {
+  const [markdown, setMarkdown] = useState("");
 
   const components = {
     li: CustomList,
