@@ -11,7 +11,7 @@ export default function NoCompany() {
     const navigate = useNavigate();
     return (
         <MainContainer>
-            <MainText>속한 회사가 없습니다</MainText>
+            <MainText>소속된 회사가 없습니다</MainText>
             <Button theme="blue" title="회사 생성하기" onClick={()=>navigate(PATH.COMPANYCREATE)}></Button>
         </MainContainer>
     )
