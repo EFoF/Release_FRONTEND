@@ -84,6 +84,10 @@ useEffect(()=> {
     fetchData();
   }, [companyIdValue, projectId]);
 
+  useEffect(()=>{
+      project && setProjectId(project.id)
+  }, [project])
+
   return (
     <Container>
       {projectList === null || projectList?.length === 0 ? (
