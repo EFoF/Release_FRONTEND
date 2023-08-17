@@ -15,8 +15,8 @@ import PATH from "../../constants/path";
 import {useLocation, useNavigate} from "react-router-dom";
 import { editProject, fetchProject } from "../../api/project";
 import { addCategory, deleteCategory, fetchCategories, updateCategory } from "../../api/category";
-import { useRecoilValue } from "recoil";
-import { companyIdState } from "../../states/companyState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { companyIdState, companyNameState } from "../../states/companyState";
 import NoProject from "../company/NoProject";
 import {getReleases} from "../../api/release";
 
@@ -67,7 +67,8 @@ export default function ProjectEdit() {
     const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
   const [project, setProject] = useState<Project>();
-  const companyId = useRecoilValue(companyIdState);  
+  const [companyId, setCompanyId] = useRecoilState<number>(companyIdState);
+  const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
   const location = useLocation();
 
    useEffect(()=> {
@@ -77,9 +78,10 @@ export default function ProjectEdit() {
       setProjectId(PID);  
       console.log("1234projectId", projectId)
     } 
-    if(typeof location.state === 'object' && location.state !== null) {
-        console.log("!!!!!!!!!!!!!!!!!", location.state)
+    if(typeof location.state === 'object' && location.state !== null) { //처음 들어오면 
+        console.log("location.state", location.state)
         setProjectId(location.state.id);
+        setCompanyId(location.state.companyId)
     }
     console.log("projectId", projectId)
     
