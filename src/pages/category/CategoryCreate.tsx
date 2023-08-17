@@ -30,7 +30,7 @@ interface Category {
 }
 
 export default function CategoryCreate() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); //
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [categoryMarkdown, setCategoryMarkdown] = useState("");
@@ -40,6 +40,7 @@ export default function CategoryCreate() {
   const [category, setCategory] = useState<Category>();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const {categoryId, projectId} = location.state;
   console.log("categoryId, projectId", categoryId, projectId)
@@ -119,11 +120,11 @@ export default function CategoryCreate() {
     }
 
     const handleImageUpload = () => {
-      setIsModalOpen(true);
+      setIsImageModalOpen(true);
     }
 
-    const handleModalCancel = () => {
-        setIsModalOpen(false);
+    const handleImageModalCancel = () => {
+        setIsImageModalOpen(false);
     }
 
   return (
@@ -166,8 +167,8 @@ export default function CategoryCreate() {
                     <Button title="삭제하기" theme="red" onClick={handleDelete}></Button>
                 </ButtonContainer>
             </PreviewContainer>
-            <UploadModal isOpen={isModalOpen}
-                         onCancel={handleModalCancel} />
+            <UploadModal isOpen={isImageModalOpen}
+                         onCancel={handleImageModalCancel} />
         </MarkdownContainer>
         <ConfirmationModal isOpen={isModalOpen}
                             onCancel={() => {
