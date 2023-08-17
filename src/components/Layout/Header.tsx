@@ -245,6 +245,10 @@ export default function Header({isCompany}: HeaderProps) {
         }
     }
 
+    const handleClickMyProfile = () => {
+        navigate(PATH.MYCOMPANY);
+    }
+
     return (
         <Container>
             <LogoBox>
@@ -288,7 +292,7 @@ export default function Header({isCompany}: HeaderProps) {
                             </>
                         }
                     </ProfileBox>
-                    <ProfileBox onClick={handleDevLogoClick}>
+                    <ProfileBox onClick={handleClickMyProfile}>
                         <ProfileImg src={profile} alt="Person"/>
                         <ProfileName>{myName}</ProfileName>
                     </ProfileBox>
