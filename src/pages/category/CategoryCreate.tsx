@@ -10,6 +10,9 @@ import markdown from "../company/markdown";
 import {useEffect, useRef, useState} from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
+import { useLocation, useNavigate } from "react-router-dom";
+import { deleteCategory, fetchOneCategory, updateCategory } from "../../api/category";
+import PATH from "../../constants/path";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -17,11 +20,39 @@ interface EditButtonProps {
     height: number;
 }
 
+interface Category {
+  id: number;
+  title: string;
+  detail: string;
+  description: string;
+}
+
 export default function CategoryCreate() {
   const [isPreview, setIsPreview] = useState(false);
-  const [markdown, setMarkdown] = useState("# Title");
+  const [categoryMarkdown, setCategoryMarkdown] = useState("");
   const markdownRef = useRef('');
   const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
+  // const [categoryId, setCategoryId] = useState();
+  const [category, setCategory] = useState<Category>();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const {categoryId, projectId} = location.state;
+  console.log("categoryId, projectId", categoryId, projectId)
+
+  useEffect(()=>{
+    const fetchCategory = async() => {
+      try{
+        const data = await fetchOneCategory(categoryId);
+        setCategory(data);
+        console.log("fetchedCate", data);
+        setCategoryMarkdown(data.detail)
+      }catch(error){
+        console.error("fetch one category fail", error)
+      }
+    }
+    fetchCategory();
+  }, [categoryId])
 
   const handleClickPreview = () => {
       setIsPreview(!isPreview);
@@ -37,16 +68,49 @@ export default function CategoryCreate() {
     }
 
     const handleOnBlur = () => {
-      if(markdown !== markdownRef.current) {
-          setMarkdown(markdownRef.current);
+      if(categoryMarkdown !== markdownRef.current) {
+          setCategoryMarkdown(markdownRef.current);
       }
+    }
+
+    const handleApply = () => {
+      const updatedCategoryData = {
+        "description": category?.description,
+        "detail": categoryMarkdown,
+        "title": category?.title,
+      }
+      const updateCategoryMarkdown = async() => {
+        try{
+          const data = await updateCategory(projectId, categoryId, updatedCategoryData);
+          setCategory(data);
+          console.log("fetchedCate", data);
+          setCategoryMarkdown(data.detail);
+          navigate(PATH.PROJECTEDIT);
+        }catch(error){
+          console.error("fetch one category fail", error)
+        }
+      }
+      updateCategoryMarkdown();
+    }
+
+    const handleDelete = () => {
+      const deleteOneCategory = async() => {
+        try{
+          const data = await deleteCategory(projectId, categoryId);
+          console.log("fetchedCate", data);
+          navigate(PATH.PROJECTEDIT);
+        }catch(error){
+          console.error("fetch one category fail", error)
+        }
+      }
+      deleteOneCategory();
     }
 
   return (
     <Container>
           <CompanyContainer>
               <EditContainer>
-                  <Title1>개발 프로세스</Title1>
+                  <Title1>{category?.title}</Title1>
                   {isTitleEdit ? (
                       <EditButtonContainer>
                           <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleEditClick} />
@@ -55,7 +119,7 @@ export default function CategoryCreate() {
                   ) : <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick} /> }
               </EditContainer>
             <CompanyIntro>
-                카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다.
+              {category?.description}
             </CompanyIntro>
           </CompanyContainer>
         <MarkdownContainer>
@@ -69,16 +133,16 @@ export default function CategoryCreate() {
             </PreviewContainer>
             {isPreview ? (
                 <MarkDownPreviewContainer>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{categoryMarkdown}</ReactMarkdown>
                 </MarkDownPreviewContainer>
                 )
-                : <TextInput defaultValue={markdown} onChange={handleMarkdownChange} onBlur={handleOnBlur}/>
+                : <TextInput defaultValue={categoryMarkdown} onChange={handleMarkdownChange} onBlur={handleOnBlur}/>
             }
             <PreviewContainer>
-                <Button title="취소하기"></Button>
+                <Button title="취소하기" onClick={()=>navigate(-1)}></Button>
                 <ButtonContainer>
-                    <ButtonMargin title="적용하기" ></ButtonMargin>
-                    <Button title="삭제하기" theme="red"></Button>
+                    <ButtonMargin title="적용하기" onClick={handleApply}></ButtonMargin>
+                    <Button title="삭제하기" theme="red" onClick={handleDelete}></Button>
                 </ButtonContainer>
             </PreviewContainer>
         </MarkdownContainer>

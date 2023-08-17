@@ -80,7 +80,10 @@ export default function ProjectEdit() {
       setProjectId(PID);  
       console.log("1234projectId", projectId)
     } 
-    if(typeof location.state === 'object') setProjectId(location.state.id);
+    if(typeof location.state === 'object' && location.state !== null) {
+        console.log("!!!!!!!!!!!!!!!!!", location.state)
+        setProjectId(location.state.id);
+    }
     console.log("projectId", projectId)
     projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
     projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
