@@ -32,13 +32,17 @@ export default function CompanyCreate() {
         const companyImgFileOptional = companyImgFile === null ? defaultImgUrl : companyImgFile;
         formData.append('image', companyImgFileOptional);
         formData.append('name', companyName);
-        
-        createCompany(formData).then((fetchedData)=>{
-          if(fetchedData) {
-            console.log("create success", fetchedData);
+
+        const createMyCompany = async () => {
+          try {
+            const data = await createCompany(formData);
+            console.log("create company", data);
             navigate(PATH.MYCOMPANY);
+          } catch (error) {
+            console.error("Error creating company:", error);
           }
-        })
+        };
+        createMyCompany();
     }
 
     const handleBack = () => {

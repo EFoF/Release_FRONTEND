@@ -42,8 +42,6 @@ export default function ProjectManage() {
     const pName = project?.title;
     const [projectName, setProjectName] = useState("");
 
-    console.log("!!", location.state);
-
     useEffect(() => {
         setProject(projectObject);
         project && setProjectName(project.title);
@@ -98,12 +96,12 @@ export default function ProjectManage() {
         // 여기서 받은 responseDto 에서 name과 email 추가하기!
         const addCompanyMember = async () => {
             try {
-                const data = await addProjectMembers(projectId, {email: memberEmail});
-                console.log("add member! ", data);
+                const {name: newMemberName} = await addProjectMembers(projectId, {email: memberEmail});
+                console.log("add member! ", newMemberName);
                 if (memberEmail.trim() !== "") {
                     const newMember = {
                         id: members ? members.length + 1 : 1, // members가 null인 경우 id를 1로 초기화
-                        name: `이름${members ? members.length + 1 : 1}`, // members가 null인 경우 이름을 "이름1"로 초기화
+                        name: newMemberName, // members가 null인 경우 이름을 "이름1"로 초기화
                         email: memberEmail,
                     };
 
@@ -155,7 +153,7 @@ export default function ProjectManage() {
                     }
                     const data = editProject(projectId, newProjectObject)
                     console.log("updata company ", data);
-                    // navigate(PATH.MYCOMPANY);                        
+                    navigate(PATH.COMPANYMAIN);
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         // AxiosError 타입이라면 Axios에서 정의한 에러 객체
@@ -165,11 +163,9 @@ export default function ProjectManage() {
                 }
             }
             modifyCompany();
-
         }
         handleCreate();
         setIsModalOpen3(false);
-        navigate(PATH.COMPANYMAIN);
     };
 
     // ===================================
@@ -213,7 +209,7 @@ export default function ProjectManage() {
                 </CategoryContainer>
                 <ButtonContainer>
                     <Button onClick={handleDelProject} title="프로젝트 삭제" theme="red"></Button>
-                    <Button1 onClick={handleConfirm} title="설정완료"></Button1>
+                    <Button1 onClick={handleConfirm} title="설정완료" theme="blue"></Button1>
                 </ButtonContainer>
                 <ConfirmationModal isOpen={isModalOpen1}
                                    onCancel={handleModalCancel}

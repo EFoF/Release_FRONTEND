@@ -11,6 +11,8 @@ const COMPANIES = "/companies";
 const PROJECT = "/companies/projects";
 const GOOGLELOGIN = "/oauth2/authorization/google";
 const ALARM = "/alarms";
+const GOOGLELOGIN = "/oauth2/authorization/google"
+const CATEGORY = "/categories"
 
 
 // const CHECK_EMAIL = "email/exists/";
@@ -33,7 +35,7 @@ const API = {
   VERIFY: `${AUTH}/mail/verification`,
 
   ALARM: `${ALARM}`,
-
+  CATEGORY: `${CATEGORY}`,
   COMPANIES: `${COMPANIES}`,
   PROJECT: `${PROJECT}`,
   GOOGLELOGIN: `${GOOGLELOGIN}`,

@@ -132,7 +132,7 @@ export default function CompanySide() {
             };
             fetchData();
         }
-    }, [location.pathname]);
+    }, [companyId, location.pathname]);
     console.log("isDev", isDev)
 
     // useEffect(() => {
@@ -198,8 +198,9 @@ export default function CompanySide() {
         }
     };
 
-    const handleCategoryClick = () => {
-
+    const handleCategoryClick = (categoryId: number, projectId: number) => {
+        if(isDev) navigate(PATH.CATEGORYEDIT, {state: {categoryId, projectId}});
+        else navigate(PATH.CATEGORY, {state: {categoryId, projectId}});
     }
 
     const handleButtonClick = () => {
@@ -239,7 +240,7 @@ export default function CompanySide() {
                                 {categories !== null &&
                                     categories.map((category, subIndex) => (
                                         <SubMenuItem key={subIndex}
-                                                     onClick={handleCategoryClick}>{category.title}</SubMenuItem>
+                                                     onClick={()=>handleCategoryClick(category.id, project.id)}>{category.title}</SubMenuItem>
                                     ))}
                                 <SubMenuItem onClick={() => handleReleaseClick(project.id, project.title)}>Release
                                     Note</SubMenuItem>

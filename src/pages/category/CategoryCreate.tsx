@@ -4,12 +4,17 @@ import pencil from "../../img/pencil.png";
 import eye from "../../img/eye.png";
 import check from "../../img/check.png";
 import clear from "../../img/clear.png";
+import upload from "../../img/upload.png";
 import {Title1, Title2} from "../../components/Text/Title";
 import {Container1} from "../../components/Container";
-import markdown from "../company/markdown";
 import {useEffect, useRef, useState} from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
+import { useLocation, useNavigate } from "react-router-dom";
+import { deleteCategory, fetchOneCategory, updateCategory } from "../../api/category";
+import PATH from "../../constants/path";
+import UploadModal from "../../components/Modal/UploadModal";
+import ConfirmationModal from "../../components/Modal";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -17,11 +22,42 @@ interface EditButtonProps {
     height: number;
 }
 
+interface Category {
+  id: number;
+  title: string;
+  detail: string;
+  description: string;
+}
+
 export default function CategoryCreate() {
+  const [isModalOpen, setIsModalOpen] = useState(false); //
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
-  const [markdown, setMarkdown] = useState("# Title");
+  const [categoryMarkdown, setCategoryMarkdown] = useState("");
   const markdownRef = useRef('');
   const [isTitleEdit, setIsTitleEdit] = useState<Boolean>(false);
+  // const [categoryId, setCategoryId] = useState();
+  const [category, setCategory] = useState<Category>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
+  const {categoryId, projectId} = location.state;
+  console.log("categoryId, projectId", categoryId, projectId)
+
+  useEffect(()=>{
+    const fetchCategory = async() => {
+      try{
+        const data = await fetchOneCategory(categoryId);
+        setCategory(data);
+        console.log("fetchedCate", data);
+        setCategoryMarkdown(data.detail)
+      }catch(error){
+        console.error("fetch one category fail", error)
+      }
+    }
+    fetchCategory();
+  }, [categoryId])
 
   const handleClickPreview = () => {
       setIsPreview(!isPreview);
@@ -37,16 +73,65 @@ export default function CategoryCreate() {
     }
 
     const handleOnBlur = () => {
-      if(markdown !== markdownRef.current) {
-          setMarkdown(markdownRef.current);
+      if(categoryMarkdown !== markdownRef.current) {
+          setCategoryMarkdown(markdownRef.current);
       }
+    }
+
+    const handleApply = () => {
+      setIsModalOpen2(true);
+    }
+
+    const handleModalConfirmApply = () => {
+      const updatedCategoryData = {
+        "description": category?.description,
+        "detail": categoryMarkdown,
+        "title": category?.title,
+      }
+      const updateCategoryMarkdown = async() => {
+        try{
+          const data = await updateCategory(projectId, categoryId, updatedCategoryData);
+          setCategory(data);
+          console.log("fetchedCate", data);
+          setCategoryMarkdown(data.detail);
+          navigate(PATH.PROJECTEDIT);
+        }catch(error){
+          console.error("fetch one category fail", error)
+        }
+      }
+      updateCategoryMarkdown();
+    }
+
+    const handleDelete = () => {
+      setIsModalOpen(true);
+    }
+
+    const handleModalConfirmDelete = () => {
+      const deleteOneCategory = async() => {
+        try{
+          const data = await deleteCategory(projectId, categoryId);
+          console.log("fetchedCate", data);
+          navigate(PATH.PROJECTEDIT);
+        }catch(error){
+          console.error("fetch one category fail", error)
+        }
+      }
+      deleteOneCategory();
+    }
+
+    const handleImageUpload = () => {
+      setIsImageModalOpen(true);
+    }
+
+    const handleImageModalCancel = () => {
+        setIsImageModalOpen(false);
     }
 
   return (
     <Container>
           <CompanyContainer>
               <EditContainer>
-                  <Title1>개발 프로세스</Title1>
+                  <Title1>{category?.title}</Title1>
                   {isTitleEdit ? (
                       <EditButtonContainer>
                           <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleEditClick} />
@@ -55,7 +140,7 @@ export default function CategoryCreate() {
                   ) : <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick} /> }
               </EditContainer>
             <CompanyIntro>
-                카카오 i 서비스 시스템에서 카카오 i 계정(Kakao i Account)은 카카오 i 계정을 기반으로 제공되는 다양한 카카오 i 서비스들(카카오워크, 카카오 i 클라우드 등)과 연동하여 사용자 인증/권한 관리 등과 같은 통합 계정 관리와 계정의 생성, 변경, 삭제와 같은 계정의 라이프 사이클을 관리하고 리소스 접근에 대한 권한을 제어합니다.
+              {category?.description}
             </CompanyIntro>
           </CompanyContainer>
         <MarkdownContainer>
@@ -63,25 +148,41 @@ export default function CategoryCreate() {
                 <GuideText>
                     상세 페이지
                 </GuideText>
+                <UploadButton imageUrl={upload} width={30} height={30} margin-left="auto" onClick={handleImageUpload} />
                 {isPreview ?
                     <EditButton imageUrl={pencil} width={24} height={24} onClick={handleClickPreview}/> :
                     <EditButton imageUrl={eye} width={24} height={24} onClick={handleClickPreview}/>}
             </PreviewContainer>
             {isPreview ? (
                 <MarkDownPreviewContainer>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{categoryMarkdown}</ReactMarkdown>
                 </MarkDownPreviewContainer>
                 )
-                : <TextInput defaultValue={markdown} onChange={handleMarkdownChange} onBlur={handleOnBlur}/>
+                : <TextInput defaultValue={categoryMarkdown} onChange={handleMarkdownChange} onBlur={handleOnBlur}/>
             }
             <PreviewContainer>
-                <Button title="취소하기"></Button>
+                <Button title="취소하기" onClick={()=>navigate(-1)}></Button>
                 <ButtonContainer>
-                    <ButtonMargin title="적용하기" ></ButtonMargin>
-                    <Button title="삭제하기" theme="red"></Button>
+                    <ButtonMargin title="적용하기" onClick={handleApply}></ButtonMargin>
+                    <Button title="삭제하기" theme="red" onClick={handleDelete}></Button>
                 </ButtonContainer>
             </PreviewContainer>
+            <UploadModal isOpen={isImageModalOpen}
+                         onCancel={handleImageModalCancel} />
         </MarkdownContainer>
+        <ConfirmationModal isOpen={isModalOpen}
+                            onCancel={() => {
+                              setIsModalOpen(false);
+                            }}
+                            onConfirm={handleModalConfirmDelete}
+                            message={"카테고리를 정말 삭제 하시겠습니까?"}/>
+
+        <ConfirmationModal isOpen={isModalOpen2}
+                            onCancel={() => {
+                              setIsModalOpen2(false);
+                            }}
+                            onConfirm={handleModalConfirmApply}
+                            message={"적용하시겠습니까?"}/>
     </Container>
   );
 }
@@ -181,6 +282,21 @@ export const EditButton = styled.div<EditButtonProps>`
     opacity: 0.5;
     cursor: pointer;
   }
+`;
+
+export const UploadButton = styled.div<EditButtonProps>`
+  margin-left: auto;
+  background-image: url(${props => props.imageUrl});
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
 `;
 
 export const ButtonContainer = styled.div`

@@ -48,11 +48,7 @@ export const addProjectMembers = async (projectId: number, emailObject: object) 
     return data;
 };
 
-export const deleteProjectMembers = async (projectId: number, email: string) => {
-    const {data} = await authorizationClient.delete(`${API.PROJECT}/${projectId}/members`, {
-        headers: {
-          'email': email,
-        }
-    });
+export const deleteProjectMembers = async (projectId: number, emailObject: object) => {
+    const {data} = await authorizationClient.delete(`${API.PROJECT}/${projectId}/members`, emailObject);
     return data;
 };
