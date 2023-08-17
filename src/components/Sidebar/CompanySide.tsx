@@ -112,11 +112,9 @@ export default function CompanySide() {
         setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
         // setIsDevChanged(true);
         if(location.pathname.includes("dev")){
-            console.error("개발자임");
             const fetchData = async () => {
                 try {
                     const {projectList} = await fetchMyProject(companyId);
-                    console.log("fetched project 개발자", projectList);
                     setProjects(projectList);
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -124,11 +122,9 @@ export default function CompanySide() {
             };
             fetchData();
         } else {
-            console.error("개발자 아님");
             const fetchData = async () => {
                 try {
                     const {projectList} = await fetchProject(companyId);
-                    console.log("fetched project 일반인", projectList);
                     setProjects(projectList);
                 } catch (error) {
                     console.error("Error fetching data:", error);

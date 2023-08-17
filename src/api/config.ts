@@ -3,12 +3,14 @@ const AUTH = "/auth";
 const LOGIN = "/signin";
 const LOGOUT = "/logout";
 const SIGNUP = "/signup";
-const REISSUE = "/reissue"
+const REISSUE = "/reissue";
 const WIDHDRAWAL = "/withdrawal";
 const UPDATE_PW = "/update/password";
 const MEMBER_INFO = "/member/info";
 const COMPANIES = "/companies";
 const PROJECT = "/companies/projects";
+const GOOGLELOGIN = "/oauth2/authorization/google";
+const ALARM = "/alarms";
 const GOOGLELOGIN = "/oauth2/authorization/google"
 const CATEGORY = "/categories"
 
@@ -32,6 +34,7 @@ const API = {
   SEND_EMAIL: `${AUTH}/mail/sending`,
   VERIFY: `${AUTH}/mail/verification`,
 
+  ALARM: `${ALARM}`,
   CATEGORY: `${CATEGORY}`,
   COMPANIES: `${COMPANIES}`,
   PROJECT: `${PROJECT}`,
