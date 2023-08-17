@@ -206,7 +206,7 @@ export default function Header({isCompany}: HeaderProps) {
     };
 
     const handleDevLogoClick = () => {
-        navigate(PATH.HOME);
+        navigate(PATH.MYCOMPANY);
     };
 
     const handleCompanyTitleClick = () => {
