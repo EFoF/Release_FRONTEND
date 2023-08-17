@@ -7,7 +7,7 @@ import { fetchProject } from "../../api/project";
 import { useLocation } from "react-router-dom";
 import { fetchCategories } from "../../api/category";
 import { companyIdState } from "../../states/companyState";
-import { useRecoilValue } from "recoil";
+import {atom, useRecoilValue} from "recoil";
 import NoProject from "./NoProject";
 
 interface Project {
@@ -29,8 +29,7 @@ export default function Company() {
   const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [currentProject, setCurrentProject] = useState<Project | null>(null);
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
-  // const [companyId, setCompanyId] = useState();
-  const companyId = useRecoilValue(companyIdState);
+  const companyIdValue = useRecoilValue(companyIdState);
   const [project, setProject] = useState<Project>();
   const location = useLocation();
 
@@ -44,12 +43,12 @@ useEffect(()=> {
     console.log("1234projectId", projectId)
   } 
   console.log("projectList", projectList)
-  projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
+  projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당
   projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
 
-  console.log("companyId, projectId", companyId, projectId);
+  console.log("companyId, projectId", companyIdValue, projectId);
   console.log("currentProject", project);
-}, [companyId, location.state, project, projectId, projectList])
+}, [companyIdState, location.state, project, projectId, projectList])
 
   //이전 클릭 이벤트에서 받은 id 통해서 comp 정보 불러오기 
   //inner에서는 일단 프로젝트들 id 저장 / 프로젝트 title, description로 렌더링
@@ -58,7 +57,7 @@ useEffect(()=> {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {projectList: projects} = await fetchProject(companyId);
+        const {projectList: projects} = await fetchProject(companyIdValue);
         // 디펜시브가 빠졌다. 여기서 데이터가 없다면 프로젝트 만들기 화면을 띄워줘야 함.
         console.log("fetched project", projects);
         setProjectList(projects);
@@ -83,7 +82,7 @@ useEffect(()=> {
     };
   
     fetchData();
-  }, [companyId, projectId]);
+  }, [companyIdValue, projectId]);
 
   return (
     <Container>

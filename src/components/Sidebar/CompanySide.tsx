@@ -97,8 +97,8 @@ interface Category {
 }
 
 export default function CompanySide() {
-    const companyId = useRecoilValue(companyIdState);
-    console.log("companyId", companyId)
+    const companyIdValue = useRecoilValue(companyIdState);
+    console.log("companyId", companyIdValue)
     const [projects, setProjects] = useState<Project[] | null>(null);
     const [projectId, setProjectId] = useState();
     const [categories, setCategories] = useState<Category[] | null>(null);
@@ -114,7 +114,7 @@ export default function CompanySide() {
         if(location.pathname.includes("dev")){
             const fetchData = async () => {
                 try {
-                    const {projectList} = await fetchMyProject(companyId);
+                    const {projectList} = await fetchMyProject(companyIdValue);
                     setProjects(projectList);
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -124,7 +124,7 @@ export default function CompanySide() {
         } else {
             const fetchData = async () => {
                 try {
-                    const {projectList} = await fetchProject(companyId);
+                    const {projectList} = await fetchProject(companyIdValue);
                     setProjects(projectList);
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -132,50 +132,8 @@ export default function CompanySide() {
             };
             fetchData();
         }
-    }, [companyId, location.pathname]);
+    }, [companyIdState, location.pathname]);
     console.log("isDev", isDev)
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const {projectList} = await fetchProject(companyId);
-    //             console.log("fetched project", projectList);
-    //             setProjects(projectList);
-    //         } catch (error) {
-    //             console.error("Error fetching data:", error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, [companyId])
-
-    // useEffect(() => {
-    //     // useState 특유의 깜빡임 방지
-    //     if(isDev){
-    //         console.error("개발자임");
-    //         const fetchData = async () => {
-    //             try {
-    //                 const {projectList} = await fetchMyProject(companyId);
-    //                 console.log("fetched project 개발자", projectList);
-    //                 setProjects(projectList);
-    //             } catch (error) {
-    //                 console.error("Error fetching data:", error);
-    //             }
-    //         };
-    //         fetchData();
-    //     } else if(!isDev) {
-    //         console.error("개발자 아님");
-    //         const fetchData = async () => {
-    //             try {
-    //                 const {projectList} = await fetchProject(companyId);
-    //                 console.log("fetched project 일반인", projectList);
-    //                 setProjects(projectList);
-    //             } catch (error) {
-    //                 console.error("Error fetching data:", error);
-    //             }
-    //         };
-    //         fetchData();
-    //     }
-    // }, [companyId, isDev])
 
     const handleProjectClick = async (index: any, projectId: number) => {
         setActiveProject(activeProject === index ? null : index);
@@ -204,7 +162,7 @@ export default function CompanySide() {
     }
 
     const handleButtonClick = () => {
-        navigate(PATH.PROJECTCREATE, {state: companyId})
+        navigate(PATH.PROJECTCREATE, {state: companyIdState})
     }
 
     const handleReleaseClick = async (projectId: number, projectTitle: string) => {
@@ -242,8 +200,7 @@ export default function CompanySide() {
                                         <SubMenuItem key={subIndex}
                                                      onClick={()=>handleCategoryClick(category.id, project.id)}>{category.title}</SubMenuItem>
                                     ))}
-                                <SubMenuItem onClick={() => handleReleaseClick(project.id, project.title)}>Release
-                                    Note</SubMenuItem>
+                                <SubMenuItem onClick={() => handleReleaseClick(project.id, project.title)}>Release Note</SubMenuItem>
                             </SubMenuContainer>
                         )}
                     </SidebarContainer>
