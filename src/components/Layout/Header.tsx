@@ -3,10 +3,13 @@ import styled from "styled-components";
 import {useLocation, useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
+import bell from "../../img/bell.png";
+import Button from "../../components/Button";
 import {useRecoilValue} from "recoil";
 import {useState, useEffect} from "react"
 import {loadMyInfo} from "../../api/auth";
 import {companyNameState} from "../../states/companyState";
+import {fetchMyAlarms} from "../../api/alarm";
 
 export const Container = styled.div`
   width: 100%;
@@ -96,8 +99,21 @@ export const Logout = styled.div`
   cursor: pointer;
 `;
 
+export const AlarmCount = styled(Button)`
+  margin-right: 1.88rem;
+  width: 3rem;
+  height: 3rem;
+`
+
 interface HeaderProps {
     isCompany?: boolean;
+}
+
+interface Alarm {
+    authorEmail: string;
+    authorId: number;
+    id: number;
+    message: string;
 }
 
 export default function Header({isCompany}: HeaderProps) {
@@ -109,7 +125,9 @@ export default function Header({isCompany}: HeaderProps) {
     const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"));
     const companyName = useRecoilValue(companyNameState);
     const location = useLocation();
+    const [alarm, setAlarm] = useState<Alarm[] | null>(null);
     const [isDev, setIsDev] = useState(false);
+    const [alarmCount, setAlarmCount] = useState(0);
 
     useEffect(() => {
         setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
@@ -122,12 +140,14 @@ export default function Header({isCompany}: HeaderProps) {
         }
     }, [companyName, isCompany])
 
+
     useEffect(() => {
         if (isLogin) {
             const fetchMyInfo = async () => {
                 try {
                     const {username} = await loadMyInfo();
                     setMyName(username);
+                    getAlarm();
                 } catch (error) {
                     console.error('Error fetching info:', error);
                 }
@@ -154,6 +174,16 @@ export default function Header({isCompany}: HeaderProps) {
         navigate(PATH.HOME);
     };
 
+    const getAlarm = async () => {
+        try {
+            const {content} = await fetchMyAlarms();
+            console.error("내 알람들", content);
+            setAlarm(content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <Container>
             <LogoBox>
@@ -175,6 +205,10 @@ export default function Header({isCompany}: HeaderProps) {
             </LogoBox>
             {isLogin ? (
                 <RightBox2>
+                    <ProfileBox onClick={() => console.log("")}>
+                        <ProfileImg src={bell} alt="Bell"/>
+                        <AlarmCount title={alarmCount.toString()} onClick={() => console.log("")}></AlarmCount>
+                    </ProfileBox>
                     <ProfileBox onClick={handleDevLogoClick}>
                         <ProfileImg src={profile} alt="Person"/>
                         <ProfileName>{myName}</ProfileName>
