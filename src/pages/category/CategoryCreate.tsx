@@ -45,6 +45,11 @@ export default function CategoryCreate() {
   const navigate = useNavigate();
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
+  const [categoryDescription, setCategoryDescription] = useState<string>("");
+  const categoryDescriptionRef = useRef('');
+  const categoryTitleRef = useRef('');
+  const [categoryTitle, setCategoryTitle] = useState("");
+
   const {categoryId, projectId} = location.state;
   console.log("categoryId, projectId", categoryId, projectId)
 
@@ -64,6 +69,27 @@ export default function CategoryCreate() {
 
   const handleClickPreview = () => {
       setIsPreview(!isPreview);
+  }
+
+  const handleTitleCheckClick = () => {
+    setIsTitleEdit(!isTitleEdit);
+    const updatedCategoryData = {
+      "description": categoryDescription,
+      "detail": category?.detail,
+      "title": categoryTitle,
+    }
+    const updateCategoryMarkdown = async() => {
+      try{
+        const data = await updateCategory(projectId, categoryId, updatedCategoryData);
+        console.log("fetchedCate", data);
+        setCategory(data);
+        // navigate(PATH.PROJECTEDIT);
+      }catch(error){
+        console.error("fetch one category fail", error)
+      }
+    }
+    updateCategoryMarkdown();
+
   }
 
     const handleTitleEditClick = () => {
@@ -130,6 +156,26 @@ export default function CategoryCreate() {
         setIsImageModalOpen(false);
     }
 
+    const handleCategoryDescriptionChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
+      e.preventDefault();
+      categoryDescriptionRef.current = e.target.value;
+    }
+
+    const handleOnBlurCategoryDescription = () => {
+      setCategoryDescription(categoryDescriptionRef.current);
+    } 
+
+    const handleCategoryTitleChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
+        e.preventDefault();
+        categoryTitleRef.current = e.target.value;
+        // setCategoryTitle(e.target.value)
+    }
+
+    const handleOnBlurCategoryTitle = () => {
+        setCategoryTitle(categoryTitleRef.current)
+        // setCategoryTitle(categoryTitle)
+    }
+
     const formatDate = (dateString?: string): string => {
       if(!dateString) return "";
         const date = new Date(dateString);
@@ -141,21 +187,28 @@ export default function CategoryCreate() {
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     };
 
+
   return (
     <Container>
           <CompanyContainer>
               <EditContainer>
-                  <Title1>{category?.title}</Title1>
+                  {!isTitleEdit ? (
+                    <Title1>{category?.title}</Title1>
+                  ) : (
+                    <TextInput2 defaultValue={category?.title} onChange={handleCategoryTitleChange} onBlur={handleOnBlurCategoryTitle} />
+                  )
+                  }
                   {isTitleEdit ? (
                       <EditButtonContainer>
-                          <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleEditClick} />
+                          <EditButton imageUrl={check} width={24} height={24} onClick={handleTitleCheckClick} />
                           <EditButton imageUrl={clear} width={24} height={24} onClick={handleTitleEditClick} />
                       </EditButtonContainer>
                   ) : <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick} /> }
               </EditContainer>
-              <CompanyIntro>
-                  {category?.description}
-              </CompanyIntro>
+                {!isTitleEdit?
+                    <CategoryIntro>{category?.description}</CategoryIntro> :
+                    <TextInput placeholder={"설명을 입력해주세요"} defaultValue={category?.description} onChange={handleCategoryDescriptionChange} onBlur={handleOnBlurCategoryDescription} />
+                }                  
           </CompanyContainer>
         <MarkdownContainer>
             <ModifiedInfo>
@@ -177,7 +230,7 @@ export default function CategoryCreate() {
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{categoryMarkdown}</ReactMarkdown>
                 </MarkDownPreviewContainer>
                 )
-                : <TextInput defaultValue={categoryMarkdown} onChange={handleMarkdownChange} onBlur={handleOnBlur}/>
+                : <TextInput3 defaultValue={categoryMarkdown} onChange={handleMarkdownChange} onBlur={handleOnBlur}/>
             }
             <PreviewContainer>
                 <Button title="취소하기" onClick={()=>navigate(-1)}></Button>
@@ -230,6 +283,7 @@ export const MarkdownContainer = styled(Container1)`
   display: flex;
   flex-direction: column;
   margin-top: 3rem;
+  margin-bottom: 10rem;
   //margin-left: 8rem;
   width: 75rem;
   min-height: 30rem;
@@ -347,12 +401,37 @@ export const PreviewContainer = styled.div`
 
 export const TextInput = styled.textarea`
   padding: 10px;
+  color: #808080;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 1.5rem;
+  min-height: 10rem;
+  outline: none;
+  font-size: 1.4rem;
+  resize: none;
+`;
+
+export const TextInput2 = styled.textarea`
+  padding: 10px;
+  color: #808080;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1.4rem;
+  resize: none;
+  min-width: 30rem;
+  height: 4rem;
+`;
+
+export const TextInput3 = styled.textarea`
+  padding: 10px;
+  color: #808080;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-top: 1.5rem;
   min-height: 20rem;
   outline: none;
-  font-size: 16px;
+  font-size: 1.4rem;
   resize: none;
 `;
 

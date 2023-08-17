@@ -279,7 +279,7 @@ export default function ProjectEdit() {
     const handleConfirmModifyModal = async () => {
         const newCategoryData = {
             "description": categoryDescription,
-            "detail": "",
+            "detail": "", //category.detail
             "title": categoryTitle,
         };
 
