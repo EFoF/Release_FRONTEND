@@ -5,7 +5,7 @@ import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
 import {useRecoilValue} from "recoil";
 import {useState, useEffect} from "react"
-import {loadMyInfo} from "../../api/auth";
+import {loadMyInfo, logout} from "../../api/auth";
 import {companyNameState} from "../../states/companyState";
 
 export const Container = styled.div`
@@ -148,10 +148,16 @@ export default function Header({isCompany}: HeaderProps) {
         navigate(PATH.COMPANYMAIN);
     }; //회사면 첫 디폴트 카테고리로, dev면 다르게?
 
-    const handleLogout = () => {
-        setIsLogin(false);
-        localStorage.clear();
-        navigate(PATH.HOME);
+    const handleLogout = async() => {
+        try {
+            const data = await logout();
+            console.log("logout", data);
+            setIsLogin(false);
+            localStorage.clear();
+            navigate(PATH.HOME);
+        } catch(e){
+            console.error("logout", e)
+        }
     };
 
     return (
