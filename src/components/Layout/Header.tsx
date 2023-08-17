@@ -106,6 +106,8 @@ export const AlarmContainer = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 설정 */
   padding: 20px; /* 내용과의 간격을 위한 패딩 값 설정 */
   background-color: white;
+  max-height: 300px; /* 원하는 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤만 표시 */
 `;
 
 export const Background = styled.div`
