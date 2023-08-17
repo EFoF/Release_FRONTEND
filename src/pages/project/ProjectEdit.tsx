@@ -60,6 +60,7 @@ export default function ProjectEdit() {
     const projectDescriptionRef = useRef('');
     const categoryTitleRef = useRef('');
     const [categoryTitle, setCategoryTitle] = useState("");
+    const [toggleState, setToggleState] = useState(true);
 
 
     const [categoryId, setCategoryId] = useState(0);
@@ -93,6 +94,7 @@ export default function ProjectEdit() {
     projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당
     projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId));
 
+    project && setToggleState(project?.scope);
     console.log("companyId, projectId", companyIdValue, projectId);
     console.log("currentProject", project);
   }, [companyIdState, location.state, project, projectId, projectList])
@@ -322,9 +324,11 @@ export default function ProjectEdit() {
     }
 
     const handleToggleChange = async () => {
+        setToggleState(!toggleState);
+
         const projectData = {
             "description": project?.description,
-            "scope": !project?.scope,
+            "scope": !toggleState,
             "title": project?.title,
         }
         console.log("!!!", projectId, project);
@@ -332,16 +336,16 @@ export default function ProjectEdit() {
         const editProjectToggle = async () => {
             try {
                 const fetchedData = await editProject(projectId, projectData);
-                console.log("editTitleDescription", fetchedData);
-                setProject((prevProject) => {
-                    if (prevProject) {
-                        return {
-                            ...prevProject,
-                            scope: !prevProject.scope
-                        };
-                    }
-                    return prevProject;
-                });
+                console.log("editToggleDescription", fetchedData);
+                // setProject((prevProject) => {
+                //     if (prevProject) {
+                //         return {
+                //             ...prevProject,
+                //             scope: toggleState
+                //         };
+                //     }
+                //     return prevProject;
+                // });
             } catch(error) {
                 console.error("Error edit project:", error);
             }
@@ -404,7 +408,7 @@ export default function ProjectEdit() {
                         <ScopeText>
                             공개 여부
                         </ScopeText>
-                        {project && (<Toggle isOn={project.scope} handleChange={handleToggleChange} />)}
+                        {project && (<Toggle isOn={toggleState} handleChange={handleToggleChange} />)}
                     </EditContainer>
                 </ToggleContainer>
             </Scope>
