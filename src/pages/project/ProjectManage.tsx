@@ -42,8 +42,6 @@ export default function ProjectManage() {
     const pName = project?.title;
     const [projectName, setProjectName] = useState("");
 
-    console.log("!!", location.state);
-
     useEffect(() => {
         setProject(projectObject);
         project && setProjectName(project.title);
