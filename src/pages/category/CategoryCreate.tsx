@@ -235,7 +235,7 @@ export default function CategoryCreate() {
             <PreviewContainer>
                 <Button title="취소하기" onClick={()=>navigate(-1)}></Button>
                 <ButtonContainer>
-                    <ButtonMargin title="적용하기" onClick={handleApply}></ButtonMargin>
+                    <Button title="적용하기" theme="blue" onClick={handleApply}></Button>
                     <Button title="삭제하기" theme="red" onClick={handleDelete}></Button>
                 </ButtonContainer>
             </PreviewContainer>
@@ -390,6 +390,7 @@ export const UploadButton = styled.div<EditButtonProps>`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  gap: 1.5rem;
 `;
 
 export const PreviewContainer = styled.div`
