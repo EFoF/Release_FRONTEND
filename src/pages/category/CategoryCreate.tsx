@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { deleteCategory, fetchOneCategory, updateCategory } from "../../api/category";
 import PATH from "../../constants/path";
 import UploadModal from "../../components/Modal/UploadModal";
+import ConfirmationModal from "../../components/Modal";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -39,7 +40,6 @@ export default function CategoryCreate() {
   const [category, setCategory] = useState<Category>();
   const location = useLocation();
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {categoryId, projectId} = location.state;
   console.log("categoryId, projectId", categoryId, projectId)
