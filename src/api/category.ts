@@ -7,8 +7,13 @@ export const fetchCategories = async (projectId: number) => {
     return data;
 };
 
-export const fetchOneCategory = async (categoryId: number) => {
-    const {data} = await authorizationClient.get(`${API.CATEGORY}/${categoryId}?developer=true`);
+export const fetchOneCategory = async (categoryId: number, isDeveloper: boolean) => {
+    const {data} = await authorizationClient.get(`${API.CATEGORY}/${categoryId}`,
+        {
+            params: {
+                developer: isDeveloper,
+            },
+        });
     return data;
 };
 
