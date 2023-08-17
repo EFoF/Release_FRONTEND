@@ -18,8 +18,8 @@ interface Project {
 }
 
 interface Category {
-  name: string;
-  intro: string;
+  title: string;
+  description: string;
 }
 
 export default function Company() {
@@ -101,9 +101,9 @@ useEffect(()=> {
           {categories!==null &&
             categories.map((category, index)=>(
               <CategoryContainer>
-                  <CategoryName>{category.name}</CategoryName>
+                  <CategoryName>{category.title}</CategoryName>
                   <CategoryIntro>
-                      {category.intro}
+                      {category.description}
                   </CategoryIntro>
               </CategoryContainer>
           ))}
