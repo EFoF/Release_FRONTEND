@@ -72,6 +72,8 @@ export default function ProjectManage() {
                 if (axios.isAxiosError(error)) {
                     // AxiosError 타입이라면 Axios에서 정의한 에러 객체
                     alert(error.response?.data); // 에러 응답 데이터 출력
+                } else {
+                    alert(error)
                 }
                 console.error("Error delete project:", error);
             }
@@ -153,11 +155,13 @@ export default function ProjectManage() {
                     }
                     const data = editProject(projectId, newProjectObject)
                     console.log("updata company ", data);
-                    navigate(PATH.COMPANYMAIN);
+                    navigate(PATH.PROJECTEDIT, {state: {companyId, companyName}});
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         // AxiosError 타입이라면 Axios에서 정의한 에러 객체
                         alert(error.response?.data); // 에러 응답 데이터 출력
+                    } else {
+                        alert(error);
                     }
                     console.error("Error fetching company:", error);
                 }
