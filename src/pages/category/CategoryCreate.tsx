@@ -46,7 +46,7 @@ export default function CategoryCreate() {
   useEffect(()=>{
     const fetchCategory = async() => {
       try{
-        const data = await fetchOneCategory(categoryId);
+        const data = await fetchOneCategory(categoryId, true);
         setCategory(data);
         console.log("fetchedCate", data);
         setCategoryMarkdown(data.detail)
