@@ -27,6 +27,9 @@ interface Category {
   title: string;
   detail: string;
   description: string;
+  lastModifiedTime: string;
+  lastModifierName: string;
+  lastModifierEmail: string;
 }
 
 export default function CategoryCreate() {
@@ -48,7 +51,7 @@ export default function CategoryCreate() {
   useEffect(()=>{
     const fetchCategory = async() => {
       try{
-        const data = await fetchOneCategory(categoryId);
+        const data = await fetchOneCategory(categoryId, true);
         setCategory(data);
         console.log("fetchedCate", data);
         setCategoryMarkdown(data.detail)
@@ -127,6 +130,17 @@ export default function CategoryCreate() {
         setIsImageModalOpen(false);
     }
 
+    const formatDate = (dateString?: string): string => {
+      if(!dateString) return "";
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
+
   return (
     <Container>
           <CompanyContainer>
@@ -139,11 +153,16 @@ export default function CategoryCreate() {
                       </EditButtonContainer>
                   ) : <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick} /> }
               </EditContainer>
-            <CompanyIntro>
-              {category?.description}
-            </CompanyIntro>
+              <CompanyIntro>
+                  {category?.description}
+              </CompanyIntro>
           </CompanyContainer>
         <MarkdownContainer>
+            <ModifiedInfo>
+                {formatDate(category?.lastModifiedTime)}
+                <br />
+                {category?.lastModifierEmail} ({category?.lastModifierName})
+            </ModifiedInfo>
             <PreviewContainer>
                 <GuideText>
                     상세 페이지
@@ -218,13 +237,29 @@ export const MarkdownContainer = styled(Container1)`
 
 
 export const CompanyIntro = styled.div`
-color: #000;
-font-family: S-Light;
-font-size: 1.5rem;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-margin-top: 3rem;  
+  color: #000;
+  font-family: S-Light;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 3rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+`;
+
+export const ModifiedInfo = styled.text`
+  color: #000;
+  font-family: S-Light;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: auto;
+  margin-bottom: 0.1rem;
+  text-align: right;
+  display: inline-block;
+  white-space: pre-wrap;
 `;
 
 
@@ -252,9 +287,9 @@ export const CategoryIntro = styled.div`
   color: #000;
   font-family: S-Light;
   font-size: 1.5rem;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   margin-top: 3rem;
 `;
 
