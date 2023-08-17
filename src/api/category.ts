@@ -26,3 +26,12 @@ export const deleteCategory = async (projectId: number, categoryId: number) => {
     const {data} = await authorizationClient.delete(`${API.PROJECT}/${projectId}/categories/${categoryId}`);
     return data;
 };
+
+export const uploadImage = async(imageData: FormData)=> {
+    const {data} = await authorizationClient.post(`${API.CATEGORY}`, imageData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+    return data;
+}
