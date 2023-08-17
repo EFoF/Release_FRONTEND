@@ -138,7 +138,7 @@ export default function ProjectEdit() {
     };
 
     fetchData();
-  }, [location.state.companyId, projectId]);
+  }, [companyIdValue, projectId]);
 
 
     const handleProjectDescriptionChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -279,7 +279,7 @@ export default function ProjectEdit() {
     const handleConfirmModifyModal = async () => {
         const newCategoryData = {
             "description": categoryDescription,
-            "detail": "",
+            "detail": "",//category.detail
             "title": categoryTitle,
         };
 

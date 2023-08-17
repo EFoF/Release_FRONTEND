@@ -20,6 +20,8 @@ import {
 } from "../home";
 import { getMyCompanies, getMyProjects } from "../../api/company";
 import NoProject from "./NoProject";
+import {useRecoilState} from "recoil";
+import {companyIdState} from "../../states/companyState";
 
 interface Project {
   id: number;
@@ -30,12 +32,13 @@ interface Project {
 
 export default function MyProjects() {
   const [projects, setProjects] = useState<Project[] | null>(null);
-
+  const [companyID, setCompanyID] = useRecoilState<number>(companyIdState);
   const navigate = useNavigate();
 
-  const handleProjectClick = (project: Project) => {
+  const handleProjectClick = (companyId: number, project: Project) => {
+    setCompanyID(companyId)
     console.log(project)
-    navigate(PATH.PROJECTEDIT, {state: project});
+    navigate(PATH.PROJECTEDIT, {state: {companyId,project}});
   };
 
   const companyClick = () => {
@@ -71,7 +74,7 @@ export default function MyProjects() {
           <ProjectListContainer>
             {projects !== null &&
               projects.map((project, index) => (
-                <ProjectCard key={index} onClick={()=>handleProjectClick(project)}>
+                <ProjectCard key={index} onClick={()=>handleProjectClick(project.companyId, project)}>
                   <ProjectImage src={project.imageURL} alt={project.title} />
                   <ProjectName>{project.title}</ProjectName>
                 </ProjectCard>
