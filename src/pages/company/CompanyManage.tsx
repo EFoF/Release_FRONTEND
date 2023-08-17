@@ -147,7 +147,7 @@ export default function CompanyManage() {
         }
         handleCreate();
         setIsModalOpen3(false);
-        navigate(PATH.COMPANYMAIN);
+        navigate(PATH.MYCOMPANY);
     };
     const handleModalCancel3 = () => {
         setIsModalOpen3(false);
