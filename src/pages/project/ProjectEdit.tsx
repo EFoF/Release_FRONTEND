@@ -72,7 +72,7 @@ export default function ProjectEdit() {
 
   const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
   const location = useLocation();
-    console.log(companyIdValue)
+    console.log("companyIdValue", companyIdValue)
 
    useEffect(()=> {
     console.log("location.state", location.state)
@@ -138,7 +138,7 @@ export default function ProjectEdit() {
     };
 
     fetchData();
-  }, [companyIdValue, projectId]);
+  }, [location.state.companyId, projectId]);
 
 
     const handleProjectDescriptionChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
