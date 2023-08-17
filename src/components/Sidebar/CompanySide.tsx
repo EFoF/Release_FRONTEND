@@ -242,8 +242,7 @@ export default function CompanySide() {
                                         <SubMenuItem key={subIndex}
                                                      onClick={()=>handleCategoryClick(category.id, project.id)}>{category.title}</SubMenuItem>
                                     ))}
-                                <SubMenuItem onClick={() => handleReleaseClick(project.id, project.title)}>Release
-                                    Note</SubMenuItem>
+                                <SubMenuItem onClick={() => handleReleaseClick(project.id, project.title)}>Release Note</SubMenuItem>
                             </SubMenuContainer>
                         )}
                     </SidebarContainer>

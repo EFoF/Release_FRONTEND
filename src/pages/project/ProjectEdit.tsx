@@ -76,9 +76,11 @@ export default function ProjectEdit() {
     if (typeof location.state !== 'object' && location.state !== null) { //아마 사이드바에서 누를 경우 
       const PID = location.state;
       setProjectId(PID);  
+      console.log("PID", PID)
+      setProjectId(PID);  
       console.log("1234projectId", projectId)
     } 
-    if(typeof location.state === 'object' && location.state !== null) { //처음 들어오면 
+    else if(typeof location.state === 'object' && location.state !== null) { //처음 들어오면 
         console.log("location.state", location.state)
         location.state.id && setProjectId(location.state.id);
         setCompanyId(location.state.companyId)
@@ -88,10 +90,9 @@ export default function ProjectEdit() {
     projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
     projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
   
-    project && setProjectId(project.id)
     console.log("companyId, projectId", companyId, projectId);
     console.log("currentProject", project);
-  }, [companyId, location.state, project, projectId, projectList])
+  }, [companyId, location.state, project, projectId, projectList, setCompanyId])
 
   const fetchProjectAndRender = async() => {
     try {
@@ -102,6 +103,10 @@ export default function ProjectEdit() {
         console.error("Error fetching data:", error);
     }
   }
+
+  useEffect(()=>{
+    project && setProjectId(project.id)
+  }, [project])
 
   useEffect(() => {
     const fetchData = async () => {
