@@ -13,6 +13,7 @@ import ReactMarkdown from "react-markdown";
 import { useLocation, useNavigate } from "react-router-dom";
 import { deleteCategory, fetchOneCategory, updateCategory } from "../../api/category";
 import PATH from "../../constants/path";
+import ConfirmationModal from "../../components/Modal";
 
 interface EditButtonProps {
     imageUrl: string;
@@ -28,6 +29,8 @@ interface Category {
 }
 
 export default function CategoryCreate() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [categoryMarkdown, setCategoryMarkdown] = useState("");
   const markdownRef = useRef('');
@@ -74,6 +77,10 @@ export default function CategoryCreate() {
     }
 
     const handleApply = () => {
+      setIsModalOpen2(true);
+    }
+
+    const handleModalConfirmApply = () => {
       const updatedCategoryData = {
         "description": category?.description,
         "detail": categoryMarkdown,
@@ -94,6 +101,10 @@ export default function CategoryCreate() {
     }
 
     const handleDelete = () => {
+      setIsModalOpen(true);
+    }
+
+    const handleModalConfirmDelete = () => {
       const deleteOneCategory = async() => {
         try{
           const data = await deleteCategory(projectId, categoryId);
@@ -146,6 +157,19 @@ export default function CategoryCreate() {
                 </ButtonContainer>
             </PreviewContainer>
         </MarkdownContainer>
+        <ConfirmationModal isOpen={isModalOpen}
+                            onCancel={() => {
+                              setIsModalOpen(false);
+                            }}
+                            onConfirm={handleModalConfirmDelete}
+                            message={"카테고리를 정말 삭제 하시겠습니까?"}/>
+
+        <ConfirmationModal isOpen={isModalOpen2}
+                            onCancel={() => {
+                              setIsModalOpen2(false);
+                            }}
+                            onConfirm={handleModalConfirmApply}
+                            message={"적용하시겠습니까?"}/>
     </Container>
   );
 }
