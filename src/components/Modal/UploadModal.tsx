@@ -42,7 +42,9 @@ const UploadModal: FC<UploadModalProps> = ({ isOpen, onCancel }) => {
                             setUploadResult(null);
                         }
                         else {
-                            setUploadResult(fetchedData);
+                            const resultInfo = "![이미지](" + fetchedData + ")";
+                            setUploadResult(resultInfo);
+                            console.log("resultInfo", resultInfo)
                         }
                         console.log("upload success", fetchedData);
                     });
@@ -60,18 +62,33 @@ const UploadModal: FC<UploadModalProps> = ({ isOpen, onCancel }) => {
         onCancel(event as React.MouseEvent<HTMLButtonElement, MouseEvent>);
     };
 
-    const copyToClipboard = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const copyToClipboard = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
 
         if (uploadResult) {
+            const textField = document.createElement('textarea');
+            textField.innerText = uploadResult;
+            document.body.appendChild(textField);
+            textField.select();
+
             try {
-                await navigator.clipboard.writeText(uploadResult);
-                alert("링크가 클립보드에 복사되었습니다.");
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert("링크가 클립보드에 복사되었습니다.");
+                } else {
+                    alert("링크 복사에 실패하였습니다.");
+                }
             } catch (err) {
                 console.error("복사 실패", err);
+                alert("이 브라우저에서는 클립보드 기능이 지원되지 않습니다.");
+            } finally {
+                document.body.removeChild(textField);
             }
+        } else {
+            alert("복사할 링크가 존재하지 않습니다.");
         }
     };
+
 
     return (
         <ReactModal isOpen={isOpen} onRequestClose={onCancel} style={modalStyle}>
