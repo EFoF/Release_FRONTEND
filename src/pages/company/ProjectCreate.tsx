@@ -55,12 +55,12 @@ export default function ProjectCreate() {
       try {
         const data = await createProject(companyId, projectData);
         console.log("create project", data);
+        navigate(PATH.MYPROJECT);
       } catch (error) {
         console.error("Error creating project:", error);
       }
     };
     createMyProject();
-    navigate(PATH.MYPROJECT);
   }
 
   return (

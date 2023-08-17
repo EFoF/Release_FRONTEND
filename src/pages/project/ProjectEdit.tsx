@@ -67,10 +67,7 @@ export default function ProjectEdit() {
     const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
   const [project, setProject] = useState<Project>();
-  const companyId = useRecoilValue(companyIdState);
-
-    console.log("projectId First", projectId);
-  
+  const companyId = useRecoilValue(companyIdState);  
   const location = useLocation();
 
    useEffect(()=> {
@@ -85,12 +82,23 @@ export default function ProjectEdit() {
         setProjectId(location.state.id);
     }
     console.log("projectId", projectId)
+    
     projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
     projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
   
     console.log("companyId, projectId", companyId, projectId);
     console.log("currentProject", project);
   }, [companyId, location.state, project, projectId, projectList])
+
+  const fetchProjectAndRender = async() => {
+    try {
+        const {projectList: projects} = await fetchProject(companyId);
+        console.log("fetched project", projects);
+        setProjectList(projects);
+    } catch(error) {
+        console.error("Error fetching data:", error);
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -164,11 +172,13 @@ export default function ProjectEdit() {
                     }
                     return prevProject;
                 });
+                await fetchProjectAndRender();
             } catch(error) {
                 console.error("Error edit project:", error);
             }
         }
         editTitleDescription();
+        
     }
 
     const handleCategoryEditClick = (index:number) => {
@@ -263,6 +273,7 @@ export default function ProjectEdit() {
         };
 
         try {
+            console.log("!!!!!!!!!!!", categoryId)
             const data = await updateCategory(projectId, categoryId, newCategoryData);
             console.log("newCategoryData", newCategoryData);
             console.log("updateCategory", data);
@@ -284,7 +295,7 @@ export default function ProjectEdit() {
              setIsAddModalOpen(false); // 모달 닫기
              setCategoryName("");
         } catch(error) {
-            console.error("Error adding new category:", error);
+            console.error("Error update category:", error);
         }
         setIsModifyModalOpen(false);
     }
