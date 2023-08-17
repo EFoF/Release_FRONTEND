@@ -155,7 +155,7 @@ export default function ProjectManage() {
                     }
                     const data = editProject(projectId, newProjectObject)
                     console.log("updata company ", data);
-                    // navigate(PATH.MYCOMPANY);                        
+                    navigate(PATH.COMPANYMAIN);
                 } catch (error) {
                     if (axios.isAxiosError(error)) {
                         // AxiosError 타입이라면 Axios에서 정의한 에러 객체
@@ -165,11 +165,9 @@ export default function ProjectManage() {
                 }
             }
             modifyCompany();
-
         }
         handleCreate();
         setIsModalOpen3(false);
-        navigate(PATH.COMPANYMAIN);
     };
 
     // ===================================

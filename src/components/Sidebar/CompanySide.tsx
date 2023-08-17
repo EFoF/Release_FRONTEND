@@ -136,7 +136,7 @@ export default function CompanySide() {
             };
             fetchData();
         }
-    }, [location.pathname]);
+    }, [companyId, location.pathname]);
     console.log("isDev", isDev)
 
     // useEffect(() => {
