@@ -3,10 +3,11 @@ import styled from "styled-components";
 import {useLocation, useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
-import {useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {useState, useEffect} from "react"
-import {loadMyInfo} from "../../api/auth";
-import {companyNameState} from "../../states/companyState";
+import {loadMyInfo, logout} from "../../api/auth";
+import {companyIdState, companyNameState} from "../../states/companyState";
+import { searchCompany } from "../../api/company";
 
 export const Container = styled.div`
   width: 100%;
@@ -107,9 +108,27 @@ export default function Header({isCompany}: HeaderProps) {
     const [myName, setMyName] = useState("");
     const [companyTitle, setcompanyTitle] = useState("");
     const [isLogin, setIsLogin] = useState(!!localStorage.getItem("accessToken"));
-    const companyName = useRecoilValue(companyNameState);
+    const companyId = useRecoilValue(companyIdState);  
+    const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
+
     const location = useLocation();
     const [isDev, setIsDev] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const { content } = await searchCompany();            
+            const matchingCompany = content.filter((company: { id: number; }) => company.id === companyId);
+            console.log("matchingCompany", matchingCompany);
+            setCompanyName(matchingCompany[0].name);
+            console.log("companyName", companyName);
+          } catch (error) {
+            console.error("Error fetching companies:", error);
+          }
+        };
+      
+        fetchData();
+      }, [companyId, companyName, setCompanyName]);
 
     useEffect(() => {
         setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
@@ -118,9 +137,9 @@ export default function Header({isCompany}: HeaderProps) {
 
     useEffect(() => {
         if (isCompany) {
-            setcompanyTitle(companyName)
+            setCompanyName(companyName)
         }
-    }, [companyName, isCompany])
+    }, [companyName, isCompany, setCompanyName])
 
     useEffect(() => {
         if (isLogin) {
@@ -148,10 +167,16 @@ export default function Header({isCompany}: HeaderProps) {
         navigate(PATH.COMPANYMAIN);
     }; //회사면 첫 디폴트 카테고리로, dev면 다르게?
 
-    const handleLogout = () => {
-        setIsLogin(false);
-        localStorage.clear();
-        navigate(PATH.HOME);
+    const handleLogout = async() => {
+        try {
+            const data = await logout();
+            console.log("logout", data);
+            setIsLogin(false);
+            localStorage.clear();
+            navigate(PATH.HOME);
+        } catch(e){
+            console.error("logout", e)
+        }
     };
 
     return (
@@ -160,7 +185,11 @@ export default function Header({isCompany}: HeaderProps) {
                 {isCompany ? "" : <LogoImg src={eagle}/>}
                 {
                     isCompany ? (
-                        <div onClick={handleCompanyTitleClick}>{companyTitle}</div>
+                        isDev ? (
+                            <div onClick={handleCompanyTitleClick}>{companyName}<ForDev>for Developers</ForDev> </div>
+                        ) : (
+                            <div onClick={handleCompanyTitleClick}>{companyName}</div>
+                        )                        
                     ) : (
                         isDev ? (
                             <div onClick={handleDevLogoClick}>

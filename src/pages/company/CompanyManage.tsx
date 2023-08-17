@@ -86,12 +86,12 @@ export default function CompanyManage() {
 
         const addCompanyMember = async () => {
             try {
-                const data = await addCompanyMembers(companyId, {email:memberEmail});
-                console.log("add member! ", data);
+                const {name: newMemberName} = await addCompanyMembers(companyId, {email:memberEmail});
+                console.log("add member! ", newMemberName);
                 if (memberEmail.trim() !== "") {
                     const newMember = {
                         id: members ? members.length + 1 : 1, // members가 null인 경우 id를 1로 초기화
-                        name: `이름${members ? members.length + 1 : 1}`, // members가 null인 경우 이름을 "이름1"로 초기화
+                        name: newMemberName, // members가 null인 경우 이름을 "이름1"로 초기화
                         email: memberEmail,
                     };
             
