@@ -64,10 +64,10 @@ export default function SNSLogin() {
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/320px-Google_%22G%22_Logo.svg.png"/>
                     <Label onClick={handleGOOGLELoginClick}>Google</Label>
                 </ImgWrapper>
-                <ImgWrapper>
+                {/* <ImgWrapper>
                     <SNSIMG src="https://cdn.imweb.me/upload/S20210304872ba49a108a8/89a68d1e3674a.png"/>
                     <Label>Kakao </Label>
-                </ImgWrapper>
+                </ImgWrapper> */}
             </SNSWrapper>
         </Container>
     );

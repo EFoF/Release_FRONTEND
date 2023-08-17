@@ -80,7 +80,7 @@ export default function ProjectEdit() {
     } 
     if(typeof location.state === 'object' && location.state !== null) { //처음 들어오면 
         console.log("location.state", location.state)
-        setProjectId(location.state.id);
+        location.state.id && setProjectId(location.state.id);
         setCompanyId(location.state.companyId)
     }
     console.log("projectId", projectId)
@@ -88,6 +88,7 @@ export default function ProjectEdit() {
     projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
     projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
   
+    project && setProjectId(project.id)
     console.log("companyId, projectId", companyId, projectId);
     console.log("currentProject", project);
   }, [companyId, location.state, project, projectId, projectList])
@@ -108,10 +109,10 @@ export default function ProjectEdit() {
         const {projectList: projects} = await fetchProject(companyId);
         console.log("fetched project", projects);
         setProjectList(projects);
-        console.log("projectId", projectId)
+        console.log("??projectId", projectId)
 
         // setProjectId가 완료된 후에 fetchCategories 실행
-        if(projectId) fetchCategoriesAfterSettingProjectId(projectId)
+        projectId && fetchCategoriesAfterSettingProjectId(projectId)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
