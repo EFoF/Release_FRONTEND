@@ -9,7 +9,8 @@ import {useRecoilValue} from "recoil";
 import {useState, useEffect} from "react"
 import {loadMyInfo} from "../../api/auth";
 import {companyNameState} from "../../states/companyState";
-import {fetchMyAlarms} from "../../api/alarm";
+import {fetchMyAlarms, readMyAlarms} from "../../api/alarm";
+import {PopoverBody, PopoverHeader, UncontrolledPopover} from "reactstrap";
 
 export const Container = styled.div`
   width: 100%;
@@ -99,10 +100,31 @@ export const Logout = styled.div`
   cursor: pointer;
 `;
 
-export const AlarmCount = styled(Button)`
-  margin-right: 1.88rem;
-  width: 3rem;
-  height: 3rem;
+export const AlarmContainer = styled.div`
+  border-radius: 10px; /* 둥근 테두리 설정 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 설정 */
+  padding: 20px; /* 내용과의 간격을 위한 패딩 값 설정 */
+  background-color: white;
+`;
+
+export const Background = styled.div`
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+`;
+
+export const AlarmHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+`;
+
+export const Button1 = styled(Button)`
+  width: 5rem;
+  height: 2rem;
+  font-size: 1rem;
+  margin-left: 16rem;
 `
 
 interface HeaderProps {
@@ -127,10 +149,12 @@ export default function Header({isCompany}: HeaderProps) {
     const location = useLocation();
     const [alarm, setAlarm] = useState<Alarm[] | null>(null);
     const [isDev, setIsDev] = useState(false);
-    const [alarmCount, setAlarmCount] = useState(0);
 
     useEffect(() => {
         setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
+        if(isLogin) {
+            getAlarm();
+        }
     }, [location.pathname]);
     console.log("isDev", isDev)
 
@@ -184,6 +208,16 @@ export default function Header({isCompany}: HeaderProps) {
         }
     }
 
+    const readAlarm = async () => {
+        try {
+            await readMyAlarms();
+            console.log("알람 읽음 처리 완료");
+            setAlarm([]);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <Container>
             <LogoBox>
@@ -207,7 +241,21 @@ export default function Header({isCompany}: HeaderProps) {
                 <RightBox2>
                     <ProfileBox onClick={() => console.log("")}>
                         <ProfileImg src={bell} alt="Bell"/>
-                        <AlarmCount title={alarmCount.toString()} onClick={() => console.log("")}></AlarmCount>
+                        {alarm &&
+                            <>
+                                {/*<AlarmCount title={alarm.length.toString()} onClick={() => console.log("")}></AlarmCount>*/}
+                                <ProfileName id="alarmId">{alarm.length.toString()}</ProfileName>
+                                <UncontrolledPopover placement="bottom" target="alarmId">
+                                    <AlarmContainer>
+                                        <AlarmHeader>읽지 않은 알람 목록</AlarmHeader>
+                                        {alarm.map((alarmEach : Alarm, index) => (
+                                            <Background>{alarmEach.message}</Background>
+                                        ))}
+                                        <Button1 title="읽음 처리" onClick={readAlarm}/>
+                                    </AlarmContainer>
+                                </UncontrolledPopover>
+                            </>
+                        }
                     </ProfileBox>
                     <ProfileBox onClick={handleDevLogoClick}>
                         <ProfileImg src={profile} alt="Person"/>
