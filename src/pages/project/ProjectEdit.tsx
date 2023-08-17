@@ -491,13 +491,15 @@ export const CompanyName = styled(Title1)`
 `;
 
 export const CompanyIntro = styled.div`
-color: #000;
-font-family: S-Light;
-font-size: 1.5rem;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-margin-top: 3rem;  
+  color: #000;
+  font-family: S-Light;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 3rem;
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 
@@ -526,10 +528,12 @@ export const CategoryIntro = styled.div`
   color: #000;
   font-family: S-Light;
   font-size: 1.5rem;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   margin-top: 3rem;
+  white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 export const EditContainer = styled.div`

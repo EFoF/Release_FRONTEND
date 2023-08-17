@@ -4,15 +4,16 @@ import pencil from "../../img/pencil.png";
 import eye from "../../img/eye.png";
 import check from "../../img/check.png";
 import clear from "../../img/clear.png";
+import upload from "../../img/upload.png";
 import {Title1, Title2} from "../../components/Text/Title";
 import {Container1} from "../../components/Container";
-import markdown from "../company/markdown";
 import {useEffect, useRef, useState} from "react";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import { useLocation, useNavigate } from "react-router-dom";
 import { deleteCategory, fetchOneCategory, updateCategory } from "../../api/category";
 import PATH from "../../constants/path";
+import UploadModal from "../../components/Modal/UploadModal";
 import ConfirmationModal from "../../components/Modal";
 
 interface EditButtonProps {
@@ -26,10 +27,13 @@ interface Category {
   title: string;
   detail: string;
   description: string;
+  lastModifiedTime: string;
+  lastModifierName: string;
+  lastModifierEmail: string;
 }
 
 export default function CategoryCreate() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); //
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [categoryMarkdown, setCategoryMarkdown] = useState("");
@@ -39,6 +43,7 @@ export default function CategoryCreate() {
   const [category, setCategory] = useState<Category>();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const {categoryId, projectId} = location.state;
   console.log("categoryId, projectId", categoryId, projectId)
@@ -117,6 +122,25 @@ export default function CategoryCreate() {
       deleteOneCategory();
     }
 
+    const handleImageUpload = () => {
+      setIsImageModalOpen(true);
+    }
+
+    const handleImageModalCancel = () => {
+        setIsImageModalOpen(false);
+    }
+
+    const formatDate = (dateString?: string): string => {
+      if(!dateString) return "";
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
+
   return (
     <Container>
           <CompanyContainer>
@@ -129,15 +153,21 @@ export default function CategoryCreate() {
                       </EditButtonContainer>
                   ) : <EditButton imageUrl={pencil} width={24} height={24} onClick={handleTitleEditClick} /> }
               </EditContainer>
-            <CompanyIntro>
-              {category?.description}
-            </CompanyIntro>
+              <CompanyIntro>
+                  {category?.description}
+              </CompanyIntro>
           </CompanyContainer>
         <MarkdownContainer>
+            <ModifiedInfo>
+                {formatDate(category?.lastModifiedTime)}
+                <br />
+                {category?.lastModifierEmail} ({category?.lastModifierName})
+            </ModifiedInfo>
             <PreviewContainer>
                 <GuideText>
                     상세 페이지
                 </GuideText>
+                <UploadButton imageUrl={upload} width={30} height={30} margin-left="auto" onClick={handleImageUpload} />
                 {isPreview ?
                     <EditButton imageUrl={pencil} width={24} height={24} onClick={handleClickPreview}/> :
                     <EditButton imageUrl={eye} width={24} height={24} onClick={handleClickPreview}/>}
@@ -156,6 +186,8 @@ export default function CategoryCreate() {
                     <Button title="삭제하기" theme="red" onClick={handleDelete}></Button>
                 </ButtonContainer>
             </PreviewContainer>
+            <UploadModal isOpen={isImageModalOpen}
+                         onCancel={handleImageModalCancel} />
         </MarkdownContainer>
         <ConfirmationModal isOpen={isModalOpen}
                             onCancel={() => {
@@ -205,13 +237,29 @@ export const MarkdownContainer = styled(Container1)`
 
 
 export const CompanyIntro = styled.div`
-color: #000;
-font-family: S-Light;
-font-size: 1.5rem;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-margin-top: 3rem;  
+  color: #000;
+  font-family: S-Light;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 3rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+`;
+
+export const ModifiedInfo = styled.text`
+  color: #000;
+  font-family: S-Light;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: auto;
+  margin-bottom: 0.1rem;
+  text-align: right;
+  display: inline-block;
+  white-space: pre-wrap;
 `;
 
 
@@ -239,9 +287,9 @@ export const CategoryIntro = styled.div`
   color: #000;
   font-family: S-Light;
   font-size: 1.5rem;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   margin-top: 3rem;
 `;
 
@@ -269,6 +317,21 @@ export const EditButton = styled.div<EditButtonProps>`
     opacity: 0.5;
     cursor: pointer;
   }
+`;
+
+export const UploadButton = styled.div<EditButtonProps>`
+  margin-left: auto;
+  background-image: url(${props => props.imageUrl});
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
 `;
 
 export const ButtonContainer = styled.div`

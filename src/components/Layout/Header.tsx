@@ -3,6 +3,10 @@ import styled from "styled-components";
 import {useLocation, useNavigate} from "react-router-dom";
 import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
+import bell from "../../img/bell.png";
+import Button from "../../components/Button";
+import {fetchMyAlarms, readMyAlarms} from "../../api/alarm";
+import {PopoverBody, PopoverHeader, UncontrolledPopover} from "reactstrap";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {useState, useEffect} from "react"
 import {loadMyInfo, logout} from "../../api/auth";
@@ -97,8 +101,44 @@ export const Logout = styled.div`
   cursor: pointer;
 `;
 
+export const AlarmContainer = styled.div`
+  border-radius: 10px; /* 둥근 테두리 설정 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 설정 */
+  padding: 20px; /* 내용과의 간격을 위한 패딩 값 설정 */
+  background-color: white;
+  max-height: 300px; /* 원하는 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤만 표시 */
+`;
+
+export const Background = styled.div`
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+`;
+
+export const AlarmHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+`;
+
+export const Button1 = styled(Button)`
+  width: 5rem;
+  height: 2rem;
+  font-size: 1rem;
+  margin-left: 16rem;
+`
+
 interface HeaderProps {
     isCompany?: boolean;
+}
+
+interface Alarm {
+    authorEmail: string;
+    authorId: number;
+    id: number;
+    message: string;
 }
 
 export default function Header({isCompany}: HeaderProps) {
@@ -112,6 +152,7 @@ export default function Header({isCompany}: HeaderProps) {
     const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
 
     const location = useLocation();
+    const [alarm, setAlarm] = useState<Alarm[] | null>(null);
     const [isDev, setIsDev] = useState(false);
 
     useEffect(() => {
@@ -132,6 +173,9 @@ export default function Header({isCompany}: HeaderProps) {
 
     useEffect(() => {
         setIsDev(location.pathname.includes("mypage") || location.pathname.includes("dev"));
+        if(isLogin) {
+            getAlarm();
+        }
     }, [location.pathname]);
     console.log("isDev", isDev)
 
@@ -141,12 +185,14 @@ export default function Header({isCompany}: HeaderProps) {
         }
     }, [companyName, isCompany, setCompanyName])
 
+
     useEffect(() => {
         if (isLogin) {
             const fetchMyInfo = async () => {
                 try {
                     const {username} = await loadMyInfo();
                     setMyName(username);
+                    getAlarm();
                 } catch (error) {
                     console.error('Error fetching info:', error);
                 }
@@ -179,6 +225,26 @@ export default function Header({isCompany}: HeaderProps) {
         }
     };
 
+    const getAlarm = async () => {
+        try {
+            const {content} = await fetchMyAlarms();
+            console.error("내 알람들", content);
+            setAlarm(content);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const readAlarm = async () => {
+        try {
+            await readMyAlarms();
+            console.log("알람 읽음 처리 완료");
+            setAlarm([]);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <Container>
             <LogoBox>
@@ -204,6 +270,24 @@ export default function Header({isCompany}: HeaderProps) {
             </LogoBox>
             {isLogin ? (
                 <RightBox2>
+                    <ProfileBox onClick={() => console.log("")}>
+                        <ProfileImg src={bell} alt="Bell"/>
+                        {alarm &&
+                            <>
+                                {/*<AlarmCount title={alarm.length.toString()} onClick={() => console.log("")}></AlarmCount>*/}
+                                <ProfileName id="alarmId">{alarm.length.toString()}</ProfileName>
+                                <UncontrolledPopover placement="bottom" target="alarmId">
+                                    <AlarmContainer>
+                                        <AlarmHeader>읽지 않은 알람 목록</AlarmHeader>
+                                        {alarm.map((alarmEach : Alarm, index) => (
+                                            <Background>{alarmEach.message}</Background>
+                                        ))}
+                                        <Button1 title="읽음 처리" onClick={readAlarm}/>
+                                    </AlarmContainer>
+                                </UncontrolledPopover>
+                            </>
+                        }
+                    </ProfileBox>
                     <ProfileBox onClick={handleDevLogoClick}>
                         <ProfileImg src={profile} alt="Person"/>
                         <ProfileName>{myName}</ProfileName>

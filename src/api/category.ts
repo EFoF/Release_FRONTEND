@@ -7,8 +7,13 @@ export const fetchCategories = async (projectId: number) => {
     return data;
 };
 
-export const fetchOneCategory = async (categoryId: number, isDev: boolean) => {
-    const {data} = await authorizationClient.get(`${API.CATEGORY}/${categoryId}?developer=${isDev}`);
+export const fetchOneCategory = async (categoryId: number, isDeveloper: boolean) => {
+    const {data} = await authorizationClient.get(`${API.CATEGORY}/${categoryId}`,
+        {
+            params: {
+                developer: isDeveloper,
+            },
+        });
     return data;
 };
 
@@ -26,3 +31,12 @@ export const deleteCategory = async (projectId: number, categoryId: number) => {
     const {data} = await authorizationClient.delete(`${API.PROJECT}/${projectId}/categories/${categoryId}`);
     return data;
 };
+
+export const uploadImage = async(imageData: FormData)=> {
+    const {data} = await authorizationClient.post(`${API.CATEGORY}`, imageData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+    return data;
+}
