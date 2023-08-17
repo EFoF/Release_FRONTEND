@@ -1,5 +1,6 @@
 import { authorizationClient, unAuthorizationClient } from ".";
 import API from "./config";
+import {RecoilState} from "recoil";
 
 export const editProject = async (projectId: number, projectData: object) => {
     const {data} = await authorizationClient.put(`${API.PROJECT}/${projectId}`, projectData);
@@ -17,6 +18,7 @@ export const deleteProject = async (companyId: number, projectId: number) => {
 };
 
 export const fetchProject = async (
+    // companyId: RecoilState<number>,
     companyId: number,
     offset?: number,
     pageNumber?: number,
@@ -28,6 +30,7 @@ export const fetchProject = async (
 };
 
 export const fetchMyProject = async (
+    // companyId: RecoilState<number>,
     companyId: number,
     offset?: number,
     pageNumber?: number,

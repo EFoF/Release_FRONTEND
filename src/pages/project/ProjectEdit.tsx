@@ -61,42 +61,45 @@ export default function ProjectEdit() {
     const categoryTitleRef = useRef('');
     const [categoryTitle, setCategoryTitle] = useState("");
 
-    
+
     const [categoryId, setCategoryId] = useState(0);
     const [categories, setCategories] = useState<Category[]>([]);
     const [projectList, setProjectList] = useState<Project[] | null>(null);
   const [projectId, setProjectId] = useState(0); //디폴트 화면 띄우기 위해 0번째
   const [project, setProject] = useState<Project>();
-  const [companyId, setCompanyId] = useRecoilState<number>(companyIdState);
+  // const [companyId, setCompanyId] = useRecoilState<number>(companyIdState);
+    const companyIdValue = useRecoilValue(companyIdState);
+
   const [companyName, setCompanyName] = useRecoilState<string>(companyNameState);
   const location = useLocation();
+    console.log(companyIdValue)
 
    useEffect(()=> {
     console.log("location.state", location.state)
-    if (typeof location.state !== 'object' && location.state !== null) { //아마 사이드바에서 누를 경우 
+    if (typeof location.state !== 'object' && location.state !== null) { //아마 사이드바에서 누를 경우
       const PID = location.state;
-      setProjectId(PID);  
-      console.log("PID", PID)
-      setProjectId(PID);  
-      console.log("1234projectId", projectId)
-    } 
-    else if(typeof location.state === 'object' && location.state !== null) { //처음 들어오면 
+      setProjectId(PID);
+        console.log("PID", PID)
+        setProjectId(PID);
+        console.log("1234projectId", projectId)
+    }
+   else if(typeof location.state === 'object' && location.state !== null) { //처음 들어오면
         console.log("location.state", location.state)
         location.state.id && setProjectId(location.state.id);
-        setCompanyId(location.state.companyId)
+        // setCompanyId(location.state.companyId)
     }
     console.log("projectId", projectId)
-    
-    projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당 
-    projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId)); 
-  
-    console.log("companyId, projectId", companyId, projectId);
+
+    projectList && projectId===0 && setProject(projectList[0]); //현 pid로 현재의 project 할당
+    projectList && projectId!==0 && setProject(projectList.find(project => project.id === projectId));
+
+    console.log("companyId, projectId", companyIdValue, projectId);
     console.log("currentProject", project);
-  }, [companyId, location.state, project, projectId, projectList, setCompanyId])
+  }, [companyIdState, location.state, project, projectId, projectList])
 
   const fetchProjectAndRender = async() => {
     try {
-        const {projectList: projects} = await fetchProject(companyId);
+        const {projectList: projects} = await fetchProject(companyIdValue);
         console.log("fetched project", projects);
         setProjectList(projects);
     } catch(error) {
@@ -104,25 +107,25 @@ export default function ProjectEdit() {
     }
   }
 
-  useEffect(()=>{
-    project && setProjectId(project.id)
-  }, [project])
+    useEffect(()=>{
+        project && setProjectId(project.id)
+    }, [project])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {projectList: projects} = await fetchProject(companyId);
+        const {projectList: projects} = await fetchProject(companyIdValue);
         console.log("fetched project", projects);
         setProjectList(projects);
-        console.log("??projectId", projectId)
+          console.log("??projectId", projectId)
 
         // setProjectId가 완료된 후에 fetchCategories 실행
-        projectId && fetchCategoriesAfterSettingProjectId(projectId)
+          projectId && fetchCategoriesAfterSettingProjectId(projectId)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     const fetchCategoriesAfterSettingProjectId = async (projectId: number) => {
       try {
         console.log("projectId2", projectId)
@@ -133,10 +136,10 @@ export default function ProjectEdit() {
         console.error("Error fetching categories:", error);
       }
     };
-  
+
     fetchData();
-  }, [companyId, projectId]);
-    
+  }, [companyIdValue, projectId]);
+
 
     const handleProjectDescriptionChange = (e : React.ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
@@ -186,7 +189,7 @@ export default function ProjectEdit() {
             }
         }
         editTitleDescription();
-        
+
     }
 
     const handleCategoryEditClick = (index:number) => {
@@ -230,7 +233,7 @@ export default function ProjectEdit() {
         try {
             const data = await addCategory(projectId, newCategoryData);
             console.log("addCategory", data)
-            setCategories((prevCategories) => [...prevCategories, newCategoryData]); 
+            setCategories((prevCategories) => [...prevCategories, newCategoryData]);
             setIsAddModalOpen(false); // 모달 닫기
 
             setIsPlusButtonOn(!isPlusButtonOn);
@@ -285,7 +288,7 @@ export default function ProjectEdit() {
             const data = await updateCategory(projectId, categoryId, newCategoryData);
             console.log("newCategoryData", newCategoryData);
             console.log("updateCategory", data);
-            
+
             //수정한 원소 반영 
             setCategories((prevCategories) => {
                 const updatedCategories = [...prevCategories];
@@ -293,7 +296,7 @@ export default function ProjectEdit() {
                 return updatedCategories;
             });
 
-             //isEdit 모드 해제 
+             //isEdit 모드 해제
              const updatedList = [...isEditMode];
              if (typeof index === 'number') {
                  updatedList[index] = !updatedList[index];
@@ -318,7 +321,7 @@ export default function ProjectEdit() {
         navigate(PATH.RELEASECREATE, {state: {projectId: projectId, projectTitle: projectTitle, categoryId: categoryId}})
     }
 
-    const handleToggleChange = async () => {        
+    const handleToggleChange = async () => {
         const projectData = {
             "description": project?.description,
             "scope": !project?.scope,
@@ -345,7 +348,7 @@ export default function ProjectEdit() {
         }
         editProjectToggle();
     }
-    
+
     const handleConfirmDelete = () => {
         // TODO: 인덱스에 해당하는 카테고리 지우고 디비에 반영
         setCategories((prevCategories) =>
@@ -358,7 +361,7 @@ export default function ProjectEdit() {
         } catch(error) {
             console.error("Error delete category:", error);
         }
-        
+
         setIsDeleteModalOpen(false);
     };
 
