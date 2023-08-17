@@ -11,7 +11,6 @@ const COMPANIES = "/companies";
 const PROJECT = "/companies/projects";
 const GOOGLELOGIN = "/oauth2/authorization/google";
 const ALARM = "/alarms";
-const GOOGLELOGIN = "/oauth2/authorization/google"
 const CATEGORY = "/categories"
 
 

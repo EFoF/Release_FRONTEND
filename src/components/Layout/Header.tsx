@@ -5,10 +5,6 @@ import PATH from "../../constants/path";
 import profile from "../../img/profile.png";
 import bell from "../../img/bell.png";
 import Button from "../../components/Button";
-import {useRecoilValue} from "recoil";
-import {useState, useEffect} from "react"
-import {loadMyInfo} from "../../api/auth";
-import {companyNameState} from "../../states/companyState";
 import {fetchMyAlarms, readMyAlarms} from "../../api/alarm";
 import {PopoverBody, PopoverHeader, UncontrolledPopover} from "reactstrap";
 import {useRecoilState, useRecoilValue} from "recoil";
