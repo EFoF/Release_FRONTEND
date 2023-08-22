@@ -14,7 +14,7 @@ interface UploadModalProps {
 const UploadModal: FC<UploadModalProps> = ({ isOpen, onCancel }) => {
     const [imageSrc, setImageSrc] = useState<string | null>(null);
     const [uploadResult, setUploadResult] = useState<string | null>(null);
-    const defaultImgUrl = "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/1b55083b5da94de389197c75704231f6/doklib/company/default.png";
+    const defaultImgUrl = "https://doklib.s3.ap-northeast-2.amazonaws.com/company/default";
 
     useEffect(() => {
         if (isOpen) {
