@@ -32,8 +32,8 @@ export default function CompanyManage() {
     const companyName = useRecoilValue(companyNameState);
     const [compName, setCompName] = useState(companyName);
     const [companyImgFile, setCompanyImgFile] = useState<string | null>(null);
-    const [companyImgSrc, setCompanyImgSrc] = useState<string>("https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/1b55083b5da94de389197c75704231f6/doklib/company/default.png");
-    const defaultImgUrl = "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/1b55083b5da94de389197c75704231f6/doklib/company/default.png";
+    const [companyImgSrc, setCompanyImgSrc] = useState<string>("https://doklib.s3.ap-northeast-2.amazonaws.com/company/default");
+    const defaultImgUrl = "https://doklib.s3.ap-northeast-2.amazonaws.com/company/default";
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         setCompName(e.target.value)

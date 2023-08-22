@@ -16,7 +16,7 @@ export default function CompanyCreate() {
     const [companyName, setCompanyName] = useState("");
     const [companyImgFile, setCompanyImgFile] = useState<string | null>(null);
     const navigate = useNavigate();
-    const defaultImgUrl = "https://objectstorage.kr-gov-central-1.kakaoicloud-kr-gov.com/v1/1b55083b5da94de389197c75704231f6/doklib/company/default.png";
+    const defaultImgUrl = "https://doklib.s3.ap-northeast-2.amazonaws.com/company/default";
 
     const handleChangeName = (e : React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
