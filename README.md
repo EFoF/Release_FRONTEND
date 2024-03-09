@@ -20,18 +20,20 @@
 
 ❓왜 DOKLIB 인가요?
 
-    ☝ 팀명인 독수리의 "DOK", 정보들을 쌓아가는 도서관의 의미로 "LIB"을 따왔습니다
+    ☝ 팀명인 독수리의 "DOK", 정보들을 쌓아가는 도서관의 의미로 "LIB"을 따왔습니다.
+<br />
     
 ❓DOKLIB은 어떤 서비스인가요?
 
-    ☝ 회사, 프로젝트, 카테고리, 릴리즈노트 등을 계층적, 체계적으로 관리
-    ☝ 보기 쉬운 UI와 함께 사용자 및 개발자 모두를 고려한 화면
+    ☝ 회사, 프로젝트, 카테고리, 릴리즈노트 등 회사 리소스를 계층적, 체계적으로 관리
+    ☝ 보기 쉬운 UI와 함께 개발자 및 비개발자 (비로그인 유저) 모두를 고려한 화면
     ☝ 리소스 보호를 위한 탄탄한 보안 시스템을 구축
     
 <br />
 
 ## 💻 Demo
 
+다음 이미지를 클릭 시 데모 영상을 확인하실 수 있습니다. <br />
 [![데모 영상](https://img.youtube.com/vi/Lc8yOb5odu4/0.jpg)](https://www.youtube.com/watch?v=Lc8yOb5odu4&ab_channel=%EC%A1%B0%EC%88%98%ED%95%98)
 <br />
 
@@ -46,15 +48,27 @@
 
 <br />
 
+## 💻 Infra
+<figure align="center">
+<img src="https://github.com/EFoF/Release_FRONTEND/assets/101612514/a4bd62e1-9cea-43c9-9e8a-86fbfad91315" alt="Gparkkii's Zepeto" width='850px'></img><br>
+<figcaption>개발자와 비개발자의 클라우드 접근 경로를 다르게 하였습니다.</figcaption><br /><br />
+    
+- 개발자(로그인 유저)는 추가, 수정, 삭제 등의 기능이 허용되어야 하기 때문에 private subnet에 속한 인스턴스 접근하도록 합니다.
+- 비개발자(비로그인 유저)는 ELB의 public ip 주소를 통해 웹 페이지에 접근하게 됩니다.
+</figure>
+<br><br>
+
+<figure align="center">
+<img src="https://github.com/EFoF/Release_FRONTEND/assets/101612514/74da7c76-aadf-447c-a071-afa14b61f04e" alt="Gparkkii's Zepeto" width='700px'></img><br>
+<figcaption>Github Actions를 통해 CI/CD 구축</figcaption>
+</figure>
+<br><br><br>
+
 ## 💻 프론트 기술 스택
 ![image](https://github.com/EFoF/Release_FRONTEND/assets/101612514/1f2c0f0f-7081-4613-a20c-fd4eb62853c3)
 
-<br />
+<br /><br />
 
-## 💻 Infra
-![image](https://github.com/EFoF/Release_FRONTEND/assets/101612514/a4bd62e1-9cea-43c9-9e8a-86fbfad91315)
-
-<br />
 
 ## 💻 협업 툴
 
