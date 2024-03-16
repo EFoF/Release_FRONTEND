@@ -51,14 +51,14 @@
 ## 💻 Infra
 <figure align="center">
 <img src="https://github.com/EFoF/Release_FRONTEND/assets/101612514/a4bd62e1-9cea-43c9-9e8a-86fbfad91315" alt="Gparkkii's Zepeto" width='850px'></img><br>
-<figcaption>개발자와 비개발자 (로그인, 비로그인 유저)의 클라우드 접근 경로를 다르게 하였습니다.</figcaption><br />
+<figcaption>로그인 유저와 비로그인 유저의 클라우드 접근 경로를 다르게 하였습니다.</figcaption><br />
 <figcaption>프론트 서버와 백엔드 서버는 각각 2개의 웹서버와 WAS로 나누어 부하를 분산하였습니다.</figcaption><br />
 </figure>
 <br><br>
 
 <figure align="center">
 <img src="https://github.com/EFoF/Release_FRONTEND/assets/101612514/74da7c76-aadf-447c-a071-afa14b61f04e" alt="Gparkkii's Zepeto" width='700px'></img><br>
-<figcaption>Github Actions를 통해 CI/CD 구축</figcaption>
+<figcaption>Github Actions를 통해 CI/CD를 구축하였습니다.</figcaption>
 </figure>
 <br><br><br>
 
