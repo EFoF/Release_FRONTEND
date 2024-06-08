@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
-import backImg from "../../img/Rectangle 36.png";
+import backImg from "../../img/Rectangle 36.webp";
 import search from "../../img/material-symbols_search.png";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../constants/path";
@@ -11,7 +11,7 @@ import { companyIdState, companyNameState } from "../../states/companyState";
 
 interface Company {
   name: string;
-  imageUrl: string;
+  imageUrl: string; 
   id: number;
 }
 
